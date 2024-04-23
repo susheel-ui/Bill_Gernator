@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/invoice"
+            android:icon="@drawable/invoiceicon"
+            android:title="invoice"
+        android:checkable="true"
+        />
+    <item android:id="@+id/Client"
+        android:title="Clients"
+        android:icon="@drawable/client"
+         android:checkable="true"
+        />
+    <item android:id="@+id/reports"
+        android:title="Reports"
+        android:icon="@drawable/report"
+        android:checkable="true"
+        />
+    <item android:id="@+id/items"
+        android:title="Items"
+        android:icon="@drawable/trolley"
+        android:checkable="true"
+        />
+    <item android:id="@+id/setting"
+        android:title="setting"
+        android:icon="@drawable/settings"
+        android:checkable="true"
+        />
+
+</menu>
