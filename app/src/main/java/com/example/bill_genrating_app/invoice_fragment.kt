@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.bill_genrating_app.databinding.FragmentClientsFragmentsBinding
+import com.example.bill_genrating_app.databinding.FragmentInvoiceFragmentBinding
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -16,11 +17,12 @@ private const val ARG_PARAM2 = "param2"
 
 class invoice_fragment : Fragment() {
     // TODO: Rename and change types of parameters
-    lateinit var fragmentsBinding: FragmentClientsFragmentsBinding
+   lateinit var fragmentsBinding: FragmentInvoiceFragmentBinding
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        fragmentsBinding = FragmentClientsFragmentsBinding.inflate(layoutInflater)
+
     }
 
     override fun onCreateView(
@@ -28,6 +30,8 @@ class invoice_fragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
+        fragmentsBinding = FragmentInvoiceFragmentBinding.inflate(layoutInflater);
+//        return inflater.inflate(R.layout.fragment_invoice_fragment, container, false)
         return fragmentsBinding.root
     }
 
