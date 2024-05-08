@@ -7,32 +7,55 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 <!--    page info like this is the invoice so it will show invoice on stop-->
-    <TextView
-        android:id="@+id/inovice_text_page"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:id="@+id/AppbarContainer"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/invices"
-        android:textSize="30sp"
-        android:textStyle="bold"
-        android:textColor="@color/green"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="30sp"
-        />
-<!--    search btn for search anything -->
-    <SearchView
+        android:layout_marginTop="30dp"
+        android:orientation="vertical"
+        android:paddingBottom="10dp"
+        >
+        <TextView
+            android:id="@+id/inovice_text_page"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/invoices"
+            android:textSize="30sp"
+            android:layout_marginLeft="10dp"
+            android:textStyle="bold"
+            android:textColor="@color/green"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="20dp"
+            />
+        <!--    search btn for search anything -->
+
+    <androidx.appcompat.widget.SearchView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:searchIcon="@drawable/searchicon"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/inovice_text_page"
-        app:layout_constraintBottom_toBottomOf="@id/inovice_text_page"
-       android:layout_marginStart="10dp"
-        android:queryBackground="@drawable/bg_for_search"
-        />
-<!--    pagger for view contents-->
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        app:queryHint="Search here."
+        android:background="@drawable/bg_for_search"
+        android:searchIcon="@drawable/searchicon" />
 
+
+    </LinearLayout>
+<!--    fragment view for all btm pages-->
+    <FrameLayout
+        android:id="@+id/Container_view"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="10dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/AppbarContainer"
+        app:layout_constraintBottom_toTopOf="@id/btmnavbar"
+        />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:layout_width="wrap_content"
