@@ -10,11 +10,7 @@
         android:icon="@drawable/client"
          android:checkable="true"
         />
-    <item android:id="@+id/reports"
-        android:title="Reports"
-        android:icon="@drawable/report"
-        android:checkable="true"
-        />
+
     <item android:id="@+id/items"
         android:title="Items"
         android:icon="@drawable/trolley"

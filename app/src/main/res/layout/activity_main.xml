@@ -64,8 +64,10 @@
         android:backgroundTint="@color/green"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toTopOf="@id/btmnavbar"
-        android:layout_margin="30sp"
-        android:contentDescription="TODO:add action to fab" />
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginBottom="-35dp"
+        android:contentDescription="TODO:add action to fab"
+        />
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/btmnavbar"
         android:layout_width="match_parent"

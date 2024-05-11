@@ -1,10 +1,12 @@
 package com.example.bill_genrating_app
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.example.bill_genrating_app.databinding.FragmentItemsFragmentBinding
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -17,6 +19,7 @@ private const val ARG_PARAM2 = "param2"
  * create an instance of this fragment.
  */
 class items_fragment : Fragment() {
+    lateinit var thisFagementBinding :FragmentItemsFragmentBinding
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
@@ -33,8 +36,17 @@ class items_fragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        thisFagementBinding = FragmentItemsFragmentBinding.inflate(layoutInflater)
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_items_fragment, container, false)
+        return thisFagementBinding.root
+    }
+
+    override fun onStart() {
+        super.onStart()
+        thisFagementBinding.btnaddItem.setOnClickListener {
+            var activityIntent = Intent(context,AddItem::class.java)
+            startActivity(activityIntent)
+        }
     }
 
     companion object {

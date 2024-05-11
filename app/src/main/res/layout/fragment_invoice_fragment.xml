@@ -7,14 +7,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".invoice_fragment">
 
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="10dp"
-        >
+
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_marginTop="10dp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             >
             <androidx.cardview.widget.CardView
                 android:id="@+id/card1"
@@ -70,7 +67,7 @@
 
             <LinearLayout
                 android:id="@+id/Orders_listTAG"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/card1"
@@ -89,23 +86,24 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Below are your most recents orders"
-                    android:textSize="20dp"
+                    android:textSize="15dp"
 
                     />
-            </LinearLayout>
 
+            </LinearLayout>
             <ListView
                 android:id="@+id/ordersListsview"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="0dp"
                 android:layout_marginTop="10dp"
+                app:layout_constraintTop_toBottomOf="@id/Orders_listTAG"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/Orders_listTAG"
-                android:padding="10dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+
                 />
         </androidx.constraintlayout.widget.ConstraintLayout>
-    </ScrollView>
+
 
 
 </FrameLayout>

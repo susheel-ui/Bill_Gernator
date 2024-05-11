@@ -42,10 +42,6 @@ class MainActivity : AppCompatActivity() {
                     true
 
                 }
-                R.id.reports ->{
-                    change_fragment(reports_fragment(),"Reports")
-                    true
-                }
                 R.id.setting ->{
                     change_fragment(setting_fragment(),"Setting")
                     true
