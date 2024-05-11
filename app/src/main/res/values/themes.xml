@@ -3,6 +3,7 @@
     <style name="Base.Theme.Bill_Genrating_App" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <item name="fontFamily">@font/poppins_medium</item>
     </style>
 
     <style name="Theme.Bill_Genrating_App" parent="Base.Theme.Bill_Genrating_App" />
