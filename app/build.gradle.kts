@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.backend.common.phaser.transform
+
 plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsKotlinAndroid)
@@ -48,4 +50,8 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+    implementation(libs.journeyDep)
+    implementation(libs.zxing)
+
+
 }

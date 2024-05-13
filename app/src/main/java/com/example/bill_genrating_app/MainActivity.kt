@@ -3,6 +3,8 @@ package com.example.bill_genrating_app
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.result.contract.ActivityResultContract
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
@@ -15,6 +17,8 @@ import com.google.android.material.navigation.NavigationBarView
 class MainActivity : AppCompatActivity() {
 
    lateinit var binding:ActivityMainBinding
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         // binding for current activity

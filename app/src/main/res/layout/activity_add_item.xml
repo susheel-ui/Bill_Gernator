@@ -6,16 +6,26 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".AddItem">
+
+    <ImageButton
+        android:id="@+id/btnback"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:background="@android:color/transparent"
+        android:src="@drawable/baseline_arrow_back_24"
+        app:layout_constraintBottom_toBottomOf="@id/pageTag"
+       app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/pageTag" />
     <TextView
         android:id="@+id/pageTag"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="20dp"
+        android:layout_marginTop="20dp"
         android:text="Add Item"
         android:textSize="40dp"
         android:textColor="@color/green"
         android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@id/btnback"
         app:layout_constraintTop_toTopOf="parent"
 
         >
@@ -84,31 +94,44 @@
                 android:textSize="20dp"
                 android:layout_marginLeft="10dp"
                 />
-            <EditText
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/BarcodeNo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="20dp"
-                android:padding="10dp"
+
                 android:background="@drawable/bg_fororderlists"
-                android:drawableEnd="@drawable/icon_barcode"
-                />
+                app:endIconMode="custom"
+                app:endIconDrawable="@drawable/baseline_barcode_reader_24"
+                >
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/barcodeFieldtext"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@android:color/transparent"
+
+                    />
+            </com.google.android.material.textfield.TextInputLayout>
+
+
         </LinearLayout>
 
 
 
     </LinearLayout>
 
+
     <Button
+        android:id="@+id/btnClear"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:backgroundTint="@color/red"
-        android:text="Cancle"
+        android:text="Clear"
         android:textSize="20dp"
         android:layout_marginRight="20dp"
         app:layout_constraintTop_toTopOf="@id/btnSave"
         app:layout_constraintTop_toBottomOf="@id/form_item"
         app:layout_constraintEnd_toStartOf="@id/btnSave"
-
         />
     <Button
         android:id="@+id/btnSave"
@@ -122,5 +145,7 @@
         app:layout_constraintTop_toBottomOf="@id/form_item"
         app:layout_constraintEnd_toEndOf="parent"
         />
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
