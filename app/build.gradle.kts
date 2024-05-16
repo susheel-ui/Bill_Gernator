@@ -1,4 +1,7 @@
+import com.android.build.gradle.internal.utils.KOTLIN_KAPT_PLUGIN_ID
 import org.jetbrains.kotlin.backend.common.phaser.transform
+import org.jetbrains.kotlin.gradle.model.Kapt
+import org.jetbrains.kotlin.gradle.model.impl.KaptImpl
 
 plugins {
     alias(libs.plugins.androidApplication)
@@ -41,7 +44,8 @@ android {
 }
 
 dependencies {
-
+    implementation(libs.roomdep)
+    implementation(libs.roomcompiler)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
@@ -52,6 +56,7 @@ dependencies {
     androidTestImplementation(libs.androidx.espresso.core)
     implementation(libs.journeyDep)
     implementation(libs.zxing)
+
 
 
 }

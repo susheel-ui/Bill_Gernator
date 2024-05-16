@@ -11,8 +11,13 @@ activity = "1.8.0"
 constraintlayout = "2.1.4"
 jouneyDep="4.3.0"
 zxing ="3.3.0"
+room = "2.6.1"
+org-jetbrains-kotlin-android = "1.8.0"
+
 
 [libraries]
+roomdep ={ group="androidx.room", name ="room-runtime", version.ref="room"}
+roomcompiler ={ group="androidx.room", name="room-compiler", version.ref="room"}
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
@@ -26,7 +31,15 @@ androidx-constraintlayout = { group = "androidx.constraintlayout", name = "const
 journeyDep = {group="com.journeyapps", name="zxing-android-embedded", version.ref="jouneyDep"}
 zxing = { group ="com.google.zxing",name="core",version.ref="zxing"}
 
+
+[bundles]
+
+
 [plugins]
+orgjetbrainskotlinkapt = { id = "org.jetbrains.kotlin.kapt", version.ref = "org-jetbrains-kotlin-android" }
 androidApplication = { id = "com.android.application", version.ref = "agp" }
 jetbrainsKotlinAndroid = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+
+
+
 

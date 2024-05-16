@@ -23,15 +23,13 @@ class AddItem : AppCompatActivity() {
     private val requestPermissionLauncher = registerForActivityResult(ActivityResultContracts.RequestPermission()){
             isGranted :Boolean->
         if(isGranted){
-
+            Toast.makeText(this, "Permission Accepted", Toast.LENGTH_SHORT).show()
         }else{
             //explain why you need permission
+            Toast.makeText(this, "you need to give permission to access Camera", Toast.LENGTH_SHORT).show()
         }
     }
 
-    private fun showCamera() {
-        TODO("Not yet implemented")
-    }
 
     val barcodeLauncher = registerForActivityResult(ScanContract()){
         result:ScanIntentResult ->
@@ -71,8 +69,13 @@ class AddItem : AppCompatActivity() {
 
         }
 
+        //on click of save button data will save
+            thisActivityBinding.btnSave.setOnClickListener {
+                //TODO:: next day work will start from here
+                // and add the radio button in form of add items ui
 
-        //TODO:: implement the barcode action and scanner
+
+            }
 
     }
     private fun checkPermissionCamera(context: Context){
