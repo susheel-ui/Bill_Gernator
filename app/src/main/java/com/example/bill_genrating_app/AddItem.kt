@@ -72,7 +72,7 @@ class AddItem : AppCompatActivity() {
         //on click of save button data will save
             thisActivityBinding.btnSave.setOnClickListener {
                 //TODO:: next day work will start from here
-                // and add the radio button in form of add items ui
+                // and add the radio button in form of add items and other thing happens
 
 
             }
