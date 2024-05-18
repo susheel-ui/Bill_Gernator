@@ -59,6 +59,9 @@ class AddItem : AppCompatActivity() {
         thisActivityBinding.btnback.setOnClickListener {
             finish()
         }
+        thisActivityBinding.btnClear.setOnClickListener {
+            clearFields()
+        }
         thisActivityBinding.BarcodeNo.setEndIconOnClickListener{
             Toast.makeText(this, "working", Toast.LENGTH_SHORT).show()
 
@@ -80,21 +83,45 @@ class AddItem : AppCompatActivity() {
                 //TODO:: next day work will start from here
                 // and add the radio button in form of add items and other thing happens
 
+
                 try{
+
                     val db = Room.databaseBuilder(
                         applicationContext,
                         DBHelper::class.java,"DatabaseBillGenerator"
                     ).fallbackToDestructiveMigration().allowMainThreadQueries().build()
                     val itemDao = db.itemDao()
-                    itemDao.SaveNewItem(items(876543234567,"shampoo","250","Ml","Hair",150.00))
+//                    itemDao.SaveNewItem(items(876543234567,"shampoo","250","Ml","Hair",150.00))
+                    if(thisActivityBinding.barcodeFieldtext.text.toString().isNotEmpty() && thisActivityBinding.itmeName.text.isNotEmpty() && thisActivityBinding.itemMRP.text.isNotEmpty() && thisActivityBinding.itemweight.text.isNotEmpty()){
+                        var barCode = thisActivityBinding.barcodeFieldtext.text.toString().toLong()
+                        var name = thisActivityBinding.itmeName.text
+                        var MRP = thisActivityBinding.itemMRP.text.toString().toDouble()
+                        var quantity = thisActivityBinding.itemweight.text.toString()
+
+                        Log.d(TAG, "onCreate: bar code :- $barCode  Name :- $name MRP :- $MRP quantity :- $quantity")
+
+                        val item = items(barCode,name.toString(),quantity,"Piece","stationery",MRP)
+                        itemDao.SaveNewItem(item)
+                        Toast.makeText(this, "Saved", Toast.LENGTH_SHORT).show()
+                        clearFields()
+                    }else{
+                        Toast.makeText(this, "pls enter the fields properly", Toast.LENGTH_LONG).show()
+                    }
                     //at this commit the db is working properly
-                    Log.d(TAG, "onCreate: sucessful entry..")
+
                 }catch(Exception:Exception){
                     Log.d(TAG, "onCreate Error: ${Exception.message}")
+                    Toast.makeText(this, "product is already exist", Toast.LENGTH_SHORT).show()
                 }
 
             }
 
+    }
+    private fun clearFields(){
+        thisActivityBinding.barcodeFieldtext.setText("")
+        thisActivityBinding.itemMRP.setText("")
+        thisActivityBinding.itemweight.setText("")
+        thisActivityBinding.itmeName.setText("")
     }
     private fun checkPermissionCamera(context: Context){
                 if(ContextCompat.checkSelfPermission(context,android.Manifest.permission.CAMERA)== PackageManager.PERMISSION_GRANTED){
