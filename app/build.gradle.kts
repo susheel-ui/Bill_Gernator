@@ -1,11 +1,10 @@
-import com.android.build.gradle.internal.utils.KOTLIN_KAPT_PLUGIN_ID
-import org.jetbrains.kotlin.backend.common.phaser.transform
 import org.jetbrains.kotlin.gradle.model.Kapt
 import org.jetbrains.kotlin.gradle.model.impl.KaptImpl
 
 plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsKotlinAndroid)
+    alias(libs.plugins.android.kapt)
 }
 
 android {
@@ -18,7 +17,6 @@ android {
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
-
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -26,8 +24,7 @@ android {
         release {
             isMinifyEnabled = false
             proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
+                getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro"
             )
         }
     }
@@ -44,8 +41,7 @@ android {
 }
 
 dependencies {
-    implementation(libs.roomdep)
-    implementation(libs.roomcompiler)
+
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
@@ -56,7 +52,9 @@ dependencies {
     androidTestImplementation(libs.androidx.espresso.core)
     implementation(libs.journeyDep)
     implementation(libs.zxing)
-
+    implementation(libs.room.runtime)
+    kapt(libs.room.compiler)
+    implementation(libs.room.ktx)
 
 
 }

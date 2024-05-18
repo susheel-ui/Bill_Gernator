@@ -4,16 +4,20 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
-@Entity
-class items(
+@Entity(tableName = "items")
+data class items(
     @PrimaryKey
-    val BarcodeItemId:Long,
+    val BarcodeId:Long,
     @ColumnInfo
-    val itemName:String,
+    val Name:String,
     @ColumnInfo
-    val ItemQuantity:Int,
+    val weight:String,
     @ColumnInfo
-    val quantityType:String
+    val weightType:String,
+    @ColumnInfo
+    val Type:String,
+    @ColumnInfo
+    val MRP:Double
 ) {
 
 }

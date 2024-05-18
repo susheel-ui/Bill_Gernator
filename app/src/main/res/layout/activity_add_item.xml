@@ -55,6 +55,7 @@
                 android:layout_marginLeft="10dp"
                 />
             <EditText
+                android:id="@+id/itmeName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="20dp"
@@ -71,14 +72,16 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Enter Price"
+                android:text="Enter MRP"
                 android:textSize="20dp"
                 android:layout_marginLeft="10dp"
                 />
             <EditText
+                android:id="@+id/itemMRP"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="20dp"
+                android:inputType="number"
                 android:padding="10dp"
                 android:background="@drawable/bg_fororderlists"
                 />
@@ -98,9 +101,11 @@
                 android:layout_marginLeft="10dp"
                 />
             <EditText
+                android:id="@+id/itemweight"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="20dp"
+                android:inputType="number"
                 android:background="@drawable/bg_fororderlists"
                 android:padding="10dp"
                 />

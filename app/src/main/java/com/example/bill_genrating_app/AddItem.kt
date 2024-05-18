@@ -1,5 +1,6 @@
 package com.example.bill_genrating_app
 
+import android.content.ContentValues.TAG
 import android.content.Context
 import android.content.pm.PackageManager
 import android.nfc.Tag
@@ -12,6 +13,10 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.isEmpty
+import androidx.room.Room
+import com.example.bill_genrating_app.Roomdb.DBHelper
+import com.example.bill_genrating_app.Roomdb.entities.items
 import com.example.bill_genrating_app.databinding.ActivityAddItemBinding
 import com.journeyapps.barcodescanner.ScanContract
 import com.journeyapps.barcodescanner.ScanIntentResult
@@ -71,9 +76,24 @@ class AddItem : AppCompatActivity() {
 
         //on click of save button data will save
             thisActivityBinding.btnSave.setOnClickListener {
+
                 //TODO:: next day work will start from here
                 // and add the radio button in form of add items and other thing happens
 
+
+
+                try{
+                    val db = Room.databaseBuilder(
+                        applicationContext,
+                        DBHelper::class.java,"DatabaseBillGenerator"
+                    ).fallbackToDestructiveMigration().allowMainThreadQueries().build()
+                    val itemDao = db.itemDao()
+                    itemDao.SaveNewItem(items(876543234567,"shampoo","250","Ml","Hair",150.00))
+                    //at this commit the db is working properly
+                    Log.d(TAG, "onCreate: sucessful entry..")
+                }catch(Exception:Exception){
+                    Log.d(TAG, "onCreate Error: ${Exception.message}")
+                }
 
             }
 
