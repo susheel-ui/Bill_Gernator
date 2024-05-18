@@ -80,8 +80,6 @@ class AddItem : AppCompatActivity() {
                 //TODO:: next day work will start from here
                 // and add the radio button in form of add items and other thing happens
 
-
-
                 try{
                     val db = Room.databaseBuilder(
                         applicationContext,
