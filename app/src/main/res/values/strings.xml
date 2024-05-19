@@ -2,4 +2,11 @@
     <string name="app_name">Bill_Genrating_App</string>
     <string name="invoices">Invoices</string>
     <!-- TODO: Remove or change this placeholder text -->
+
+    <string-array name="Catogory">
+        <item>Select</item>
+        <item>Food</item>
+        <item>Stationary</item>
+        <item>Others</item>
+    </string-array>
 </resources>

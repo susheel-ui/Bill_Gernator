@@ -6,6 +6,9 @@ import android.content.pm.PackageManager
 import android.nfc.Tag
 import android.os.Bundle
 import android.util.Log
+import android.widget.ArrayAdapter
+import android.widget.RadioButton
+import android.widget.RadioGroup
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
@@ -14,6 +17,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.isEmpty
+import androidx.core.view.isNotEmpty
 import androidx.room.Room
 import com.example.bill_genrating_app.Roomdb.DBHelper
 import com.example.bill_genrating_app.Roomdb.entities.items
@@ -25,6 +29,8 @@ import java.util.Scanner
 
 class AddItem : AppCompatActivity() {
     lateinit var thisActivityBinding:ActivityAddItemBinding
+
+
     private val requestPermissionLauncher = registerForActivityResult(ActivityResultContracts.RequestPermission()){
             isGranted :Boolean->
         if(isGranted){
@@ -34,6 +40,7 @@ class AddItem : AppCompatActivity() {
             Toast.makeText(this, "you need to give permission to access Camera", Toast.LENGTH_SHORT).show()
         }
     }
+
 
 
     val barcodeLauncher = registerForActivityResult(ScanContract()){
@@ -56,6 +63,7 @@ class AddItem : AppCompatActivity() {
         thisActivityBinding = ActivityAddItemBinding.inflate(layoutInflater)
         setContentView(thisActivityBinding.root)
         checkPermissionCamera(this)
+        setCategory()
         thisActivityBinding.btnback.setOnClickListener {
             finish()
         }
@@ -92,11 +100,17 @@ class AddItem : AppCompatActivity() {
                     ).fallbackToDestructiveMigration().allowMainThreadQueries().build()
                     val itemDao = db.itemDao()
 //                    itemDao.SaveNewItem(items(876543234567,"shampoo","250","Ml","Hair",150.00))
-                    if(thisActivityBinding.barcodeFieldtext.text.toString().isNotEmpty() && thisActivityBinding.itmeName.text.isNotEmpty() && thisActivityBinding.itemMRP.text.isNotEmpty() && thisActivityBinding.itemweight.text.isNotEmpty()){
+                    if(thisActivityBinding.barcodeFieldtext.text.toString().isNotEmpty() &&
+                        thisActivityBinding.itmeName.text.isNotEmpty() &&
+                        thisActivityBinding.itemMRP.text.isNotEmpty() &&
+                        thisActivityBinding.itemweight.text.isNotEmpty()
+                        ){
                         var barCode = thisActivityBinding.barcodeFieldtext.text.toString().toLong()
                         var name = thisActivityBinding.itmeName.text
                         var MRP = thisActivityBinding.itemMRP.text.toString().toDouble()
                         var quantity = thisActivityBinding.itemweight.text.toString()
+                        var type = null
+
 
                         Log.d(TAG, "onCreate: bar code :- $barCode  Name :- $name MRP :- $MRP quantity :- $quantity")
 
@@ -115,6 +129,13 @@ class AddItem : AppCompatActivity() {
                 }
 
             }
+        thisActivityBinding.QuantityType.setOnCheckedChangeListener(RadioGroup.OnCheckedChangeListener{
+                group,checkedId ->
+            run {
+                val radio: RadioButton = findViewById(checkedId)
+                Toast.makeText(this, "${radio.text}", Toast.LENGTH_SHORT).show()
+            }
+        })
 
     }
     private fun clearFields(){
@@ -133,6 +154,13 @@ class AddItem : AppCompatActivity() {
         else{
             requestPermissionLauncher.launch(android.Manifest.permission.CAMERA)
                 }
+    }
+
+
+    private fun setCategory(){
+        val listCatagory = resources.getStringArray(R.array.Catogory)
+        val adpter = ArrayAdapter(this, androidx.appcompat.R.layout.support_simple_spinner_dropdown_item,listCatagory)
+        thisActivityBinding.categoryField.setAdapter(adpter)
     }
 
 
