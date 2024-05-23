@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.example.bill_genrating_app.R
 import com.example.bill_genrating_app.Roomdb.entities.items
@@ -33,6 +34,9 @@ class AdapterItems(var context:Context,var listItem:List<items>) :RecyclerView.A
         val item:items = listItem.get(position)
         holder.itemId.text = item.BarcodeId.toString()
         holder.name.text = item.Name.plus(item.weight.plus(item.weightType))
+        holder.itemView.setOnClickListener {
+            Toast.makeText(context, "touch = ${item.Name}", Toast.LENGTH_SHORT).show()
+        }
     }
 
     override fun getItemCount(): Int {
