@@ -3,9 +3,9 @@ package com.example.bill_genrating_app
 import android.content.ContentValues.TAG
 import android.content.Context
 import android.content.pm.PackageManager
-import android.nfc.Tag
 import android.os.Bundle
 import android.util.Log
+import android.widget.Adapter
 import android.widget.ArrayAdapter
 import android.widget.RadioButton
 import android.widget.RadioGroup
@@ -14,18 +14,14 @@ import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
-import androidx.core.view.isEmpty
-import androidx.core.view.isNotEmpty
 import androidx.room.Room
+import com.example.bill_genrating_app.Adapters.AdapterItems
 import com.example.bill_genrating_app.Roomdb.DBHelper
 import com.example.bill_genrating_app.Roomdb.entities.items
 import com.example.bill_genrating_app.databinding.ActivityAddItemBinding
 import com.journeyapps.barcodescanner.ScanContract
 import com.journeyapps.barcodescanner.ScanIntentResult
 import com.journeyapps.barcodescanner.ScanOptions
-import java.util.Scanner
 
 class AddItem : AppCompatActivity() {
     lateinit var thisActivityBinding:ActivityAddItemBinding
@@ -106,18 +102,28 @@ class AddItem : AppCompatActivity() {
                         thisActivityBinding.itemweight.text.isNotEmpty()
                         ){
                         var barCode = thisActivityBinding.barcodeFieldtext.text.toString().toLong()
-                        var name = thisActivityBinding.itmeName.text
+                        var name = thisActivityBinding.itmeName.text.toString()
                         var MRP = thisActivityBinding.itemMRP.text.toString().toDouble()
                         var quantity = thisActivityBinding.itemweight.text.toString()
-                        var type = null
+                        var type = thisActivityBinding.categoryField.selectedItem.toString()
+                        var quantityType = getQuantityType() ;
 
 
-                        Log.d(TAG, "onCreate: bar code :- $barCode  Name :- $name MRP :- $MRP quantity :- $quantity")
 
-                        val item = items(barCode,name.toString(),quantity,"Piece","stationery",MRP)
-                        itemDao.SaveNewItem(item)
-                        Toast.makeText(this, "Saved", Toast.LENGTH_SHORT).show()
-                        clearFields()
+
+                        Log.d(TAG, "onCreate: bar code :- $barCode  Name :- $name MRP :- $MRP quantity :- $quantity qunatitytype :$quantityType  type = $type")
+
+//
+                        if(type != "Select"){
+                            itemDao.SaveNewItem(items(barCode,name,quantity,quantityType,type,MRP))
+                            Toast.makeText(this, "Saved", Toast.LENGTH_SHORT).show()
+                            clearFields()
+                        }
+                        else{
+                            Toast.makeText(this, "pls select type", Toast.LENGTH_SHORT).show()
+                        }
+
+
                     }else{
                         Toast.makeText(this, "pls enter the fields properly", Toast.LENGTH_LONG).show()
                     }
@@ -156,12 +162,22 @@ class AddItem : AppCompatActivity() {
                 }
     }
 
+    private fun getQuantityType():String{
+        val selector = thisActivityBinding.QuantityType.checkedRadioButtonId;
+        val radioSelected = findViewById<RadioButton>(selector)
+
+        return  radioSelected.text.toString()
+    }
+
 
     private fun setCategory(){
         val listCatagory = resources.getStringArray(R.array.Catogory)
         val adpter = ArrayAdapter(this, androidx.appcompat.R.layout.support_simple_spinner_dropdown_item,listCatagory)
         thisActivityBinding.categoryField.setAdapter(adpter)
     }
+
+
+
 
 
 }

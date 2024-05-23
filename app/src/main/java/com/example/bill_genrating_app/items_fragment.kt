@@ -1,11 +1,21 @@
 package com.example.bill_genrating_app
 
+import android.content.ContentValues.TAG
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView.LayoutManager
+import androidx.room.Room
+
+import com.example.bill_genrating_app.Adapters.AdapterItems
+import com.example.bill_genrating_app.Roomdb.DBHelper
+import com.example.bill_genrating_app.Roomdb.entities.items
 import com.example.bill_genrating_app.databinding.FragmentItemsFragmentBinding
 
 // TODO: Rename parameter arguments, choose names that match
@@ -47,25 +57,36 @@ class items_fragment : Fragment() {
             var activityIntent = Intent(context,AddItem::class.java)
             startActivity(activityIntent)
         }
+        ShowItems(requireContext().applicationContext)
+    }
+    fun ShowItems(context: Context){
+        try {
+            val list = fetchItemsRoom()
+            Log.d(TAG, "ShowItems: $list")
+            val adapter = list?.let { AdapterItems(context, it) }
+            val layoutManager = LinearLayoutManager(context)
+            layoutManager.orientation = LinearLayoutManager.VERTICAL
+            thisFagementBinding.RecyclerListView.layoutManager = layoutManager
+            thisFagementBinding.RecyclerListView.adapter = adapter
+        }catch (exception:Exception){
+            Log.d(TAG, "ShowItems: ${exception.message}")
+        }
+        
+
+
+
+    }
+    fun fetchItemsRoom():List<items>?{
+        val db = context?.let {
+            Room.databaseBuilder(
+                it.applicationContext,
+                DBHelper::class.java,"DatabaseBillGenerator"
+            ).fallbackToDestructiveMigration().allowMainThreadQueries().build()
+        }
+        val itemDao = db?.itemDao()
+        val list = itemDao?.getall()
+        return list
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment items_fragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            items_fragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
-    }
+
 }

@@ -6,45 +6,26 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".items_fragment">
 
-    <androidx.cardview.widget.CardView
-        android:id="@+id/card1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-       app:cardCornerRadius="15dp"
-        android:layout_marginBottom="30dp"
-        android:backgroundTint="@color/green"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/RecyclerListView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/card2"
+        />
 
-        >
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:gravity="center"
-            android:background="@drawable/bg_fororderlists"
-            >
 
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/btnViewItems"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@android:color/transparent"
-                style="@style/cardBtn"
-                android:text="View Items" />
-        </LinearLayout>
-    </androidx.cardview.widget.CardView>
     <androidx.cardview.widget.CardView
         android:id="@+id/card2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:cardCornerRadius="15dp"
+        android:layout_marginBottom="20dp"
         android:backgroundTint="@color/green"
         app:layout_constraintEnd_toEndOf="parent"
-       app:layout_constraintStart_toEndOf="@id/card1"
-        app:layout_constraintTop_toTopOf="@id/card1"
-
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
         >
         <LinearLayout
             android:layout_width="match_parent"
