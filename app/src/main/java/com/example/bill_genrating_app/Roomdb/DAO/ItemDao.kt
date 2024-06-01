@@ -19,4 +19,7 @@ interface itemDao {
 
         @Delete
         fun DeleteItem(items: items)
+
+        @Query("SELECT * FROM ITEMS WHERE Name Like '%'||:str||'%'" )
+         fun getByname(str:String):List<items>
 }

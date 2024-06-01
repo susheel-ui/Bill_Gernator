@@ -86,54 +86,7 @@ class AddItem : AppCompatActivity() {
 
                 //TODO:: next day work will start from here
                 // and add the radio button in form of add items and other thing happens
-
-
-                try{
-
-                    val db = Room.databaseBuilder(
-                        applicationContext,
-                        DBHelper::class.java,"DatabaseBillGenerator"
-                    ).fallbackToDestructiveMigration().allowMainThreadQueries().build()
-                    val itemDao = db.itemDao()
-//                    itemDao.SaveNewItem(items(876543234567,"shampoo","250","Ml","Hair",150.00))
-                    if(thisActivityBinding.barcodeFieldtext.text.toString().isNotEmpty() &&
-                        thisActivityBinding.itmeName.text.isNotEmpty() &&
-                        thisActivityBinding.itemMRP.text.isNotEmpty() &&
-                        thisActivityBinding.itemweight.text.isNotEmpty()
-                        ){
-                        var barCode = thisActivityBinding.barcodeFieldtext.text.toString().toLong()
-                        var name = thisActivityBinding.itmeName.text.toString()
-                        var MRP = thisActivityBinding.itemMRP.text.toString().toDouble()
-                        var quantity = thisActivityBinding.itemweight.text.toString()
-                        var type = thisActivityBinding.categoryField.selectedItem.toString()
-                        var quantityType = getQuantityType() ;
-
-
-
-
-                        Log.d(TAG, "onCreate: bar code :- $barCode  Name :- $name MRP :- $MRP quantity :- $quantity qunatitytype :$quantityType  type = $type")
-
-//
-                        if(type != "Select"){
-                            itemDao.SaveNewItem(items(barCode,name,quantity,quantityType,type,MRP))
-                            Toast.makeText(this, "Saved", Toast.LENGTH_SHORT).show()
-                            clearFields()
-                        }
-                        else{
-                            Toast.makeText(this, "pls select type", Toast.LENGTH_SHORT).show()
-                        }
-
-
-                    }else{
-                        Toast.makeText(this, "pls enter the fields properly", Toast.LENGTH_LONG).show()
-                    }
-                    //at this commit the db is working properly
-
-                }catch(Exception:Exception){
-                    Log.d(TAG, "onCreate Error: ${Exception.message}")
-                    Toast.makeText(this, "product is already exist", Toast.LENGTH_SHORT).show()
-                }
-
+                onbtnSaveClick()
             }
         thisActivityBinding.QuantityType.setOnCheckedChangeListener(RadioGroup.OnCheckedChangeListener{
                 group,checkedId ->
@@ -142,6 +95,58 @@ class AddItem : AppCompatActivity() {
                 Toast.makeText(this, "${radio.text}", Toast.LENGTH_SHORT).show()
             }
         })
+
+
+
+    }
+
+    private fun onbtnSaveClick(){
+        try{
+
+            val db = Room.databaseBuilder(
+                applicationContext,
+                DBHelper::class.java,"DatabaseBillGenerator"
+            ).fallbackToDestructiveMigration().allowMainThreadQueries().build()
+            val itemDao = db.itemDao()
+//                    itemDao.SaveNewItem(items(876543234567,"shampoo","250","Ml","Hair",150.00))
+            if(thisActivityBinding.barcodeFieldtext.text.toString().isNotEmpty() &&
+                thisActivityBinding.itmeName.text.isNotEmpty() &&
+                thisActivityBinding.itemMRP.text.isNotEmpty() &&
+                thisActivityBinding.itemweight.text.isNotEmpty()
+            ){
+                var barCode = thisActivityBinding.barcodeFieldtext.text.toString().toLong()
+                var name = thisActivityBinding.itmeName.text.toString()
+                var MRP = thisActivityBinding.itemMRP.text.toString().toDouble()
+                var quantity = thisActivityBinding.itemweight.text.toString()
+                var type = thisActivityBinding.categoryField.selectedItem.toString()
+                var quantityType = getQuantityType() ;
+
+
+
+
+//                Log.d(TAG, "onCreate: bar code :- $barCode  Name :- $name MRP :- $MRP quantity :- $quantity qunatitytype :$quantityType  type = $type")
+
+//
+                if(type != "Select"){
+                    itemDao.SaveNewItem(items(barCode,name,quantity,quantityType,type,MRP))
+                    Toast.makeText(this, "Saved", Toast.LENGTH_SHORT).show()
+                    clearFields()
+                    finish()
+                }
+                else{
+                    Toast.makeText(this, "pls select type", Toast.LENGTH_SHORT).show()
+                }
+
+
+            }else{
+                Toast.makeText(this, "pls enter the fields properly", Toast.LENGTH_LONG).show()
+            }
+            //at this commit the db is working properly
+
+        }catch(Exception:Exception){
+            Log.d(TAG, "onCreate Error: ${Exception.message}")
+            Toast.makeText(this, "product is already exist", Toast.LENGTH_SHORT).show()
+        }
 
     }
     private fun clearFields(){

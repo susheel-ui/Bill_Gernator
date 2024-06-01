@@ -18,6 +18,4 @@ data class items(
     val Type:String,
     @ColumnInfo
     val MRP:Double
-) {
-
-}
+)
