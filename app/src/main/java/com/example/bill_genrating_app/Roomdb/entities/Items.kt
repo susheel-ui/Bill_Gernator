@@ -17,5 +17,9 @@ data class items(
     @ColumnInfo
     val Type:String,
     @ColumnInfo
-    val MRP:Double
+    val MRP:Double,
+    @ColumnInfo
+    val stockQuantity:Long,
+    @ColumnInfo
+    val discountRate:Long
 )

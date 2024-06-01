@@ -53,7 +53,7 @@ class items_fragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         thisFagementBinding = FragmentItemsFragmentBinding.inflate(layoutInflater)
-        // Inflate the layout for this fragment
+
         thisFagementBinding.itemsSearchbar.searchBox.setOnQueryTextListener(object : android.widget.SearchView.OnQueryTextListener{
             override fun onQueryTextSubmit(str: String?): Boolean {
                 searchByName(str.toString())

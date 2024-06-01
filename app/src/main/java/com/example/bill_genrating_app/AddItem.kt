@@ -128,7 +128,7 @@ class AddItem : AppCompatActivity() {
 
 //
                 if(type != "Select"){
-                    itemDao.SaveNewItem(items(barCode,name,quantity,quantityType,type,MRP))
+                    itemDao.SaveNewItem(items(barCode,name,quantity,quantityType,type,MRP,0,0))
                     Toast.makeText(this, "Saved", Toast.LENGTH_SHORT).show()
                     clearFields()
                     finish()
