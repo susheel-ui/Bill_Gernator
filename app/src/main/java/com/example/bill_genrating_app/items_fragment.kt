@@ -69,8 +69,6 @@ class items_fragment : Fragment() {
 
 
         return thisFagementBinding.root
-
-
     }
 
     override fun onStart() {

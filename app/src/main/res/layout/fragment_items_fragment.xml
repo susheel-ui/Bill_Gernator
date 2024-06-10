@@ -13,45 +13,43 @@
         app:layout_constraintTop_toTopOf="parent"
         />
 
+    <RelativeLayout
+        android:id="@+id/relativeLayoutdiv2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/items_searchbar"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/item_lists"
+            android:textSize="30dp"
+            android:layout_marginLeft="10dp"
+            android:fontFamily="@font/poppins_black"
+            android:layout_alignParentStart="true"
+            />
+        <ImageButton
+            android:id="@+id/btnaddItem"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_alignParentEnd="true"
+            android:layout_marginRight="30dp"
+            android:src="@drawable/baseline_add_24"
+            android:background="@drawable/btn_paid_bg"
+            />
+    </RelativeLayout>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/RecyclerListView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-       app:layout_constraintTop_toBottomOf="@id/items_searchbar"
+       app:layout_constraintTop_toBottomOf="@id/relativeLayoutdiv2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         />
-
-
-    <androidx.cardview.widget.CardView
-        android:id="@+id/card2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:cardCornerRadius="15dp"
-        android:layout_marginBottom="20dp"
-        android:backgroundTint="@color/green"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        >
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:gravity="center"
-            android:background="@drawable/bg_fororderlists"
-            >
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/btnaddItem"
-                style="@style/cardBtn"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@android:color/transparent"
-                android:text="Add items" />
-        </LinearLayout>
-    </androidx.cardview.widget.CardView>
 
     <TextView
         android:id="@+id/result_error"

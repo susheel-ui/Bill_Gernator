@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">Bill_Genrating_App</string>
     <string name="invoices">Invoices</string>
+    <string name="item_lists">Item Lists</string>
     <!-- TODO: Remove or change this placeholder text -->
 
     <string-array name="Catogory">
