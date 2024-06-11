@@ -22,4 +22,8 @@ interface itemDao {
 
         @Query("SELECT * FROM ITEMS WHERE Name Like '%'||:str||'%'" )
          fun getByname(str:String):List<items>
+
+         //Update the item by id
+         @Query("UPDATE ITEMS SET stockQuantity = :stockQuantity where BarcodeId=(:barcodeId);")
+         fun updateItemsQuantity(stockQuantity:Long,barcodeId: Long)
 }

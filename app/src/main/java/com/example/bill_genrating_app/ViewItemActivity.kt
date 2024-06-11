@@ -1,13 +1,11 @@
 package com.example.bill_genrating_app
 
-import android.content.Intent
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.room.Room
-import androidx.room.RoomDatabase
 import com.example.bill_genrating_app.Roomdb.DBHelper
 import com.example.bill_genrating_app.Roomdb.entities.items
 import com.example.bill_genrating_app.databinding.ActivityViewItemBinding
@@ -34,24 +32,42 @@ class ViewItemActivity : AppCompatActivity() {
         //this is for only test purpose
 
         val item = barcodeid?.let { fetchData(it.toLong()) }
-        thisPageBinding.itemname.text = item?.Name.toString()
-        thisPageBinding.itemMRP.text = item?.MRP.toString()
-        thisPageBinding.itemWeight.text = item?.weight.toString().plus(item?.weightType.toString())
-        thisPageBinding.itemCatagory.text = item?.Type.toString()
-        thisPageBinding.itemQuntity.setText(item?.stockQuantity.toString())
+        thisPageBinding.itemName.text = item?.Name.toString()
+        thisPageBinding.itemMRP.text = item?.MRP.toString().plus(" Rs.")
+//        thisPageBinding?.text = item?.weight.toString().plus(item?.weightType.toString())
+//        thisPageBinding.itemCatagory.text = item?.Type.toString()
+        thisPageBinding.Qunatity.setText(item?.stockQuantity.toString())
+        thisPageBinding.DiscountedRate.text = item?.discountRate.toString()
 
-        thisPageBinding.btnminus.setOnClickListener {
-            var Quntity = thisPageBinding.itemQuntity.text.toString().toLong()
-            if(Quntity.toInt() != 0){
-                Quntity -= 1;
-            }
-            thisPageBinding.itemQuntity.setText(Quntity.toString())
-        }
-        thisPageBinding.btnadd.setOnClickListener {
-            var Quntity = thisPageBinding.itemQuntity.text.toString().toLong()
-            thisPageBinding.itemQuntity.setText((Quntity + 1).toString())
-        }
+//        thisPageBinding.btnminus.setOnClickListener {
+//            var Quntity = thisPageBinding.itemQuntity.text.toString().toLong()
+//            if(Quntity.toInt() != 0){
+//                Quntity -= 1;
+//            }
+//            thisPageBinding.itemQuntity.setText(Quntity.toString())
+//        }
+//        thisPageBinding.btnadd.setOnClickListener {
+//            var Quntity = thisPageBinding.itemQuntity.text.toString().toLong()
+//            thisPageBinding.itemQuntity.setText((Quntity + 1).toString())
+//        }
+//        thisPageBinding.btnUpdate.setOnClickListener {
+//         //TODO:: update the item in database
+//            val quntity = thisPageBinding.itemQuntity.text.toString().toLong()
+//            val id = item?.BarcodeId
+//            if (id != null) {
+//                updateitem(id,quntity)
+//            }
+//
+//        }
+//        thisPageBinding.btncancel.setOnClickListener {
+//            //TODO:: cancel the item in database
+//            finish()
+//        }
 
+    }
+    fun updateitem(id:Long,quntity:Long){
+        val db  = fetchDb()
+        db.itemDao().updateItemsQuantity(quntity,id)
     }
     public fun fetchDb():DBHelper{
         val db = Room.databaseBuilder(
