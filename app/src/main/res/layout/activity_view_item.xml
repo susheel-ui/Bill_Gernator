@@ -5,128 +5,281 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ViewItemActivity">
-<TextView
-    android:id="@+id/pageupdateTag"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:text="Update Item"
-    android:textSize="30dp"
-    android:textColor="@color/green"
-    android:layout_margin="10dp"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toTopOf="parent"
-    />
+    tools:context=".ViewItemActivity"
+    tools:ignore="HardcodedText"
+    >
+
+    <ImageButton
+        android:id="@+id/backBtn"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:background="@android:color/transparent"
+        android:src="@drawable/baseline_arrow_back_24"
+        app:layout_constraintBottom_toBottomOf="@id/pageupdateTag"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:contentDescription="back_btn"
+        />
+
+    <TextView
+        android:id="@+id/pageupdateTag"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:text="Update Item"
+        android:textColor="@color/green"
+        android:textSize="30sp"
+        app:layout_constraintStart_toEndOf="@id/backBtn"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <androidx.cardview.widget.CardView
+        android:id="@+id/cardview_info"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/pageupdateTag"
         android:layout_margin="10dp"
         app:cardCornerRadius="15dp"
-        >
-       <RelativeLayout
-           android:layout_width="match_parent"
-           android:layout_height="match_parent"
-           android:padding="10dp"
-           >
-           <TextView
-               android:id="@+id/itemNameTag"
-               android:layout_width="wrap_content"
-               android:layout_height="wrap_content"
-               android:text="Item Name"
-               android:textSize="20dp"
-               android:textColor="@color/black"
-               android:layout_margin="10dp"
-               android:fontFamily="@font/poppins_regular"
-               android:layout_alignParentTop="true"
-               android:layout_alignParentStart="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/pageupdateTag">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="10dp">
+
+            <TextView
+                android:id="@+id/itemNameTag"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginStart="10sp"
+                android:layout_marginTop="10sp"
+                android:fontFamily="@font/poppins_regular"
+                android:text="Item Name"
+                android:textColor="@color/black"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/itemName"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/itemNameTag"
+                android:layout_alignStart="@id/itemNameTag"
+                android:layout_marginStart="10sp"
+                android:fontFamily="@font/poppins_regular"
+                android:text="frooty"
+                android:textSize="15sp" />
+
+            <TextView
+                android:id="@+id/itemMRPTag"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="10sp"
+                android:fontFamily="@font/poppins_regular"
+                android:text="Item Price"
+                android:textColor="@color/black"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/itemMRP"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/itemMRPTag"
+                android:layout_alignEnd="@id/itemMRPTag"
+                android:layout_marginStart="10sp"
+                android:fontFamily="@font/poppins_regular"
+                android:text="500 Rs."
+                android:textSize="15sp" />
+
+            <TextView
+                android:id="@+id/QunatityTag"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/itemName"
+                android:layout_alignStart="@id/itemNameTag"
+                android:layout_marginTop="5dp"
+                android:fontFamily="@font/poppins_regular"
+                android:text="item Quantity Availble"
+                android:textColor="@color/black"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/Qunatity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/QunatityTag"
+                android:layout_alignStart="@id/itemName"
+                android:fontFamily="@font/poppins_regular"
+                android:text="10"
+                android:textSize="15sp"
+
+                />
+
+            <TextView
+                android:id="@+id/DiscountedRateTag"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/Qunatity"
+                android:layout_alignStart="@id/QunatityTag"
+                android:fontFamily="@font/poppins_regular"
+                android:text="Discounted Rate"
+                android:textColor="@color/black"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/DiscountedRate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/DiscountedRateTag"
+                android:layout_alignStart="@id/Qunatity"
+                android:fontFamily="@font/poppins_regular"
+                android:text="5%"
+                android:textSize="15sp" />
+
+            <ImageButton
+                android:contentDescription="image_btn_for_edit_profile"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_alignBottom="@id/DiscountedRate"
+                android:layout_alignParentEnd="true"
+                android:layout_margin="20dp"
+                android:background="@android:color/transparent"
+                android:src="@drawable/edit_icon"
                />
 
-           <TextView
-               android:id="@+id/itemName"
-               android:layout_width="200dp"
-               android:layout_height="wrap_content"
-               android:layout_below="@id/itemNameTag"
-               android:layout_alignLeft="@id/itemNameTag"
-               android:layout_marginLeft="10dp"
-               android:fontFamily="@font/poppins_regular"
-               android:text="frooty"
-               android:textSize="15sp"
-               />
-           <TextView
-               android:id="@+id/itemMRPTag"
-               android:layout_width="wrap_content"
-               android:layout_height="wrap_content"
-               android:layout_alignParentEnd="true"
-               android:layout_alignParentTop="true"
-               android:text="Item Price"
-               android:textSize="20dp"
-               android:textColor="@color/black"
-               android:layout_margin="10dp"
-               android:fontFamily="@font/poppins_regular"
-               />
-           <TextView
-               android:id="@+id/itemMRP"
-               android:layout_width="wrap_content"
-               android:layout_height="wrap_content"
-               android:layout_below="@id/itemMRPTag"
-               android:layout_alignRight="@id/itemMRPTag"
-               android:layout_marginLeft="10dp"
-               android:fontFamily="@font/poppins_regular"
-               android:text="500 Rs."
-               android:textSize="15sp"
-               />
-
-           <TextView
-               android:id="@+id/QunatityTag"
-               android:layout_width="wrap_content"
-               android:layout_height="wrap_content"
-               android:text="item Quantity Availble"
-               android:layout_below="@id/itemName"
-               android:layout_alignStart="@id/itemNameTag"
-               android:textSize="20dp"
-               android:layout_marginTop="5dp"
-               android:textColor="@color/black"
-               android:fontFamily="@font/poppins_regular"
-               />
-           <TextView
-               android:id="@+id/Qunatity"
-               android:layout_width="wrap_content"
-               android:layout_height="wrap_content"
-               android:layout_below="@id/QunatityTag"
-               android:layout_alignStart="@id/itemName"
-               android:text="10"
-               android:textSize="15sp"
-               android:fontFamily="@font/poppins_regular"
-
-               />
-
-           <TextView
-               android:id="@+id/DiscountedRateTag"
-               android:layout_width="wrap_content"
-               android:layout_height="wrap_content"
-               android:text="Discounted Rate"
-               android:layout_below="@id/Qunatity"
-               android:layout_alignStart="@id/QunatityTag"
-               android:textSize="20dp"
-               android:textColor="@color/black"
-               android:fontFamily="@font/poppins_regular"
-               />
-           <TextView
-               android:id="@+id/DiscountedRate"
-               android:layout_width="wrap_content"
-               android:layout_height="wrap_content"
-               android:layout_below="@id/DiscountedRateTag"
-               android:layout_alignStart="@id/Qunatity"
-               android:text="5%"
-               android:textSize="15sp"
-               android:fontFamily="@font/poppins_regular"
-               />
-
-       </RelativeLayout>
+        </RelativeLayout>
     </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardViewAddStock"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        app:cardCornerRadius="10dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/cardview_info"
+
+        >
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="20dp">
+
+            <TextView
+                android:id="@+id/tagAddStock"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_centerHorizontal="true"
+                android:fontFamily="@font/poppins_medium"
+                android:text="Add stock"
+                android:textColor="@color/black"
+                android:textSize="30sp" />
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/tenPercentagecardView"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_below="@id/tagAddStock"
+                android:layout_alignParentStart="true"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="10sp"
+                android:layout_marginBottom="5sp"
+                android:backgroundTint="@color/green"
+                app:cardCornerRadius="5dp">
+
+                <TextView
+                    android:id="@+id/tenbtn"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:fontFamily="@font/poppins_medium"
+                    android:gravity="center"
+                    android:text="+10"
+                    android:textColor="@color/white"
+                    android:textSize="20sp" />
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/twentyPercentagecardView"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_alignTop="@id/tenPercentagecardView"
+                android:layout_marginStart="20dp"
+                android:layout_marginBottom="5dp"
+                android:layout_toEndOf="@id/tenPercentagecardView"
+                android:backgroundTint="@color/green"
+                app:cardCornerRadius="5dp">
+
+                <TextView
+                    android:id="@+id/twentybtn"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:fontFamily="@font/poppins_medium"
+                    android:gravity="center"
+                    android:text="+20"
+                    android:textColor="@color/white"
+                    android:textSize="20sp" />
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/fiftyPercentagecardView"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_alignTop="@id/twentyPercentagecardView"
+                android:layout_marginStart="20sp"
+                android:layout_marginBottom="5sp"
+                android:layout_toEndOf="@id/twentyPercentagecardView"
+                android:backgroundTint="@color/green"
+                app:cardCornerRadius="5dp">
+
+                <TextView
+                    android:id="@+id/fiftybtn"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:fontFamily="@font/poppins_medium"
+                    android:gravity="center"
+                    android:text="+50"
+                    android:textColor="@color/white"
+                    android:textSize="20sp" />
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/costomPercentagecardView"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_alignTop="@id/fiftyPercentagecardView"
+                android:layout_marginStart="20dp"
+                android:layout_marginBottom="5dp"
+                android:layout_toEndOf="@id/fiftyPercentagecardView"
+                android:backgroundTint="@color/white"
+                app:cardCornerRadius="5dp">
+
+                <ImageButton
+                    android:id="@+id/costomStockbtn"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@android:color/transparent"
+                    android:src="@drawable/edit_icon"
+                    android:contentDescription="btn_costomStock"
+                    />
+
+            </androidx.cardview.widget.CardView>
+        </RelativeLayout>
+
+    </androidx.cardview.widget.CardView>
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.0" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
