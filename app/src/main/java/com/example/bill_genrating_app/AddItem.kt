@@ -59,6 +59,7 @@ class AddItem : AppCompatActivity() {
         setContentView(thisActivityBinding.root)
         checkPermissionCamera(this)
         setCategory()
+        launchScanner()
         thisActivityBinding.btnback.setOnClickListener {
             finish()
         }
@@ -67,26 +68,18 @@ class AddItem : AppCompatActivity() {
         }
         thisActivityBinding.BarcodeNo.setEndIconOnClickListener{
             Toast.makeText(this, "working", Toast.LENGTH_SHORT).show()
-
-            val scanoption = ScanOptions()
-            scanoption.setDesiredBarcodeFormats(ScanOptions.ALL_CODE_TYPES)
-            scanoption.setPrompt("Scan the barcode")
-            scanoption.setCameraId(0)
-            scanoption.setBeepEnabled(true)
-            scanoption.setBarcodeImageEnabled(true)
-            scanoption.setOrientationLocked(false)
-
-            barcodeLauncher.launch(scanoption)
-
+            launchScanner()
         }
 
         //on click of save button data will save
             thisActivityBinding.btnSave.setOnClickListener {
 
                 //TODO:: next day work will start from here
-                // and add the radio button in form of add items and other thing happens
+
                 onbtnSaveClick()
             }
+
+        // listener for get Quantity type
         thisActivityBinding.QuantityType.setOnCheckedChangeListener(RadioGroup.OnCheckedChangeListener{
                 group,checkedId ->
             run {
@@ -97,6 +90,16 @@ class AddItem : AppCompatActivity() {
 
 
 
+    }
+    private fun launchScanner(){
+        val scanoption = ScanOptions()
+        scanoption.setDesiredBarcodeFormats(ScanOptions.ALL_CODE_TYPES)
+        scanoption.setPrompt("Scan the barcode")
+        scanoption.setCameraId(0)
+        scanoption.setBeepEnabled(true)
+        scanoption.setBarcodeImageEnabled(true)
+        scanoption.setOrientationLocked(false)
+        barcodeLauncher.launch(scanoption)
     }
 
     private fun onbtnSaveClick(){
@@ -111,14 +114,18 @@ class AddItem : AppCompatActivity() {
             if(thisActivityBinding.barcodeFieldtext.text.toString().isNotEmpty() &&
                 thisActivityBinding.itmeName.text.isNotEmpty() &&
                 thisActivityBinding.itemMRP.text.isNotEmpty() &&
-                thisActivityBinding.itemweight.text.isNotEmpty()
+                thisActivityBinding.itemweight.text.isNotEmpty() &&
+                thisActivityBinding.stockQuantity.text.isNotEmpty() &&
+                thisActivityBinding.discountRate.text.isNotEmpty()
             ){
-                var barCode = thisActivityBinding.barcodeFieldtext.text.toString().toLong()
-                var name = thisActivityBinding.itmeName.text.toString()
-                var MRP = thisActivityBinding.itemMRP.text.toString().toDouble()
-                var quantity = thisActivityBinding.itemweight.text.toString()
-                var type = thisActivityBinding.categoryField.selectedItem.toString()
-                var quantityType = getQuantityType() ;
+                val barCode = thisActivityBinding.barcodeFieldtext.text.toString().toLong()
+                val name = thisActivityBinding.itmeName.text.toString()
+                val MRP = thisActivityBinding.itemMRP.text.toString().toDouble()
+                val quantity = thisActivityBinding.itemweight.text.toString()
+                val type = thisActivityBinding.categoryField.selectedItem.toString()
+                val quantityType = getQuantityType();
+                val stock = thisActivityBinding.stockQuantity.text.toString().toLong()
+                val discountRate = thisActivityBinding.discountRate.text.toString().toDouble()
 
 
 
@@ -127,7 +134,7 @@ class AddItem : AppCompatActivity() {
 
 //
                 if(type != "Select"){
-                    itemDao.SaveNewItem(items(barCode,name,quantity,quantityType,type,MRP,0,0))
+                    itemDao.SaveNewItem(items(barCode,name,quantity,quantityType,type,MRP,stock,discountRate))
                     Toast.makeText(this, "Saved", Toast.LENGTH_SHORT).show()
                     clearFields()
                     finish()
@@ -169,7 +176,6 @@ class AddItem : AppCompatActivity() {
     private fun getQuantityType():String{
         val selector = thisActivityBinding.QuantityType.checkedRadioButtonId;
         val radioSelected = findViewById<RadioButton>(selector)
-
         return  radioSelected.text.toString()
     }
 

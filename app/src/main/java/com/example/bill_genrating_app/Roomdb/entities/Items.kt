@@ -21,5 +21,12 @@ data class items(
     @ColumnInfo
     val stockQuantity:Long,
     @ColumnInfo
-    val discountRate:Long
+    val discountRate:Double
+)
+
+@Entity(tableName = "Orders")
+data class Orders(
+    @PrimaryKey(autoGenerate = true)
+    val OrderId:Long =10000,
+
 )

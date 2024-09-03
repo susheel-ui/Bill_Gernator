@@ -63,6 +63,40 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:text="Enter barCode No"
+                android:textSize="20dp"
+                android:layout_marginLeft="10dp"
+                />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/BarcodeNo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="20dp"
+
+                android:background="@drawable/bg_fororderlists"
+                app:endIconMode="custom"
+                app:endIconDrawable="@drawable/baseline_barcode_reader_24"
+                >
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/barcodeFieldtext"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@android:color/transparent"
+                    />
+            </com.google.android.material.textfield.TextInputLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="10dp"
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:text="Enter Name of Item"
                 android:textSize="20dp"
                 android:layout_marginLeft="10dp"
@@ -96,7 +130,7 @@
                 android:layout_height="wrap_content"
                 android:textSize="20dp"
                 android:text=""
-                android:inputType="number"
+                android:inputType="numberDecimal"
                 android:padding="10dp"
                 android:background="@drawable/bg_fororderlists"
                 />
@@ -220,6 +254,7 @@
 
         </LinearLayout>
 
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -229,30 +264,47 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Enter barCode No"
+                android:text="Enter weight or Stock of item"
                 android:textSize="20dp"
                 android:layout_marginLeft="10dp"
                 />
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/BarcodeNo"
+            <EditText
+                android:id="@+id/stockQuantity"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="20dp"
-
+                android:text=""
+                android:inputType="number"
                 android:background="@drawable/bg_fororderlists"
-                app:endIconMode="custom"
-                app:endIconDrawable="@drawable/baseline_barcode_reader_24"
-                >
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/barcodeFieldtext"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@android:color/transparent"
-                    />
-            </com.google.android.material.textfield.TextInputLayout>
-
-
+                android:padding="10dp"
+                />
         </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="10dp"
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Enter DiscountRate"
+                android:textSize="20dp"
+                android:layout_marginLeft="10dp"
+                />
+            <EditText
+                android:id="@+id/discountRate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="20dp"
+                android:text=""
+                android:inputType="numberDecimal"
+                android:background="@drawable/bg_fororderlists"
+                android:padding="10dp"
+                />
+        </LinearLayout>
+
 
 
 
