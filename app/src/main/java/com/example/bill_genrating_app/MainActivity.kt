@@ -23,7 +23,6 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         // binding for current activity
         binding = ActivityMainBinding.inflate(layoutInflater)
-        enableEdgeToEdge()
         change_fragment(invoice_fragment(),"invoices")
         setContentView(binding.root)
     }

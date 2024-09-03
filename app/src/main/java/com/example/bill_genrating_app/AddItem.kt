@@ -55,7 +55,6 @@ class AddItem : AppCompatActivity() {
     }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
         thisActivityBinding = ActivityAddItemBinding.inflate(layoutInflater)
         setContentView(thisActivityBinding.root)
         checkPermissionCamera(this)

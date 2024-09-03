@@ -15,7 +15,6 @@ class ViewItemActivity : AppCompatActivity() {
     lateinit var thisPageBinding:ActivityViewItemBinding;
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
         thisPageBinding = ActivityViewItemBinding.inflate(layoutInflater)
         setContentView(thisPageBinding.root)
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
