@@ -11,7 +11,7 @@ import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.example.bill_genrating_app.R
 import com.example.bill_genrating_app.Roomdb.entities.items
-import com.example.bill_genrating_app.ViewItemActivity
+import com.example.bill_genrating_app.Activities.ViewItemActivity
 
 class AdapterItems(var mContext:Context, var listItem:List<items>) :RecyclerView.Adapter<AdapterItems.ViewHolder>() {
     inner class ViewHolder(itemView : View) :RecyclerView.ViewHolder(itemView){
@@ -42,7 +42,7 @@ class AdapterItems(var mContext:Context, var listItem:List<items>) :RecyclerView
         holder.itemView.setOnClickListener {
             Toast.makeText(mContext, "touch = ${item.Name}", Toast.LENGTH_SHORT).show()
            try {
-               var intent = Intent(mContext,ViewItemActivity::class.java)
+               var intent = Intent(mContext, ViewItemActivity::class.java)
                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                intent.putExtra("itemId",item.BarcodeId.toString())
                mContext.startActivity(intent)

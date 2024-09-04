@@ -1,12 +1,12 @@
-package com.example.bill_genrating_app
+package com.example.bill_genrating_app.Activities
 
 import android.os.Bundle
 import android.widget.Toast
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.room.Room
+import com.example.bill_genrating_app.R
 import com.example.bill_genrating_app.Roomdb.DBHelper
 import com.example.bill_genrating_app.Roomdb.entities.items
 import com.example.bill_genrating_app.databinding.ActivityViewItemBinding

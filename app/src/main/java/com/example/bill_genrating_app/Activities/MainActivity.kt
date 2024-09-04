@@ -1,18 +1,16 @@
-package com.example.bill_genrating_app
+package com.example.bill_genrating_app.Activities
 
+import android.content.ContentValues.TAG
+import android.content.Intent
+import android.nfc.Tag
 import android.os.Bundle
-import android.widget.Toast
-import androidx.activity.enableEdgeToEdge
-import androidx.activity.result.contract.ActivityResultContract
-import androidx.activity.result.contract.ActivityResultContracts
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.FragmentTransaction
+import com.example.bill_genrating_app.R
 import com.example.bill_genrating_app.databinding.ActivityMainBinding
-import com.google.android.material.navigation.NavigationBarView
+import com.example.bill_genrating_app.Fragments.*
 
 class MainActivity : AppCompatActivity() {
 
@@ -25,16 +23,13 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         change_fragment(invoice_fragment(),"invoices")
         setContentView(binding.root)
-    }
 
-    override fun onStart() {
-        super.onStart()
-        // here we do code for the
+        // all listeners is here
         binding.btmnavbar.setOnItemSelectedListener {item->
             when(item.itemId){
                 R.id.invoice ->{
                     change_fragment(invoice_fragment(),"invoices")
-                     true
+                    true
                 }
                 R.id.Client ->{
                     change_fragment(clients_fragments(),"Clients")
@@ -51,12 +46,25 @@ class MainActivity : AppCompatActivity() {
                 }
                 else->{
                     // here code never comes it add because the compiler gives error
-                true
+                    true
                 }
 
 
             }
         }
+
+        // add order button listner
+            this.binding.NewOrderbtn.setOnClickListener {
+                val intent = Intent(applicationContext,OrderActivity::class.java)
+                startActivity(intent)
+            }
+
+
+    }
+
+    override fun onStart() {
+        super.onStart()
+        // here we do code for the
 
 
     }

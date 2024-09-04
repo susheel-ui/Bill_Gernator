@@ -1,4 +1,4 @@
-package com.example.bill_genrating_app
+package com.example.bill_genrating_app.entity
 
 import java.util.Date
 // this class is temporary for design the ui

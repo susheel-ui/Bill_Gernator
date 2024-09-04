@@ -1,10 +1,12 @@
-package com.example.bill_genrating_app
+package com.example.bill_genrating_app.Adapters
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
 import com.example.bill_genrating_app.databinding.OrdersListLayoutBinding
+import com.example.bill_genrating_app.entity.orders_entity
+import com.example.bill_genrating_app.Fragments.invoice_fragment
 
 class MyCostomAdapter(val context: invoice_fragment, val arr:Array<orders_entity>) : BaseAdapter(){
     override fun getCount(): Int {
