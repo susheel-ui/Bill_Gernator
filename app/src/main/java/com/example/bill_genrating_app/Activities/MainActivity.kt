@@ -24,37 +24,26 @@ class MainActivity : AppCompatActivity() {
         change_fragment(invoice_fragment(),"invoices")
         setContentView(binding.root)
 
+
+
         // all listeners is here
-        binding.btmnavbar.setOnItemSelectedListener {item->
-            when(item.itemId){
-                R.id.invoice ->{
-                    change_fragment(invoice_fragment(),"invoices")
-                    true
-                }
-                R.id.Client ->{
-                    change_fragment(clients_fragments(),"Clients")
-                    true
-                }
-                R.id.items ->{
-                    change_fragment(items_fragment(),"items")
-                    true
 
-                }
-                R.id.setting ->{
-                    change_fragment(setting_fragment(),"Setting")
-                    true
-                }
-                else->{
-                    // here code never comes it add because the compiler gives error
-                    true
-                }
-
-
-            }
+            // fragement changing Actions
+        this.binding.bottomNavBarlayout.itemOne.setOnClickListener {
+            change_fragment(invoice_fragment(),"invoices")
         }
+        this.binding.bottomNavBarlayout.itemTwo.setOnClickListener {
+            change_fragment(clients_fragments(),"clients")
+        }
+        this.binding.bottomNavBarlayout.itemthree.setOnClickListener {
+            change_fragment(items_fragment(),"clients")
+        }
+        this.binding.bottomNavBarlayout.itemFour.setOnClickListener {
+            change_fragment(setting_fragment(),"setting")
+        }// Note: here itemOne,itemTwo,itemThree,itemFour is basically menu items because its a custom bottom navbar
 
-        // add order button listner
-            this.binding.NewOrderbtn.setOnClickListener {
+//         add order button listner
+            this.binding.bottomNavBarlayout.NewOrderbtn.setOnClickListener {
                 val intent = Intent(applicationContext,OrderActivity::class.java)
                 startActivity(intent)
             }
@@ -65,13 +54,11 @@ class MainActivity : AppCompatActivity() {
     override fun onStart() {
         super.onStart()
         // here we do code for the
-
-
     }
     private fun change_fragment(Fg:Fragment,pagename:String){
         var manager:FragmentManager = supportFragmentManager
        manager.beginTransaction().replace(R.id.Container_view,Fg).commit()
-        binding.inoviceTextPage.text = pagename.uppercase()
+//        binding.inoviceTextPage.text = pagename.uppercase()
 
     }
 }

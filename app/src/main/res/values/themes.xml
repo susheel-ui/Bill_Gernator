@@ -18,4 +18,18 @@
     <style name="radioBtn">
         <item name="android:layout_marginLeft">10dp</item>
     </style>
+    <style name="circleFAB">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">50%</item>
+        <item name="backgroundColor">@color/primaryColor</item>
+    </style>
+    <style name="parentTop">
+        <item name="layout_constraintStart_toStartOf">
+            parent
+        </item>
+        <item name="layout_constraintEnd_toEndOf">parent</item>
+        <item name="layout_constraintTop_toTopOf">parent</item>
+        <item name="layout_constraintBottom_toBottomOf">parent</item>
+
+    </style>
 </resources>

@@ -5,4 +5,8 @@
     <color name="gray">#EAE9E9</color>
     <color name="green" >#2c9f1c</color>
     <color name="red">#C80101</color>
+
+    <color name="primaryColor">#2c9f1c</color>
+    <color name="secondryColor">#00A8A6A6</color>
+    <color name="textColor">#00000000</color>
 </resources>
