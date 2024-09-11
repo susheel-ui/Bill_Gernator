@@ -45,7 +45,6 @@ class MainActivity : AppCompatActivity() {
                     true
                 }
                 else->{
-                    // here code never comes it add because the compiler gives error
                     true
                 }
 
