@@ -58,7 +58,6 @@ class MainActivity : AppCompatActivity() {
     private fun change_fragment(Fg:Fragment,pagename:String){
         var manager:FragmentManager = supportFragmentManager
        manager.beginTransaction().replace(R.id.Container_view,Fg).commit()
-//        binding.inoviceTextPage.text = pagename.uppercase()
 
     }
 }
