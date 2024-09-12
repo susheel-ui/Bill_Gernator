@@ -6,7 +6,7 @@
     <color name="green" >#2c9f1c</color>
     <color name="red">#C80101</color>
 
-    <color name="primaryColor">#2c9f1c</color>
-    <color name="secondryColor">#00A8A6A6</color>
-    <color name="textColor">#00000000</color>
+    <color name="primaryColor">#5B588F</color>
+    <color name="secondryColor">#8E8D8D</color>
+    <color name="textColor">#000000</color>
 </resources>
