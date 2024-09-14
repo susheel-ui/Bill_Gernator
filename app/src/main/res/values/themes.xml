@@ -3,7 +3,7 @@
     <style name="Base.Theme.Bill_Genrating_App" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
-        <item name="fontFamily">@font/poppins_medium</item>
+        <item name="fontFamily">@font/poppins_extrabold</item>
     </style>
 
     <style name="Theme.Bill_Genrating_App" parent="Base.Theme.Bill_Genrating_App" />
@@ -31,5 +31,12 @@
         <item name="layout_constraintTop_toTopOf">parent</item>
         <item name="layout_constraintBottom_toBottomOf">parent</item>
 
+    </style>
+
+<!--    style for the editText for login, registration and Other where dev want-->
+
+    <style name="loginEdittext">
+        <item name="android:layout_marginLeft">30dp</item>
+        <item name="android:layout_marginRight">30dp</item>
     </style>
 </resources>

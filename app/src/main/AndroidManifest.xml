@@ -20,6 +20,15 @@
         android:theme="@style/Theme.Bill_Genrating_App"
         tools:targetApi="31">
         <activity
+            android:name=".Activities.LoginActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
             android:name=".Activities.OrderActivity"
             android:exported="false" />
         <activity
@@ -31,11 +40,6 @@
         <activity
             android:name=".Activities.MainActivity"
             android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name="com.journeyapps.barcodescanner.CaptureActivity"
