@@ -1,6 +1,7 @@
 package com.example.bill_genrating_app.Activities
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.util.AttributeSet
 import android.view.LayoutInflater
@@ -21,6 +22,10 @@ class LoginActivity : AppCompatActivity() {
     }
 
     override fun onCreateView(name: String, context: Context, attrs: AttributeSet): View? {
+        ActivityBinding?.btnLogin?.setOnClickListener {
+            val intent = Intent(this,MainActivity::class.java)
+            startActivity(intent)
+        }
 
         return super.onCreateView(name, context, attrs)
     }
