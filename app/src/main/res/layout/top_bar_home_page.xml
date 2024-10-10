@@ -12,10 +12,12 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
+        android:backgroundTint="@color/secondryColor"
         >
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+
             >
             <ImageButton
                 android:id="@+id/bellIcon_btn"
@@ -34,16 +36,17 @@
                 android:id="@+id/search_bar"
                 android:layout_width="150dp"
                 android:layout_height="40dp"
-                android:layout_marginLeft="10dp"
+                android:layout_marginStart="10dp"
                 android:layout_marginTop="5dp"
                 android:layout_marginBottom="5dp"
                 app:layout_constraintStart_toEndOf="@id/bellIcon_btn"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:navigationIcon="@drawable/search_icon"
-                app:navigationIconTint="@color/black"
+                app:navigationIconTint="@color/white"
+
                 android:background="@drawable/roundedcornershape"
-                android:backgroundTint="@color/primaryColor"
+                android:backgroundTint="@color/thirdColor"
                 />
 
             <LinearLayout
@@ -64,8 +67,7 @@
                     android:textSize="52px"
                     android:textStyle="bold"
                     android:fontFamily="@font/poppins_extrabold"
-                    android:textColor="@color/black"
-
+                    android:textColor="@color/white"
                     />
                 <TextView
                     android:id="@+id/username"
@@ -75,6 +77,7 @@
                     android:textSize="28px"
                     android:layout_marginTop="-10dp"
                     android:fontFamily="@font/poppins_bold"
+                    android:textColor="@color/white"
                      />
 
             </LinearLayout>

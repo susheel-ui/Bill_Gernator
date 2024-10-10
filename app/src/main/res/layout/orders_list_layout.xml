@@ -20,6 +20,7 @@
              android:layout_width="wrap_content"
              android:layout_height="wrap_content"
              android:text="Oder#:"
+            android:textColor="@color/whiteTextColor"
              android:layout_marginLeft="20dp"
              android:layout_marginTop="10dp"
              android:textSize="20dp"
@@ -33,7 +34,7 @@
              android:layout_marginLeft="5dp"
              android:text="12345678765"
              android:textSize="20dp"
-             android:textColor="@color/green"
+             android:textColor="@color/primaryColor"
              app:layout_constraintStart_toEndOf="@id/orderIDTag"
              app:layout_constraintTop_toTopOf="@id/orderIDTag"
              app:layout_constraintBottom_toBottomOf="@id/orderIDTag"
@@ -47,10 +48,9 @@
              android:textSize="25dp"
              android:layout_marginRight="20dp"
              android:textStyle="bold"
-             android:textColor="@color/black"
+             android:textColor="@color/whiteTextColor"
              app:layout_constraintEnd_toEndOf="parent"
-             app:layout_constraintTop_toTopOf="@id/orderIDTag"
-             app:layout_constraintBottom_toBottomOf="@id/orderIDTag"
+             app:layout_constraintTop_toBottomOf="@id/billStatus"
              />
 
          <TextView
@@ -58,6 +58,7 @@
              android:layout_width="wrap_content"
              android:layout_height="wrap_content"
              android:text="Mon. July 3rd"
+             android:textColor="@color/whiteTextColor"
              app:layout_constraintStart_toStartOf="@id/orderIDTag"
              app:layout_constraintTop_toBottomOf="@id/orderIDTag"
              />
@@ -67,16 +68,14 @@
              android:layout_height="wrap_content"
              android:text="Paid"
              android:textAlignment="center"
-             android:paddingLeft="20dp"
-             android:paddingRight="20dp"
+             android:paddingLeft="5dp"
+             android:paddingRight="5dp"
              android:paddingTop="2dp"
-             android:paddingBottom="2dp"
              android:textColor="@color/green"
              android:background="@drawable/btn_paid_bg"
-             app:layout_constraintTop_toBottomOf="@id/priceTag"
+             app:layout_constraintTop_toTopOf="@id/orderIDTag"
              app:layout_constraintStart_toStartOf="@id/priceTag"
              app:layout_constraintEnd_toEndOf="@id/priceTag"
-             app:layout_constraintBottom_toBottomOf="parent"
 
              />
     </androidx.constraintlayout.widget.ConstraintLayout>
