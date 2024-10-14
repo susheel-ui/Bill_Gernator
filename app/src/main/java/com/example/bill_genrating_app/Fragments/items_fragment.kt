@@ -8,6 +8,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.room.Room
@@ -40,7 +41,7 @@ class items_fragment : Fragment() {
     ): View? {
         thisFagementBinding = FragmentItemsFragmentBinding.inflate(layoutInflater)
 
-//        thisFagementBinding.itemsSearchbar.searchBox.setOnQueryTextListener(object : android.widget.SearchView.OnQueryTextListener{
+//        thisFagementBinding.topBaritemBar.searchBar.setOnQueryTextListener(object : android.widget.SearchView.OnQueryTextListener{
 //            override fun onQueryTextSubmit(str: String?): Boolean {
 //                searchByName(str.toString())
 //                return false
@@ -52,13 +53,14 @@ class items_fragment : Fragment() {
 //            }
 //
 //        })
-        thisFagementBinding.topBaritemBar.searchBar.setOnQueryTextListener(object :android.widget.SearchView.OnQueryTextListener{
-            override fun onQueryTextSubmit(str: String?): Boolean {
-                searchByName(str.toString())
+        thisFagementBinding.topBaritemBar.searchBar.setOnQueryTextListener( object :androidx.appcompat.widget.SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+
+                searchByName(query.toString())
                 return false
             }
 
-            override fun onQueryTextChange(str: String?): Boolean {
+            override fun onQueryTextChange(newText: String?): Boolean {
                 ShowItems(requireContext().applicationContext,fetchItemsRoom())
                 return false
             }
