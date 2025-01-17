@@ -168,7 +168,7 @@
         app:layout_constraintStart_toStartOf="@id/cardPasswordEditText"
         app:layout_constraintEnd_toEndOf="@id/cardPasswordEditText"
         app:layout_constraintTop_toBottomOf="@id/loginbtnCard"
-
+        
         >
 
         <TextView
@@ -177,13 +177,14 @@
             android:layout_height="wrap_content"
             android:text="don`t have an account?"
             android:autoSizeTextType="uniform"
+            android:gravity="end"
             android:autoSizePresetSizes="@array/auto_size_textsizes"
             />
 
         <TextView
             android:id="@+id/createanaccountbtn"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:autoSizePresetSizes="@array/auto_size_textsizes"
             android:autoSizeTextType="uniform"
             android:text="Create an account"
