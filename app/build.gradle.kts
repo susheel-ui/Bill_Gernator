@@ -1,10 +1,11 @@
 import org.jetbrains.kotlin.gradle.model.Kapt
 import org.jetbrains.kotlin.gradle.model.impl.KaptImpl
+import org.jetbrains.kotlin.gradle.utils.loadPropertyFromResources
 
 plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsKotlinAndroid)
-    alias(libs.plugins.android.kapt)
+    alias(libs.plugins.ksp)
 }
 
 android {
@@ -53,7 +54,7 @@ dependencies {
     implementation(libs.journeyDep)
     implementation(libs.zxing)
     implementation(libs.room.runtime)
-    kapt(libs.room.compiler)
+    ksp(libs.room.compiler)
     implementation(libs.room.ktx)
 
 

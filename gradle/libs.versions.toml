@@ -1,6 +1,6 @@
 [versions]
 agp = "8.3.2"
-kotlin = "1.9.0"
+kotlin = "2.1.0"
 coreKtx = "1.13.1"
 junit = "4.13.2"
 junitVersion = "1.1.5"
@@ -12,6 +12,7 @@ constraintlayout = "2.1.4"
 jouneyDep="4.3.0"
 zxing ="3.4.1"
 room = "2.6.1"
+ksp="2.0.21-1.0.27"
 org-jetbrains-kotlin-android = "1.8.0"
 
 
@@ -39,7 +40,8 @@ room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "room" }
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
 jetbrainsKotlinAndroid = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
-android-kapt ={id="org.jetbrains.kotlin.kapt",version.ref ="kotlin"}
+ksp ={id="com.google.devtools.ksp",version.ref="ksp"}
+
 
 
 
