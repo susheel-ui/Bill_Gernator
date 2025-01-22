@@ -10,12 +10,16 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.SearchView
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.room.Room
 import com.example.bill_genrating_app.Activities.AddItem
 import com.example.bill_genrating_app.Adapters.AdapterItems
 import com.example.bill_genrating_app.Roomdb.DBHelper
+import com.example.bill_genrating_app.Roomdb.DB_Repo
 import com.example.bill_genrating_app.Roomdb.entities.items
+import com.example.bill_genrating_app.ViewModels.FagmentsViewModels.Items.Items_ViewModelFactory
+import com.example.bill_genrating_app.ViewModels.FagmentsViewModels.Items.Items_viewModel
 import com.example.bill_genrating_app.databinding.FragmentItemsFragmentBinding
 
 /**
@@ -25,14 +29,12 @@ import com.example.bill_genrating_app.databinding.FragmentItemsFragmentBinding
  */
 class items_fragment : Fragment() {
     lateinit var thisFagementBinding : FragmentItemsFragmentBinding
+    lateinit var Items_viewModel :Items_viewModel
     // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
-        }
+
     }
 
     override fun onCreateView(
@@ -40,7 +42,8 @@ class items_fragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         thisFagementBinding = FragmentItemsFragmentBinding.inflate(layoutInflater)
-
+        val DB = DB_Repo(DBHelper.getInstance(requireContext().applicationContext))
+        Items_viewModel = ViewModelProvider(this,Items_ViewModelFactory(DB)).get(Items_viewModel::class.java)
 //        thisFagementBinding.topBaritemBar.searchBar.setOnQueryTextListener(object : android.widget.SearchView.OnQueryTextListener{
 //            override fun onQueryTextSubmit(str: String?): Boolean {
 //                searchByName(str.toString())

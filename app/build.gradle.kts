@@ -53,9 +53,10 @@ dependencies {
     androidTestImplementation(libs.androidx.espresso.core)
     implementation(libs.journeyDep)
     implementation(libs.zxing)
+    //room dependacies
     implementation(libs.room.runtime)
     ksp(libs.room.compiler)
     implementation(libs.room.ktx)
-
+    implementation(libs.androidx.lifecycle.viewmodel.ktx)
 
 }

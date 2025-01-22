@@ -12,33 +12,38 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import androidx.room.Room
+import androidx.lifecycle.ViewModelProvider
 import com.example.bill_genrating_app.R
 import com.example.bill_genrating_app.Roomdb.DBHelper
+import com.example.bill_genrating_app.Roomdb.DB_Repo
 import com.example.bill_genrating_app.Roomdb.entities.items
+import com.example.bill_genrating_app.ViewModels.AddItem.AddItemViewModel
+import com.example.bill_genrating_app.ViewModels.AddItem.AddItemViewModelFactory
 import com.example.bill_genrating_app.databinding.ActivityAddItemBinding
 import com.journeyapps.barcodescanner.ScanContract
 import com.journeyapps.barcodescanner.ScanIntentResult
 import com.journeyapps.barcodescanner.ScanOptions
 
 class AddItem : AppCompatActivity() {
-    lateinit var thisActivityBinding:ActivityAddItemBinding
+    lateinit var thisActivityBinding: ActivityAddItemBinding
 
 
-    private val requestPermissionLauncher = registerForActivityResult(ActivityResultContracts.RequestPermission()){
-            isGranted :Boolean->
-        if(isGranted){
-            Toast.makeText(this, "Permission Accepted", Toast.LENGTH_SHORT).show()
-        }else{
-            //explain why you need permission
-            Toast.makeText(this, "you need to give permission to access Camera", Toast.LENGTH_SHORT).show()
+    private val requestPermissionLauncher =
+        registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted: Boolean ->
+            if (isGranted) {
+                Toast.makeText(this, "Permission Accepted", Toast.LENGTH_SHORT).show()
+            } else {
+                //explain why you need permission
+                Toast.makeText(
+                    this,
+                    "you need to give permission to access Camera",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
         }
-    }
 
 
-
-    val barcodeLauncher = registerForActivityResult(ScanContract()){
-        result:ScanIntentResult ->
+    val barcodeLauncher = registerForActivityResult(ScanContract()) { result: ScanIntentResult ->
         run {
             if (result.contents == null) {
                 Toast.makeText(this, "cancelled", Toast.LENGTH_SHORT).show()
@@ -47,10 +52,12 @@ class AddItem : AppCompatActivity() {
             }
         }
     }
-    fun  setResult(str:String){
+
+    fun setResult(str: String) {
         Toast.makeText(this, "--> $str", Toast.LENGTH_SHORT).show()
         thisActivityBinding.barcodeFieldtext.setText(str)
     }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         thisActivityBinding = ActivityAddItemBinding.inflate(layoutInflater)
@@ -64,22 +71,19 @@ class AddItem : AppCompatActivity() {
         thisActivityBinding.btnClear.setOnClickListener {
             clearFields()
         }
-        thisActivityBinding.BarcodeNo.setEndIconOnClickListener{
+        thisActivityBinding.BarcodeNo.setEndIconOnClickListener {
             Toast.makeText(this, "working", Toast.LENGTH_SHORT).show()
             launchScanner()
         }
 
         //on click of save button data will save
-            thisActivityBinding.btnSave.setOnClickListener {
+        thisActivityBinding.btnSave.setOnClickListener {
 
-                //TODO:: next day work will start from here
-
-                onbtnSaveClick()
-            }
+            onbtnSaveClick()
+        }
 
         // listener for get Quantity type
-        thisActivityBinding.QuantityType.setOnCheckedChangeListener(RadioGroup.OnCheckedChangeListener{
-                group,checkedId ->
+        thisActivityBinding.QuantityType.setOnCheckedChangeListener(RadioGroup.OnCheckedChangeListener { group, checkedId ->
             run {
                 val radio: RadioButton = findViewById(checkedId)
                 Toast.makeText(this, "${radio.text}", Toast.LENGTH_SHORT).show()
@@ -87,9 +91,9 @@ class AddItem : AppCompatActivity() {
         })
 
 
-
     }
-    private fun launchScanner(){
+
+    private fun launchScanner() {
         val scanoption = ScanOptions()
         scanoption.setDesiredBarcodeFormats(ScanOptions.ALL_CODE_TYPES)
         scanoption.setPrompt("Scan the barcode")
@@ -100,22 +104,26 @@ class AddItem : AppCompatActivity() {
         barcodeLauncher.launch(scanoption)
     }
 
-    private fun onbtnSaveClick(){
-        try{
+    private fun onbtnSaveClick() {
+        try {
 
-            val db = Room.databaseBuilder(
-                applicationContext,
-                DBHelper::class.java,"DatabaseBillGenerator"
-            ).fallbackToDestructiveMigration().allowMainThreadQueries().build()
-            val itemDao = db.itemDao()
+//            val db = Room.databaseBuilder(
+//                applicationContext,
+//                DBHelper::class.java,"DatabaseBillGenerator"
+//            ).fallbackToDestructiveMigration().allowMainThreadQueries().build()
+            val repo = DB_Repo(DBHelper.getInstance(this))
+            val thisPageViewModel = ViewModelProvider(this, AddItemViewModelFactory(repo)).get(
+                AddItemViewModel::class.java
+            )
+
 //                    itemDao.SaveNewItem(items(876543234567,"shampoo","250","Ml","Hair",150.00))
-            if(thisActivityBinding.barcodeFieldtext.text.toString().isNotEmpty() &&
+            if (thisActivityBinding.barcodeFieldtext.text.toString().isNotEmpty() &&
                 thisActivityBinding.itmeName.text.isNotEmpty() &&
                 thisActivityBinding.itemMRP.text.isNotEmpty() &&
                 thisActivityBinding.itemweight.text.isNotEmpty() &&
                 thisActivityBinding.stockQuantity.text.isNotEmpty() &&
                 thisActivityBinding.discountRate.text.isNotEmpty()
-            ){
+            ) {
                 val barCode = thisActivityBinding.barcodeFieldtext.text.toString().toLong()
                 val name = thisActivityBinding.itmeName.text.toString()
                 val MRP = thisActivityBinding.itemMRP.text.toString().toDouble()
@@ -126,66 +134,80 @@ class AddItem : AppCompatActivity() {
                 val discountRate = thisActivityBinding.discountRate.text.toString().toDouble()
 
 
-
-
 //                Log.d(TAG, "onCreate: bar code :- $barCode  Name :- $name MRP :- $MRP quantity :- $quantity qunatitytype :$quantityType  type = $type")
 
 //
-                if(type != "Select"){
-                    itemDao.SaveNewItem(items(barCode,name,quantity,quantityType,type,MRP,stock,discountRate))
+                if (type != "Select") {
+//                    itemDao.SaveNewItem(items(barCode,name,quantity,quantityType,type,MRP,stock,discountRate))
+                    thisPageViewModel.saveItem(
+                        items(
+                            barCode,
+                            name,
+                            quantity,
+                            quantityType,
+                            type,
+                            MRP,
+                            stock,
+                            discountRate
+                        )
+                    )
                     Toast.makeText(this, "Saved", Toast.LENGTH_SHORT).show()
                     clearFields()
                     finish()
-                }
-                else{
+                } else {
                     Toast.makeText(this, "pls select type", Toast.LENGTH_SHORT).show()
                 }
 
 
-            }else{
+            } else {
                 Toast.makeText(this, "pls enter the fields properly", Toast.LENGTH_LONG).show()
             }
             //at this commit the db is working properly
 
-        }catch(Exception:Exception){
+        } catch (Exception: Exception) {
             Log.d(TAG, "onCreate Error: ${Exception.message}")
             Toast.makeText(this, "product is already exist", Toast.LENGTH_SHORT).show()
         }
 
     }
-    private fun clearFields(){
+
+    private fun clearFields() {
         thisActivityBinding.barcodeFieldtext.setText("")
         thisActivityBinding.itemMRP.setText("")
         thisActivityBinding.itemweight.setText("")
         thisActivityBinding.itmeName.setText("")
     }
-    private fun checkPermissionCamera(context: Context){
-                if(ContextCompat.checkSelfPermission(context,android.Manifest.permission.CAMERA)== PackageManager.PERMISSION_GRANTED){
 
-                }
-        else if(shouldShowRequestPermissionRationale(android.Manifest.permission.CAMERA)){
-                    Toast.makeText(this, "camera permission requered", Toast.LENGTH_SHORT).show()
-                }
-        else{
+    private fun checkPermissionCamera(context: Context) {
+        if (ContextCompat.checkSelfPermission(
+                context,
+                android.Manifest.permission.CAMERA
+            ) == PackageManager.PERMISSION_GRANTED
+        ) {
+
+        } else if (shouldShowRequestPermissionRationale(android.Manifest.permission.CAMERA)) {
+            Toast.makeText(this, "camera permission requered", Toast.LENGTH_SHORT).show()
+        } else {
             requestPermissionLauncher.launch(android.Manifest.permission.CAMERA)
-                }
+        }
     }
 
-    private fun getQuantityType():String{
+    private fun getQuantityType(): String {
         val selector = thisActivityBinding.QuantityType.checkedRadioButtonId;
         val radioSelected = findViewById<RadioButton>(selector)
-        return  radioSelected.text.toString()
+        return radioSelected.text.toString()
     }
 
 
-    private fun setCategory(){
+    private fun setCategory() {
         val listCatagory = resources.getStringArray(R.array.Catogory)
-        val adpter = ArrayAdapter(this, androidx.appcompat.R.layout.support_simple_spinner_dropdown_item,listCatagory)
+        val adpter = ArrayAdapter(
+            this,
+            androidx.appcompat.R.layout.support_simple_spinner_dropdown_item,
+            listCatagory
+        )
         thisActivityBinding.categoryField.setAdapter(adpter)
     }
-
-
-
 
 
 }

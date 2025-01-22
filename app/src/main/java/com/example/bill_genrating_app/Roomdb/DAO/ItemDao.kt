@@ -15,15 +15,15 @@ interface itemDao {
         fun getByid(barcodeId:Long):List<items>
 
         @Insert
-        fun SaveNewItem(vararg items: items)
+        suspend fun SaveNewItem(vararg items: items)
 
         @Delete
-        fun DeleteItem(items: items)
+        suspend fun DeleteItem(items: items)
 
         @Query("SELECT * FROM ITEMS WHERE Name Like '%'||:str||'%'" )
-         fun getByname(str:String):List<items>
+        fun getByname(str:String):List<items>
 
          //Update the item by id
          @Query("UPDATE ITEMS SET stockQuantity = :stockQuantity where BarcodeId=(:barcodeId);")
-         fun updateItemsQuantity(stockQuantity:Long,barcodeId: Long)
+         suspend fun updateItemsQuantity(stockQuantity:Long,barcodeId: Long)
 }
