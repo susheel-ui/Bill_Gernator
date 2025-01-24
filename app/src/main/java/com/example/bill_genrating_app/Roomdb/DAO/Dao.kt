@@ -6,6 +6,7 @@ import androidx.room.Insert
 import androidx.room.Query
 import com.example.bill_genrating_app.Roomdb.entities.items
 
+// Dao for items
 @Dao
 interface itemDao {
         @Query("Select * from items")
@@ -26,4 +27,10 @@ interface itemDao {
          //Update the item by id
          @Query("UPDATE ITEMS SET stockQuantity = :stockQuantity where BarcodeId=(:barcodeId);")
          suspend fun updateItemsQuantity(stockQuantity:Long,barcodeId: Long)
+}
+
+//  Doo for User
+@Dao
+interface UserDao{
+
 }

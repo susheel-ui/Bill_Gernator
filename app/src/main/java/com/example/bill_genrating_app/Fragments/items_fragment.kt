@@ -34,7 +34,8 @@ class items_fragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        val DB = DB_Repo(DBHelper.getInstance(requireContext().applicationContext))
+        Items_viewModel = ViewModelProvider(this,Items_ViewModelFactory(DB)).get(Items_viewModel::class.java)
     }
 
     override fun onCreateView(
@@ -42,20 +43,9 @@ class items_fragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         thisFagementBinding = FragmentItemsFragmentBinding.inflate(layoutInflater)
-        val DB = DB_Repo(DBHelper.getInstance(requireContext().applicationContext))
-        Items_viewModel = ViewModelProvider(this,Items_ViewModelFactory(DB)).get(Items_viewModel::class.java)
-//        thisFagementBinding.topBaritemBar.searchBar.setOnQueryTextListener(object : android.widget.SearchView.OnQueryTextListener{
-//            override fun onQueryTextSubmit(str: String?): Boolean {
-//                searchByName(str.toString())
-//                return false
-//            }
-//
-//            override fun onQueryTextChange(p0: String?): Boolean {
-//                ShowItems(requireContext().applicationContext,fetchItemsRoom())
-//                return false
-//            }
-//
-//        })
+
+
+
         thisFagementBinding.topBaritemBar.searchBar.setOnQueryTextListener( object :androidx.appcompat.widget.SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
 
@@ -115,28 +105,13 @@ class items_fragment : Fragment() {
     }
 
     fun fetchItemsRoom():List<items>?{
-        val db = context?.let {
-            Room.databaseBuilder(
-                it.applicationContext,
-                DBHelper::class.java, "DatabaseBillGenerator"
-            ).fallbackToDestructiveMigration().allowMainThreadQueries().build()
-        }
-        val itemDao = db?.itemDao()
-        val list = itemDao?.getall()
-        return list
-    }
-    fun fetchDb(): DBHelper?{
-         return context?.let {
-            Room.databaseBuilder(
-                it.applicationContext,
-                DBHelper::class.java, "DatabaseBillGenerator"
-            ).fallbackToDestructiveMigration().allowMainThreadQueries().build();
-        }
+        return Items_viewModel.getItemList()
     }
 
+
     fun searchByName(str:String){
-        val db = fetchDb();
-        val result = db?.itemDao()?.getByname(str);
+
+        val result = Items_viewModel.getItemByName(str);
         Log.d(ContentValues.TAG, "searchByName: $result")
         try {
                 ShowItems(requireContext().applicationContext, result)
