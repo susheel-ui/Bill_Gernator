@@ -3,33 +3,36 @@ package com.example.bill_genrating_app.Activities
 import android.content.ContentValues.TAG
 import android.os.Bundle
 import android.util.Log
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.ViewModelProvider
-import androidx.room.Room
-import com.example.bill_genrating_app.R
 import com.example.bill_genrating_app.Roomdb.DBHelper
-import com.example.bill_genrating_app.Roomdb.DB_Repo
+import com.example.bill_genrating_app.Roomdb.Repo.item_Repo
 import com.example.bill_genrating_app.Roomdb.entities.items
 import com.example.bill_genrating_app.ViewModels.ViewItem.ViewItemViewModel
 import com.example.bill_genrating_app.ViewModels.ViewItem.ViewItemViewModelFactory
 import com.example.bill_genrating_app.databinding.ActivityViewItemBinding
 
 class ViewItemActivity : AppCompatActivity() {
-    lateinit var thisPageBinding:ActivityViewItemBinding;
+    lateinit var thisPageBinding: ActivityViewItemBinding;
     lateinit var viewItemViewModel: ViewItemViewModel
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         thisPageBinding = ActivityViewItemBinding.inflate(layoutInflater)
         setContentView(thisPageBinding.root)
-        viewItemViewModel = getViewModel()
+        viewItemViewModel = ViewModelProvider(
+            this,
+            ViewItemViewModelFactory(item_Repo(DBHelper.getInstance(this)))
+        )
+            .get(ViewItemViewModel::class.java)
 
     }
-    fun getViewModel():ViewItemViewModel{
-        val db_repo = DB_Repo( DBHelper.getInstance(this))
-        return ViewModelProvider(this,ViewItemViewModelFactory(db_repo)).get(ViewItemViewModel::class.java)
+
+    fun getViewModel(): ViewItemViewModel {
+        val item_repo = item_Repo(DBHelper.getInstance(this))
+        return ViewModelProvider(
+            this,
+            ViewItemViewModelFactory(item_repo)
+        ).get(ViewItemViewModel::class.java)
     }
 
     override fun onStart() {
@@ -37,8 +40,8 @@ class ViewItemActivity : AppCompatActivity() {
         val barcodeid = intent.getStringExtra("itemId")
         //this is for only test purpose
 
-         try {
-             val item = barcodeid?.let { fetchData(it.toLong()) }
+        try {
+            val item = barcodeid?.let { fetchData(it.toLong()) }
             thisPageBinding.itemName.text = item?.Name.toString()
             thisPageBinding.itemMRP.text = item?.MRP.toString().plus(" Rs.")
 //        thisPageBinding?.text = item?.weight.toString().plus(item?.weightType.toString())
@@ -48,7 +51,6 @@ class ViewItemActivity : AppCompatActivity() {
         } catch (e: Exception) {
             Log.d(TAG, "onStart: ${e.message} ")
         }
-
 
 
 //        //add ten to the item
@@ -92,26 +94,26 @@ class ViewItemActivity : AppCompatActivity() {
 //
 //        }
 
-            // back btn press
-            thisPageBinding.backBtn.setOnClickListener {
-                finish()
-            }
-
+        // back btn press
+        thisPageBinding.backBtn.setOnClickListener {
+            finish()
         }
 
+    }
+
     // update the item quntity
-        fun updateitemQunatity(id: Long, quntity: Long) {
+    fun updateitemQunatity(id: Long, quntity: Long) {
 //            val db = fetchDb()
 //            db.itemDao().updateItemsQuantity(quntity, id)
 //            db.close()
-            viewItemViewModel.updateItemsQuantity(quntity,id)
-        }
- 
+        viewItemViewModel.updateItemsQuantity(quntity, id)
+    }
+
     // fetch the data from database using barcode_id
     private fun fetchData(barcode: Long): items {
         //            val item = db.itemDao().getByid(barcode)
         val item = viewItemViewModel.getItemBYId(barcode)
-            return item.get(0);
-        }
+        return item.get(0);
+    }
 
 }

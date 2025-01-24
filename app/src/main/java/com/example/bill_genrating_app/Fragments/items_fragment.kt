@@ -8,15 +8,15 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.SearchView
+import androidx.activity.viewModels
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.room.Room
 import com.example.bill_genrating_app.Activities.AddItem
 import com.example.bill_genrating_app.Adapters.AdapterItems
 import com.example.bill_genrating_app.Roomdb.DBHelper
-import com.example.bill_genrating_app.Roomdb.DB_Repo
+import com.example.bill_genrating_app.Roomdb.Repo.item_Repo
 import com.example.bill_genrating_app.Roomdb.entities.items
 import com.example.bill_genrating_app.ViewModels.FagmentsViewModels.Items.Items_ViewModelFactory
 import com.example.bill_genrating_app.ViewModels.FagmentsViewModels.Items.Items_viewModel
@@ -29,20 +29,23 @@ import com.example.bill_genrating_app.databinding.FragmentItemsFragmentBinding
  */
 class items_fragment : Fragment() {
     lateinit var thisFagementBinding : FragmentItemsFragmentBinding
-    lateinit var Items_viewModel :Items_viewModel
-    // TODO: Rename and change types of parameters
+    lateinit var items_viewModel :Items_viewModel
+//    private val viewModel: Items_viewModel by viewModels()
+//    // TODO: Rename and change types of parameters
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val DB = DB_Repo(DBHelper.getInstance(requireContext().applicationContext))
-        Items_viewModel = ViewModelProvider(this,Items_ViewModelFactory(DB)).get(Items_viewModel::class.java)
-    }
+
+          }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         thisFagementBinding = FragmentItemsFragmentBinding.inflate(layoutInflater)
+        val DB = item_Repo(DBHelper.getInstance(requireContext()))
+
+//        items_viewModel = ViewModelProvider(this).get(items_viewModel::class.java)
 
 
 
@@ -105,13 +108,13 @@ class items_fragment : Fragment() {
     }
 
     fun fetchItemsRoom():List<items>?{
-        return Items_viewModel.getItemList()
+        return items_viewModel.getItemList()
     }
 
 
     fun searchByName(str:String){
 
-        val result = Items_viewModel.getItemByName(str);
+        val result = items_viewModel.getItemByName(str);
         Log.d(ContentValues.TAG, "searchByName: $result")
         try {
                 ShowItems(requireContext().applicationContext, result)

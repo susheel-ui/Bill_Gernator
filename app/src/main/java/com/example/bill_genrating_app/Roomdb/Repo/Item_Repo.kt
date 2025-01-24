@@ -1,8 +1,9 @@
-package com.example.bill_genrating_app.Roomdb
+package com.example.bill_genrating_app.Roomdb.Repo
 
+import com.example.bill_genrating_app.Roomdb.DBHelper
 import com.example.bill_genrating_app.Roomdb.entities.items
 
-class DB_Repo(private val db:DBHelper) {
+class item_Repo(db: DBHelper) {
         private val itemDao = db.itemDao()
     fun getItems():List<items>{
         return itemDao.getall()
@@ -23,5 +24,8 @@ class DB_Repo(private val db:DBHelper) {
     suspend fun updateItemsQuantity(stockQuantity:Long,barcodeId:Long){
         itemDao.updateItemsQuantity(stockQuantity,barcodeId)
     }
+
+
+
 
 }

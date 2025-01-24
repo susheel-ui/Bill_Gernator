@@ -30,3 +30,12 @@ data class Orders(
     val OrderId:Long =10000,
 
 )
+
+// User Entity
+@Entity(tableName = "Users")
+data class User(
+    @PrimaryKey
+    val UserId: String,
+    @ColumnInfo(name = "Password")
+    val Password: String
+)

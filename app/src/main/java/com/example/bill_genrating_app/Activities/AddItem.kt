@@ -15,7 +15,7 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import com.example.bill_genrating_app.R
 import com.example.bill_genrating_app.Roomdb.DBHelper
-import com.example.bill_genrating_app.Roomdb.DB_Repo
+import com.example.bill_genrating_app.Roomdb.Repo.item_Repo
 import com.example.bill_genrating_app.Roomdb.entities.items
 import com.example.bill_genrating_app.ViewModels.AddItem.AddItemViewModel
 import com.example.bill_genrating_app.ViewModels.AddItem.AddItemViewModelFactory
@@ -111,7 +111,7 @@ class AddItem : AppCompatActivity() {
 //                applicationContext,
 //                DBHelper::class.java,"DatabaseBillGenerator"
 //            ).fallbackToDestructiveMigration().allowMainThreadQueries().build()
-            val repo = DB_Repo(DBHelper.getInstance(this))
+            val repo = item_Repo(DBHelper.getInstance(this))
             val thisPageViewModel = ViewModelProvider(this, AddItemViewModelFactory(repo)).get(
                 AddItemViewModel::class.java
             )
