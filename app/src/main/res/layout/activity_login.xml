@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Activities.LoginActivity"
-    android:backgroundTint="@color/white"
+    android:background="@color/colorBackground"
     >
     
     <TextView
@@ -16,7 +16,7 @@
         android:textSize="30dp"
         android:fontFamily="@font/poppins_extrabold"
         android:textStyle="bold"
-        android:textColor="@color/black"
+        android:textColor="@color/textPrimary"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -37,17 +37,20 @@
         app:layout_constraintBottom_toBottomOf="parent"
         />
 
+    <!--card for edit text email-->
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/forgroundImageTwo"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:src="@drawable/loginforground"
         android:layout_marginTop="290dp"
+        android:src="@drawable/loginforground"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/backgrountImageOne" />
-<!--card for edit text email-->
+        app:layout_constraintTop_toTopOf="@id/backgrountImageOne"
+        app:layout_constraintVertical_bias="1.0" />
+
     <androidx.cardview.widget.CardView
         android:id="@+id/cardEmailEditText"
         android:layout_width="match_parent"
@@ -67,14 +70,15 @@
         android:layout_height="wrap_content"
         android:hint="email"
         android:padding="5dp"
-        android:textColorHint="@color/hintTextColor"
+        android:textColorHint="@color/textDisabled"
+        android:background="@color/colorOnBackground"
+
         >
 
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/white"
-                android:inputType="textEmailAddress"
+                 android:inputType="textEmailAddress"
                 android:drawableLeft="@drawable/email_vector"
                 android:drawablePadding="10dp"
                />
@@ -97,12 +101,13 @@
         android:layout_height="wrap_content"
         android:hint="Password"
         android:padding="5dp"
-        android:textColorHint="@color/hintTextColor"
+        android:textColorHint="@color/colorDisabled"
+        android:background="@color/colorOnBackground"
+
         >
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/white"
                 android:drawablePadding="10dp"
                 android:inputType="textPassword"
 
@@ -133,7 +138,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Forgot Password?"
-        android:textColor="@color/colorBlue"
+        android:textColor="@color/colorError"
         app:layout_constraintEnd_toEndOf="@id/cardPasswordEditText"
         app:layout_constraintTop_toTopOf="@id/RememberMebtn"
         app:layout_constraintBottom_toBottomOf="@id/RememberMebtn"
@@ -153,9 +158,9 @@
             android:id="@+id/btnLogin"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:backgroundTint="@color/white"
+            android:backgroundTint="@color/colorPrimary"
             android:text="Login"
-            android:textColor="@color/black"
+            android:textColor="@color/textPrimary"
             />
     </androidx.cardview.widget.CardView>
     
@@ -187,7 +192,7 @@
             android:autoSizePresetSizes="@array/auto_size_textsizes"
             android:autoSizeTextType="uniform"
             android:text="Create an account"
-            android:textColor="@color/colorBlue" />
+            android:textColor="@color/colorSurface" />
 
     </LinearLayout>
     <androidx.cardview.widget.CardView

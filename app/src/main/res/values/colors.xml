@@ -7,23 +7,108 @@
     <color name="red">#C80101</color>
 
 <!--    <color name="primaryColor">#5B588F</color>-->
-    <color name="primaryColor">#8AC186</color>
+<!--    <color name="primaryColor">#8AC186</color>-->
 <!--    <color name="secondryColor">#C0BDEA</color>-->
-    <color name="secondryColor">#17181C</color>
+<!--    <color name="secondryColor">#17181C</color>-->
 <!--    <color name="bottomNavBarColor">#D017181C</color>-->
-    <color name="bottomNavBarColor">#8AC186</color>
+<!--    <color name="bottomNavBarColor">#8AC186</color>-->
 
 <!--    <color name="secondryColor">#B517181C</color>-->
 <!--    <color name="thirdColor">#23232C</color>-->
-    <color name="thirdColor">#575763</color>
+<!--    <color name="thirdColor">#575763</color>-->
+<!--    <color name="thirdColor">#FFFFFF</color>-->
+<!--    <color name="thirdColor">#0F2C2C</color>-->
 
-    <color name="fourth">#1A1C22</color>
+<!--&lt;!&ndash;    <color name="fourth">#282A33</color>&ndash;&gt;-->
+<!--    <color name="fourth">#3D6F6F</color>-->
 
 <!--    <color name="secondryColor">#A06DC5</color>-->
     <color name="whiteTextColor">#ffff</color>
     <color name="BlackTextColor">#FF000000</color>
     <color name="hintTextColor">#808080</color>
     <color name="colorBlue">#180AB2</color>
+    <color name="TextColor">#F1F8F6</color>
+
+
+    <!-- Primary Colors -->
+<!--    <color name="colorPrimary">#6FC2B0</color>-->
+<!--    <color name="colorPrimary">#9FA6B2</color>-->
+<!--  <color name="colorPrimaryVariant">#A2D6A6</color>-->
+<!--    <color name="colorOnPrimary">#000000</color>-->
+
+<!--    &lt;!&ndash; Background & Surface &ndash;&gt;-->
+<!--    <color name="colorBackground">#0F2C2C</color>-->
+<!--    <color name="colorSurface">#1A3A3A</color>-->
+<!--    <color name="colorOnBackground">#E8F6F4</color>-->
+<!--    <color name="colorOnSurface">#E8F6F4</color>-->
+
+<!--    &lt;!&ndash; Text Colors &ndash;&gt;-->
+<!--    <color name="textPrimary">#E8F6F4</color>-->
+<!--    <color name="textSecondary">#B3CCC9</color>-->
+<!--    <color name="textDisabled">#4A5E5E</color>-->
+
+<!--    &lt;!&ndash; Borders / Dividers &ndash;&gt;-->
+<!--    <color name="colorDivider">#2E4D4D</color>-->
+
+<!--    &lt;!&ndash; Error & Success &ndash;&gt;-->
+<!--    <color name="colorError">#FF6E6E</color>-->
+<!--    <color name="colorSuccess">#A8DABD</color>-->
+
+<!--    &lt;!&ndash; Optional - Disabled / Muted elements &ndash;&gt;-->
+<!--    <color name="colorDisabled">#4A5E5E</color>-->
+<!--    -->
+
+<!--    &lt;!&ndash; Primary Colors &ndash;&gt;-->
+<!--    <color name="colorPrimary">#9FA6B2</color>-->
+<!--    <color name="colorPrimaryVariant">#B0B5C0</color>-->
+<!--    <color name="colorOnPrimary">#FFFFFF</color>-->
+
+<!--    &lt;!&ndash; Background & Surface &ndash;&gt;-->
+<!--    <color name="colorBackground">#F5F7FA</color>-->
+<!--    <color name="colorSurface">#FFFFFF</color>-->
+<!--    <color name="colorOnBackground">#1E1E1E</color>-->
+<!--    <color name="colorOnSurface">#1E1E1E</color>-->
+
+<!--    &lt;!&ndash; Text Colors &ndash;&gt;-->
+<!--    <color name="textPrimary">#1E1E1E</color>-->
+<!--    <color name="textSecondary">#5A5F68</color>-->
+<!--    <color name="textDisabled">#C2C6CC</color>-->
+
+<!--    &lt;!&ndash; Dividers / Borders &ndash;&gt;-->
+<!--    <color name="colorDivider">#DADFE4</color>-->
+
+<!--    &lt;!&ndash; Error & Success &ndash;&gt;-->
+<!--    <color name="colorError">#D9534F</color>-->
+<!--    <color name="colorSuccess">#6CC29A</color>-->
+
+<!--    &lt;!&ndash; Optional &ndash;&gt;-->
+<!--    <color name="colorDisabled">#C2C6CC</color>-->
+    <!-- Primary Colors -->
+    <color name="colorPrimary">#A5D8FF</color>
+    <color name="colorPrimaryVariant">#C7E9FF</color>
+    <color name="colorOnPrimary">#083B53</color>
+
+    <!-- Secondary / Accent -->
+    <color name="colorSecondary">#E1F5FE</color>
+
+    <!-- Background & Surface -->
+    <color name="colorBackground">#F7FBFD</color>
+    <color name="colorSurface">#FFFFFF</color>
+    <color name="colorOnBackground">#1E2F38</color>
+    <color name="colorOnSurface">#2E3D44</color>
+
+    <!-- Text -->
+    <color name="textPrimary">#1E2F38</color>
+    <color name="textSecondary">#5C6E76</color>
+    <color name="textDisabled">#BDD9E6</color>
+    <color name="colorDisabled">#501402</color>
+
+    <!-- Divider -->
+    <color name="colorDivider">#D6ECF7</color>
+
+    <!-- Feedback -->
+    <color name="colorError">#E57373</color>
+    <color name="colorSuccess">#A8E6CF</color>
 </resources>
 
 <!--

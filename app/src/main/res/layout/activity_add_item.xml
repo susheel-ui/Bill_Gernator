@@ -5,7 +5,9 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Activities.AddItem">
+    tools:context=".Activities.AddItem"
+    android:background="@color/colorBackground"
+    >
 
     <ImageButton
         android:id="@+id/btnback"
@@ -23,7 +25,7 @@
         android:layout_marginTop="20dp"
         android:text="Add Item"
         android:textSize="40dp"
-        android:textColor="@color/green"
+        android:textColor="@color/textPrimary"
         android:textStyle="bold"
         android:autoSizeTextType="uniform"
         android:autoSizePresetSizes="@array/auto_size_textsizes"
@@ -68,6 +70,7 @@
                 android:text="Enter barCode No"
                 android:textSize="20dp"
                 android:layout_marginLeft="10dp"
+                android:textColor="@color/textSecondary"
                 />
 
             <com.google.android.material.textfield.TextInputLayout
@@ -83,7 +86,7 @@
                     android:id="@+id/barcodeFieldtext"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:textColor="@color/white"
+                    android:textColor="@color/textSecondary"
                     android:background="@android:color/transparent"
                     />
             </com.google.android.material.textfield.TextInputLayout>
@@ -109,7 +112,7 @@
                 android:layout_height="wrap_content"
                 android:textSize="20dp"
                 android:text=""
-                android:textColor="@color/white"
+                android:textColor="@color/textPrimary"
                 android:background="@drawable/bg_for_input_fields"
                 android:padding="10dp"
                 />
@@ -133,7 +136,7 @@
                 android:layout_height="wrap_content"
                 android:textSize="20dp"
                 android:text=""
-                android:textColor="@color/white"
+                android:textColor="@color/textPrimary"
                 android:inputType="numberDecimal"
                 android:padding="10dp"
                 android:background="@drawable/bg_for_input_fields"
@@ -166,7 +169,7 @@
                     android:padding="10dp"
                     android:layout_weight="1"
                     android:inputType="none"
-                    android:textColor="@color/white"
+                    android:textColor="@color/textPrimary"
                     android:text="Select Catagory"
                     >
 
@@ -194,7 +197,7 @@
                 android:layout_height="wrap_content"
                 android:textSize="20dp"
                 android:text=""
-                android:textColor="@color/white"
+                android:textColor="@color/textPrimary"
                 android:inputType="number"
                 android:background="@drawable/bg_for_input_fields"
                 android:padding="10dp"
@@ -280,7 +283,7 @@
                 android:layout_height="wrap_content"
                 android:textSize="20dp"
                 android:text=""
-                android:textColor="@color/white"
+                android:textColor="@color/textPrimary"
                 android:inputType="number"
                 android:background="@drawable/bg_for_input_fields"
                 android:padding="10dp"
@@ -306,7 +309,7 @@
                 android:layout_height="wrap_content"
                 android:textSize="20dp"
                 android:text=""
-                android:textColor="@color/white"
+                android:textColor="@color/textPrimary"
                 android:inputType="numberDecimal"
                 android:background="@drawable/bg_for_input_fields"
                 android:padding="10dp"
@@ -323,7 +326,7 @@
         android:id="@+id/btnClear"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:backgroundTint="@color/red"
+        android:backgroundTint="@color/colorError"
         android:text="Clear"
         android:textSize="20dp"
         android:layout_marginRight="20dp"
@@ -335,7 +338,7 @@
         android:id="@+id/btnSave"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:backgroundTint="@color/green"
+        android:backgroundTint="@color/colorSuccess"
         android:textSize="20dp"
         android:text="Save"
         android:layout_marginRight="20dp"

@@ -12,7 +12,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/thirdColor"
+        android:background="@color/colorBackground"
         >
 
         <LinearLayout
@@ -38,7 +38,7 @@
             android:layout_width="match_parent"
             android:layout_height="200dp"
             android:layout_margin="20dp"
-            android:backgroundTint="@color/primaryColor"
+            android:backgroundTint="@color/colorPrimary"
             app:cardCornerRadius="30dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -59,7 +59,7 @@
                     android:layout_marginTop="40dp"
                     android:fontFamily="@font/poppins_extrabold"
                     android:text="Today's Income"
-                    android:textColor="@color/black"
+                    android:textColor="@color/textPrimary"
                     android:textSize="35dp"
                     android:textStyle="bold"
                     app:layout_constraintStart_toStartOf="parent"
@@ -74,7 +74,7 @@
                     android:layout_marginTop="-10dp"
                     android:fontFamily="@font/poppins_extrabold"
                     android:text="600000$"
-                    android:textColor="@color/white"
+                    android:textColor="@color/textSecondary"
                     android:textSize="30dp"
                     app:layout_constraintStart_toStartOf="@id/incomeTitle"
                     app:layout_constraintTop_toBottomOf="@id/incomeTitle" />
@@ -85,7 +85,7 @@
                     android:layout_marginTop="-10dp"
                     android:fontFamily="@font/poppins_regular"
                     android:text="Your balance right now"
-                    android:textColor="@color/black"
+                    android:textColor="@color/textPrimary"
                     android:textSize="10dp"
                     app:layout_constraintStart_toStartOf="@id/incomeAmount"
                     app:layout_constraintTop_toBottomOf="@id/incomeAmount" />
@@ -97,7 +97,7 @@
                     android:layout_marginRight="30dp"
                     android:fontFamily="@font/poppins_regular"
                     android:text="13"
-                    android:textColor="@color/black"
+                    android:textColor="@color/textSecondary"
                     android:textSize="20dp"
                     app:layout_constraintBottom_toBottomOf="@+id/incomeTitle"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -136,8 +136,10 @@
                 android:layout_width="90dp"
                 android:layout_height="110dp"
                 android:layout_weight="1"
-                android:backgroundTint="@color/white"
-                app:cardCornerRadius="15dp">
+                android:backgroundTint="@color/colorSurface"
+                app:cardCornerRadius="15dp"
+                android:layout_margin="10.dp"
+                >
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -150,7 +152,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="1232"
-                        android:textColor="@color/black"
+                        android:textColor="@color/textPrimary"
                         android:textSize="30dp"
 
                         />
@@ -160,7 +162,7 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/poppins_black"
                         android:text="Stock"
-                        android:textColor="@color/black"
+                        android:textColor="@color/textPrimary"
                         android:textSize="15dp"
 
                         />
@@ -174,8 +176,10 @@
                 android:layout_height="110dp"
                 android:layout_marginLeft="10dp"
                 android:layout_weight="1"
-                android:backgroundTint="@color/white"
-                app:cardCornerRadius="15dp">
+                android:backgroundTint="@color/colorSurface"
+                app:cardCornerRadius="15dp"
+                android:layout_margin="10.dp"
+                >
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -188,7 +192,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="0000"
-                        android:textColor="@color/black"
+                        android:textColor="@color/textPrimary"
                         android:textSize="30dp"
 
                         />
@@ -198,7 +202,7 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/poppins_black"
                         android:text="Pending"
-                        android:textColor="@color/black"
+                        android:textColor="@color/textPrimary"
                         android:textSize="15dp"
 
                         />
@@ -211,8 +215,10 @@
                 android:layout_height="110dp"
                 android:layout_marginLeft="10dp"
                 android:layout_weight="1"
-                android:backgroundTint="@color/white"
-                app:cardCornerRadius="15dp">
+                android:backgroundTint="@color/colorSurface"
+                app:cardCornerRadius="15dp"
+                android:layout_margin="10.dp"
+                >
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -225,7 +231,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="1232"
-                        android:textColor="@color/black"
+                        android:textColor="@color/textPrimary"
                         android:textSize="30dp"
 
                         />
@@ -235,7 +241,7 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/poppins_black"
                         android:text="Invoices"
-                        android:textColor="@color/black"
+                        android:textColor="@color/textPrimary"
                         android:textSize="15dp"
 
                         />
@@ -248,8 +254,10 @@
                 android:layout_height="110dp"
                 android:layout_marginLeft="10dp"
                 android:layout_weight="1"
-                android:backgroundTint="@color/white"
-                app:cardCornerRadius="15dp">
+                android:backgroundTint="@color/colorSurface"
+                app:cardCornerRadius="15dp"
+                android:layout_margin="10.dp"
+                >
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -262,7 +270,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="1232"
-                        android:textColor="@color/black"
+                        android:textColor="@color/textPrimary"
                         android:textSize="30dp"
 
                         />
@@ -275,7 +283,7 @@
                         android:paddingLeft="10dp"
                         android:paddingRight="10dp"
                         android:text="Credit Limit"
-                        android:textColor="@color/black"
+                        android:textColor="@color/textPrimary"
                         android:textSize="15dp"
 
                         />
@@ -300,7 +308,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/recents_transaction"
-                android:textColor="@color/white"
+                android:textColor="@color/textPrimary"
                 android:textSize="30sp"
 
                 />
@@ -310,21 +318,21 @@
                 android:layout_height="wrap_content"
                 android:text="Below are your most recents orders"
                 android:textSize="15dp"
-                android:textColor="@color/gray"
+                android:textColor="@color/textSecondary"
                 />
 
         </LinearLayout>
 
-        <ListView
-            android:id="@+id/ordersListsview"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_marginTop="10dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/Orders_listTAG" />
-
+            <ListView
+                android:id="@+id/ordersListsview"
+                android:layout_width="match_parent"
+                android:layout_height="0.dp"
+                android:layout_marginTop="10dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/Orders_listTAG"
+                />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -20,7 +20,7 @@
     <style name="circleFAB">
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">50%</item>
-        <item name="backgroundColor">@color/primaryColor</item>
+        <item name="backgroundColor">@color/colorPrimary</item>
     </style>
     <style name="parentTop">
         <item name="layout_constraintStart_toStartOf">

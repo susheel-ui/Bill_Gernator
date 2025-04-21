@@ -5,7 +5,9 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Activities.AddItem">
+    tools:context=".Activities.AddItem"
+    android:background="@color/colorBackground"
+    >
 
     <ImageButton
         android:id="@+id/btnback"
@@ -23,7 +25,7 @@
         android:layout_marginTop="20dp"
         android:text="Add Item"
         android:textSize="40sp"
-        android:textColor="@color/green"
+        android:textColor="@color/textPrimary"
         android:textStyle="bold"
         android:autoSizeTextType="uniform"
         android:autoSizePresetSizes="@array/auto_size_textsizes"
@@ -68,6 +70,7 @@
                 android:text="Enter barCode No"
                 android:textSize="20dp"
                 android:layout_marginLeft="10dp"
+                android:textColor="@color/textSecondary"
                 />
 
             <com.google.android.material.textfield.TextInputLayout

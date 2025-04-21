@@ -6,9 +6,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Activities.LoginActivity"
-    android:backgroundTint="@color/white"
+    android:background="@color/colorBackground"
     >
-    
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -16,7 +16,7 @@
         android:textSize="30dp"
         android:fontFamily="@font/poppins_extrabold"
         android:textStyle="bold"
-        android:textColor="@color/black"
+        android:textColor="@color/textPrimary"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -37,17 +37,20 @@
         app:layout_constraintBottom_toBottomOf="parent"
         />
 
+    <!--card for edit text email-->
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/forgroundImageTwo"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:src="@drawable/loginforground"
         android:layout_marginTop="290dp"
+        android:src="@drawable/loginforground"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/backgrountImageOne" />
-<!--card for edit text email-->
+        app:layout_constraintTop_toTopOf="@id/backgrountImageOne"
+        app:layout_constraintVertical_bias="1.0" />
+
     <androidx.cardview.widget.CardView
         android:id="@+id/cardEmailEditText"
         android:layout_width="match_parent"
@@ -61,26 +64,27 @@
         app:layout_constraintBottom_toBottomOf="parent"
 
         >
-    <com.google.android.material.textfield.TextInputLayout
+        <com.google.android.material.textfield.TextInputLayout
 
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="email"
-        android:padding="5dp"
-        android:textColorHint="@color/hintTextColor"
-        >
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="email"
+            android:padding="5dp"
+            android:textColorHint="@color/textDisabled"
+            android:background="@color/colorOnBackground"
+
+            >
 
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/white"
                 android:inputType="textEmailAddress"
                 android:drawableLeft="@drawable/email_vector"
                 android:drawablePadding="10dp"
-               />
-    </com.google.android.material.textfield.TextInputLayout>
+                />
+        </com.google.android.material.textfield.TextInputLayout>
     </androidx.cardview.widget.CardView>
-<!--    password card view -->
+    <!--    password card view -->
     <androidx.cardview.widget.CardView
         android:id="@+id/cardPasswordEditText"
         android:layout_width="match_parent"
@@ -92,17 +96,18 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/cardEmailEditText"
         >
-    <com.google.android.material.textfield.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Password"
-        android:padding="5dp"
-        android:textColorHint="@color/hintTextColor"
-        >
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Password"
+            android:padding="5dp"
+            android:textColorHint="@color/colorDisabled"
+            android:background="@color/colorOnBackground"
+
+            >
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/white"
                 android:drawablePadding="10dp"
                 android:inputType="textPassword"
 
@@ -110,7 +115,7 @@
                 android:drawableEnd="@drawable/password_eye"
                 />
 
-    </com.google.android.material.textfield.TextInputLayout>
+        </com.google.android.material.textfield.TextInputLayout>
     </androidx.cardview.widget.CardView>
 
     <CheckBox
@@ -133,7 +138,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Forgot Password?"
-        android:textColor="@color/colorBlue"
+        android:textColor="@color/colorError"
         app:layout_constraintEnd_toEndOf="@id/cardPasswordEditText"
         app:layout_constraintTop_toTopOf="@id/RememberMebtn"
         app:layout_constraintBottom_toBottomOf="@id/RememberMebtn"
@@ -145,6 +150,7 @@
         android:layout_height="wrap_content"
         app:cardCornerRadius="50dp"
         android:layout_margin="30dp"
+        android:backgroundTint="@color/colorPrimary"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/RememberMebtn"
@@ -153,12 +159,12 @@
             android:id="@+id/btnLogin"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:backgroundTint="@color/white"
             android:text="Login"
-            android:textColor="@color/black"
+            android:backgroundTint="@color/zxing_transparent"
+            android:textColor="@color/textPrimary"
             />
     </androidx.cardview.widget.CardView>
-    
+
     <LinearLayout
         android:id="@+id/createAnAccoutnlayout"
         android:layout_width="wrap_content"
@@ -168,7 +174,7 @@
         app:layout_constraintStart_toStartOf="@id/cardPasswordEditText"
         app:layout_constraintEnd_toEndOf="@id/cardPasswordEditText"
         app:layout_constraintTop_toBottomOf="@id/loginbtnCard"
-        
+
         >
 
         <TextView
@@ -177,18 +183,17 @@
             android:layout_height="wrap_content"
             android:text="don`t have an account?"
             android:autoSizeTextType="uniform"
-            android:gravity="end"
             android:autoSizePresetSizes="@array/auto_size_textsizes"
             />
 
         <TextView
             android:id="@+id/createanaccountbtn"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:autoSizePresetSizes="@array/auto_size_textsizes"
             android:autoSizeTextType="uniform"
             android:text="Create an account"
-            android:textColor="@color/colorBlue" />
+            android:textColor="@color/colorSurface" />
 
     </LinearLayout>
     <androidx.cardview.widget.CardView
