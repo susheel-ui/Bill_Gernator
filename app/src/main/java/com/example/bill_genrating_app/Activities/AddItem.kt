@@ -180,7 +180,7 @@ class AddItem : AppCompatActivity() {
 
     private fun setCategory(){
         val listCatagory = resources.getStringArray(R.array.Catogory)
-        val adpter = ArrayAdapter(this, androidx.appcompat.R.layout.support_simple_spinner_dropdown_item,listCatagory)
+        val adpter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item,listCatagory)
         thisActivityBinding.categoryField.setAdapter(adpter)
     }
 
