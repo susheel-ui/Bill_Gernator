@@ -2,134 +2,352 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="?attr/colorSurface"
-    tools:context=".Activities.LoginActivity">
+    tools:context=".Activities.AddItem"
+    android:background="@color/colorBackground"
+    >
 
-    <ImageView
-        android:id="@+id/appLogo"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        android:layout_marginTop="64dp"
-        android:contentDescription="@string/app_logo"
-        android:src="@drawable/ic_launcher_foreground"
-        app:layout_constraintEnd_toEndOf="parent"
+    <ImageButton
+        android:id="@+id/btnback"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:background="@android:color/transparent"
+        android:src="@drawable/baseline_arrow_back_24"
+        app:layout_constraintBottom_toBottomOf="@id/pageTag"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
+        app:layout_constraintTop_toTopOf="@id/pageTag" />
     <TextView
-        android:id="@+id/loginTitle"
+        android:id="@+id/pageTag"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="@string/login"
-        android:textColor="?attr/colorOnSurface"
-        android:textSize="24sp"
+        android:layout_marginTop="20dp"
+        android:text="Add Item"
+        android:textSize="40dp"
+        android:textColor="@color/textPrimary"
         android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:autoSizeTextType="uniform"
+        android:autoSizePresetSizes="@array/auto_size_textsizes"
+        app:layout_constraintStart_toEndOf="@id/btnback"
+        app:layout_constraintTop_toTopOf="parent"
+
+        >
+    </TextView>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/appLogo" />
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/emailField"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="32dp"
-        android:layout_marginEnd="32dp"
-        android:hint="@string/email"
-        app:boxBackgroundColor="?attr/colorSurfaceVariant"
-        app:boxCornerRadiusBottomEnd="8dp"
-        app:boxCornerRadiusBottomStart="8dp"
-        app:boxCornerRadiusTopEnd="8dp"
-        app:boxCornerRadiusTopStart="8dp"
-        app:boxStrokeColor="?attr/colorPrimary"
-        app:endIconMode="clear_text"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/loginTitle">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/emailFieldtext"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="textEmailAddress"
-            android:textColor="?attr/colorOnSurfaceVariant" />
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/passwordField"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:hint="@string/password"
-        app:boxBackgroundColor="?attr/colorSurfaceVariant"
-        app:boxCornerRadiusBottomEnd="8dp"
-        app:boxCornerRadiusBottomStart="8dp"
-        app:boxCornerRadiusTopEnd="8dp"
-        app:boxCornerRadiusTopStart="8dp"
-        app:boxStrokeColor="?attr/colorPrimary"
-        app:endIconMode="password_toggle"
-        app:layout_constraintEnd_toEndOf="@id/emailField"
-        app:layout_constraintStart_toStartOf="@id/emailField"
-        app:layout_constraintTop_toBottomOf="@id/emailField">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/passwordFieldtext"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="textPassword"
-            android:textColor="?attr/colorOnSurfaceVariant" />
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <Button
-        android:id="@+id/btnLogin"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:backgroundTint="?attr/colorPrimary"
-        android:text="@string/login"
-        android:textColor="?attr/colorOnPrimary"
-        app:layout_constraintEnd_toEndOf="@id/passwordField"
-        app:layout_constraintStart_toStartOf="@id/passwordField"
-        app:layout_constraintTop_toBottomOf="@id/passwordField" />
-
-    <TextView
-        android:id="@+id/forgotPassword"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="@string/forgot_password"
-        android:textColor="?attr/colorSecondary"
-        app:layout_constraintEnd_toEndOf="@id/btnLogin"
-        app:layout_constraintTop_toBottomOf="@id/btnLogin" />
-
-    <TextView
-        android:id="@+id/signUpPrompt"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="32dp"
-        android:text="@string/don_t_have_an_account"
-        android:textColor="?attr/colorOnSurface"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/btnSignUp"
-        app:layout_constraintHorizontal_chainStyle="packed"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/pageTag"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="?attr/actionBarSize"
+        >
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            >
+            <LinearLayout
+                android:id="@+id/form_item"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:orientation="vertical"
+                >
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:padding="10dp"
+                    >
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Enter barCode No"
+                        android:textSize="20dp"
+                        android:layout_marginLeft="10dp"
+                        android:textColor="@color/textSecondary"
+                        />
 
-    <TextView
-        android:id="@+id/btnSignUp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:text="@string/sign_up"
-        android:textColor="?attr/colorSecondary"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@id/signUpPrompt"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/signUpPrompt"
-        app:layout_constraintTop_toTopOf="@id/signUpPrompt" />
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/BarcodeNo"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textSize="20dp"
+                        android:background="@drawable/bg_for_input_fields"
+                        app:endIconMode="custom"
+                        app:endIconDrawable="@drawable/baseline_barcode_reader_24"
+                        >
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/barcodeFieldtext"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:textColor="@color/textSecondary"
+                            android:background="@android:color/transparent"
+                            />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:padding="10dp"
+                    >
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Enter Name of Item"
+                        android:textSize="20dp"
+                        android:layout_marginLeft="10dp"
+                        />
+                    <EditText
+                        android:id="@+id/itmeName"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textSize="20dp"
+                        android:text=""
+                        android:textColor="@color/textPrimary"
+                        android:background="@drawable/bg_for_input_fields"
+                        android:padding="10dp"
+                        />
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:padding="10dp"
+                    >
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Enter MRP"
+                        android:textSize="20dp"
+                        android:layout_marginLeft="10dp"
+                        />
+                    <EditText
+                        android:id="@+id/itemMRP"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textSize="20dp"
+                        android:text=""
+                        android:textColor="@color/textPrimary"
+                        android:inputType="numberDecimal"
+                        android:padding="10dp"
+                        android:background="@drawable/bg_for_input_fields"
+                        />
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:padding="10dp"
+                    >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Select Category"
+                        android:textSize="20dp"
+                        android:layout_marginLeft="10dp"
+                        />
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal"
+                        android:background="@drawable/bg_for_input_fields"
+                        >
+                        <Spinner
+                            android:id="@+id/categoryField"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:padding="10dp"
+                            android:layout_weight="1"
+                            android:inputType="none"
+                            android:textColor="@color/textPrimary"
+                            android:text="Select Catagory"
+                            >
+
+                        </Spinner>
+
+                    </LinearLayout>
+
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:padding="10dp"
+                    >
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Enter weight or quantity of item"
+                        android:textSize="20dp"
+                        android:layout_marginLeft="10dp"
+                        />
+                    <EditText
+                        android:id="@+id/itemweight"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textSize="20dp"
+                        android:text=""
+                        android:textColor="@color/textPrimary"
+                        android:inputType="number"
+                        android:background="@drawable/bg_for_input_fields"
+                        android:padding="10dp"
+                        />
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:padding="10dp"
+                    >
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Quantity Type"
+                        android:textSize="20dp"
+                        android:layout_marginLeft="10dp"
+                        />
+                    <RadioGroup
+                        android:id="@+id/QuantityType"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        >
+
+                        <RadioButton
+                            android:id="@+id/Kg"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Kg`s"
+                            android:checked="true"
+                            style="@style/radioBtn"
+                            />
+                        <RadioButton
+                            android:id="@+id/gram"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="g"
+                            style="@style/radioBtn"
+                            />
+                        <RadioButton
+                            android:id="@+id/ml"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="ML"
+                            style="@style/radioBtn"
+                            />
+                        <RadioButton
+                            android:id="@+id/Litre"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="L"
+                            style="@style/radioBtn"
+                            />
+                        <RadioButton
+                            android:id="@+id/Piece"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Pc"
+                            style="@style/radioBtn"
+                            />
+                    </RadioGroup>
+
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:padding="10dp"
+                    >
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Enter initial Stock of item"
+                        android:textSize="20dp"
+                        android:layout_marginLeft="10dp"
+                        />
+                    <EditText
+                        android:id="@+id/stockQuantity"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textSize="20dp"
+                        android:text=""
+                        android:textColor="@color/textPrimary"
+                        android:inputType="number"
+                        android:background="@drawable/bg_for_input_fields"
+                        android:padding="10dp"
+                        />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:padding="10dp"
+                    >
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Enter DiscountRate"
+                        android:textSize="20dp"
+                        android:layout_marginLeft="10dp"
+                        />
+                    <EditText
+                        android:id="@+id/discountRate"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textSize="20dp"
+                        android:text=""
+                        android:textColor="@color/textPrimary"
+                        android:inputType="numberDecimal"
+                        android:background="@drawable/bg_for_input_fields"
+                        android:padding="10dp"
+                        />
+                </LinearLayout>
+
+
+
+
+            </LinearLayout>
+
+
+            <Button
+                android:id="@+id/btnClear"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/colorError"
+                android:text="Clear"
+                android:textSize="20dp"
+                android:layout_marginRight="20dp"
+                app:layout_constraintTop_toTopOf="@id/btnSave"
+                app:layout_constraintTop_toBottomOf="@id/form_item"
+                app:layout_constraintEnd_toStartOf="@id/btnSave"
+                />
+            <Button
+                android:id="@+id/btnSave"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/colorSuccess"
+                android:textSize="20dp"
+                android:text="Save"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="20dp"
+                app:layout_constraintTop_toBottomOf="@id/form_item"
+                app:layout_constraintEnd_toEndOf="parent"
+                />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

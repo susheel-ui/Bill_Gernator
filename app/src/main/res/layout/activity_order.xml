@@ -69,7 +69,30 @@
                 android:layout_height="200dp"
                 android:layout_below="@id/tv_qr_label"
                 android:layout_marginBottom="24dp"
-                android:background="@color/colorDivider" />
+                android:background="@color/colorDivider" >
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    >
+                    <com.journeyapps.barcodescanner.DecoratedBarcodeView
+                        android:id="@+id/barcode_scanner"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        />
+<!--                    <ImageView-->
+<!--                        android:id="@+id/barcodePreview"-->
+<!--                        android:layout_width="150dp"-->
+<!--                        android:layout_height="150dp"-->
+<!--                        android:layout_alignParentTop="true"-->
+<!--                        android:layout_alignParentEnd="true"-->
+<!--                        android:layout_margin="16dp"-->
+<!--                        android:scaleType="centerCrop"-->
+<!--                        android:contentDescription="Preview of scanned barcode" />-->
+                </LinearLayout>
+
+
+            </FrameLayout>
 
             <LinearLayout
                 android:id="@+id/invoice_header"
@@ -79,6 +102,7 @@
                 android:background="@color/colorSecondary"
                 android:orientation="horizontal"
                 android:padding="8dp">
+
 
                 <TextView
                     android:layout_width="0dp"
