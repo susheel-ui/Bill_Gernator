@@ -132,50 +132,28 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Final Amt"
+                    android:text="Quantity"
+                    android:textSize="10.dp"
                     android:textColor="@color/colorOnPrimary"
                     android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Final Amt"
+                    android:textColor="@color/colorOnPrimary"
+                    android:textStyle="bold"/>
             </LinearLayout>
 
-            <LinearLayout
-                android:id="@+id/invoice_row"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/invoice_header"
-                android:layout_marginTop="4dp"
-                android:background="@color/colorSurface"
-                android:orientation="horizontal"
-                android:padding="8dp">
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="2"
-                    android:text="Item A"
-                    android:textColor="@color/textPrimary" />
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="100"
-                    android:textColor="@color/textPrimary" />
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="10%"
-                    android:textColor="@color/textPrimary" />
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="90"
-                    android:textColor="@color/textPrimary" />
-            </LinearLayout>
-
+       <androidx.recyclerview.widget.RecyclerView
+           android:id="@+id/invoice_row"
+           android:layout_width="match_parent"
+           android:layout_height="match_parent"
+           android:layout_below="@id/invoice_header"
+           android:layout_alignParentStart="true"
+           android:layout_alignParentEnd="true"
+           />
             <TextView
                 android:id="@+id/tv_grand_total"
                 android:layout_width="match_parent"
@@ -203,6 +181,7 @@
         >
 
         <com.google.android.material.button.MaterialButton
+            android:id="@+id/orders_page_saveBtn"
              android:layout_weight="1"
             android:layout_width="0dp"
             android:layout_height="wrap_content"

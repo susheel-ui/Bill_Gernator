@@ -106,7 +106,9 @@ class AddItem : AppCompatActivity() {
             val db = Room.databaseBuilder(
                 applicationContext,
                 DBHelper::class.java,"DatabaseBillGenerator"
-            ).fallbackToDestructiveMigration().allowMainThreadQueries().build()
+            ).fallbackToDestructiveMigration()
+                .allowMainThreadQueries()
+                .build()
             val itemDao = db.itemDao()
 //                    itemDao.SaveNewItem(items(876543234567,"shampoo","250","Ml","Hair",150.00))
             if(thisActivityBinding.barcodeFieldtext.text.toString().isNotEmpty() &&

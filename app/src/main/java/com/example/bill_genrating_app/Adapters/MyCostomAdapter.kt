@@ -26,7 +26,7 @@ class MyCostomAdapter(val context: invoice_fragment, val arr:Array<orders_entity
 
         var entity = arr.get(p0)
         convertview.orderNo.text = entity.orderid.toString()
-        convertview.priceTag.text = entity.Total.toString()
+        convertview.priceTag.text = entity.GrandTotal.toString()
 
         return convertview.root
 

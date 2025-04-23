@@ -1,5 +1,6 @@
 package com.example.bill_genrating_app.Adapters
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.util.Log
@@ -29,7 +30,9 @@ class AdapterItems(var mContext:Context, var listItem:List<items>) :RecyclerView
         }
 
     }
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AdapterItems.ViewHolder {
+    @SuppressLint("SuspiciousIndentation")
+    override
+    fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AdapterItems.ViewHolder {
        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_show_list_layout,parent,false)
             return ViewHolder(view)
     }
