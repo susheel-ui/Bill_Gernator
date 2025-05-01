@@ -7,6 +7,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.bill_genrating_app.R
 import com.example.bill_genrating_app.entity.invoiceItem
+import java.text.DecimalFormat
 
 class invoiceItemAdapter(private val itemList: ArrayList<invoiceItem>): RecyclerView.Adapter<invoiceItemAdapter.ViewHolder>() {
 
@@ -37,12 +38,12 @@ class invoiceItemAdapter(private val itemList: ArrayList<invoiceItem>): Recycler
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = itemList[position]
-
+        val df = DecimalFormat("#,###." + "0".repeat(2))
            holder.itemName.text = item.name
            holder.MRP.text = item.MRP.toString()
            holder.discountRate.text = item.discount.toString()
            holder.quantity.text = item.quantity.toString()
-           holder.total.text = item.total.toString()
+           holder.total.text = df.format(item.total)
 
     }
 

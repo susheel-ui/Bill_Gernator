@@ -13,6 +13,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.room.Room
 import com.example.bill_genrating_app.Adapters.invoiceItemAdapter
 import com.example.bill_genrating_app.Roomdb.DBHelper
+import com.example.bill_genrating_app.Roomdb.entities.Order
+import com.example.bill_genrating_app.Roomdb.entities.OrderItem
 import com.example.bill_genrating_app.databinding.ActivityOrderBinding
 import com.example.bill_genrating_app.entity.invoiceItem
 import com.google.zxing.BarcodeFormat
@@ -21,6 +23,8 @@ import com.journeyapps.barcodescanner.BarcodeCallback
 import com.journeyapps.barcodescanner.BarcodeResult
 import com.journeyapps.barcodescanner.DefaultDecoderFactory
 import kotlinx.coroutines.delay
+import java.text.DecimalFormat
+import kotlin.math.log
 
 class OrderActivity : AppCompatActivity() {
     var activity: ActivityOrderBinding? = null
@@ -28,7 +32,7 @@ class OrderActivity : AppCompatActivity() {
     private lateinit var beepManager: BeepManager
     private var itemList = ArrayList<invoiceItem>()
     private lateinit var invoiceItemAdapter: invoiceItemAdapter
-    private var total = 0.00;
+    private var grandTotal = 0.00;
 
     override fun onCreate(savedInstanceState: Bundle?) {
         activity = ActivityOrderBinding.inflate(layoutInflater)
@@ -51,13 +55,19 @@ class OrderActivity : AppCompatActivity() {
         activity?.ordersPageSaveBtn?.setOnClickListener {
             Toast.makeText(this, "saved", Toast.LENGTH_SHORT).show()
         }
+
     }
 
     private val callback = object : BarcodeCallback {
         override fun barcodeResult(result: BarcodeResult) {
             if (result.text == null || result.text == lastText) {
                 // Prevent duplicate scans
-                addItemToInvoice(lastText!!.toLong())
+                try {
+                    addItemToInvoice(lastText!!.toLong()) 
+                }catch (e:Exception){
+                    Log.d(TAG, "barcodeResult: ${e.message}")
+                }
+                
                 activity?.barcodeScanner?.setStatusText(result.text)
                 beepManager.playBeepSoundAndVibrate()
                 activity?.barcodeScanner?.pause()
@@ -103,9 +113,7 @@ class OrderActivity : AppCompatActivity() {
     }
 
     private fun addItemToInvoice(barcodeId: Long) :Boolean{
-        val db = Room.databaseBuilder(this, DBHelper::class.java, "DatabaseBillGenerator")
-            .allowMainThreadQueries()
-            .build()
+        val db =DBHelper.getDatabase(this)
         val itemDao = db.itemDao()
         val item = itemDao.getByid(barcodeId)
         if (item.isNotEmpty() && item.size == 1) {
@@ -144,7 +152,30 @@ class OrderActivity : AppCompatActivity() {
                 }
             }
         db.close()
+        findGrandTotal()
             return true
         }
+    private suspend fun saveToDB(order: Order, orderItems:List<OrderItem>){
+        val db = DBHelper.getDatabase(this)
+        db.orderDao().insert(order)
+        orderItems.forEach { orderItem ->
+            db.orderItemDao().insert(orderItem)
+        }
+        db.close()
+    }
+    private fun findGrandTotal(){
+      try {
+          grandTotal = 0.00
+          itemList.forEach{ itemList ->
+              grandTotal += itemList.total
+          }
+          val df = DecimalFormat("#,###." + "0".repeat(2))
+          activity?.tvGrandTotal?.text = "Grand Total : ".plus(df.format(grandTotal))
+      }catch (e:Exception){
+          Log.d(TAG, "findGrandTotal: ${e.message}")
+      }
+    }
+
+
     }
 

@@ -11,5 +11,4 @@ class orders_entity(order_id:Long, GrandTotal:Double, status:Boolean, Date:Date)
             get() {
                 return field
             }
-
 }
