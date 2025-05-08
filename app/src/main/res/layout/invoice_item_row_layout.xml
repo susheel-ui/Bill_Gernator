@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
     <LinearLayout
+        android:id="@+id/invoice_item_row"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
@@ -66,5 +67,39 @@
             android:textColor="@color/textPrimary" />
     </LinearLayout>
 
+    <LinearLayout
+        android:id="@+id/moreOptionLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/invoice_item_row"
+        android:orientation="horizontal"
+        android:gravity="end"
+        android:visibility="gone"
+        >
+        <Button
+            android:id="@+id/invoice_item_row_btnAdd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="+"
+            android:backgroundTint="@color/green"
+            />
+        <Button
+            android:id="@+id/invoice_item_row_btnDec"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="-"
+            android:backgroundTint="@color/red"
+            android:layout_marginStart="5dp"
+            />
+        <Button
+            android:id="@+id/invoice_item_row_btnDelete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Delete"
+            android:layout_marginStart="5dp"
+            />
 
-</FrameLayout>
+    </LinearLayout>
+
+
+</RelativeLayout>
