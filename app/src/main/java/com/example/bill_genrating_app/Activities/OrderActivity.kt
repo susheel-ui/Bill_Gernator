@@ -2,15 +2,17 @@ package com.example.bill_genrating_app.Activities
 
 import android.content.ContentValues.TAG
 import android.content.Context
+import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.util.AttributeSet
 import android.util.Log
 import android.view.View
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.room.Room
 import com.example.bill_genrating_app.Adapters.invoiceItemAdapter
 import com.example.bill_genrating_app.Roomdb.DBHelper
 import com.example.bill_genrating_app.Roomdb.entities.Order
@@ -22,9 +24,14 @@ import com.google.zxing.client.android.BeepManager
 import com.journeyapps.barcodescanner.BarcodeCallback
 import com.journeyapps.barcodescanner.BarcodeResult
 import com.journeyapps.barcodescanner.DefaultDecoderFactory
-import kotlinx.coroutines.delay
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.text.DecimalFormat
-import kotlin.math.log
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 class OrderActivity : AppCompatActivity() {
     var activity: ActivityOrderBinding? = null
@@ -33,12 +40,15 @@ class OrderActivity : AppCompatActivity() {
     private var itemList = ArrayList<invoiceItem>()
     private lateinit var invoiceItemAdapter: invoiceItemAdapter
     private var grandTotal = 0.00;
+    private lateinit var db:DBHelper
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         activity = ActivityOrderBinding.inflate(layoutInflater)
         invoiceItemAdapter = invoiceItemAdapter(itemList)
         super.onCreate(savedInstanceState)
         setContentView(activity!!.root)
+       db = DBHelper.getDatabase(applicationContext)
         //barcode scanner preview
         val formats = listOf(BarcodeFormat.QR_CODE, BarcodeFormat.CODE_39)
         activity?.barcodeScanner?.decoderFactory = DefaultDecoderFactory(formats)
@@ -51,9 +61,50 @@ class OrderActivity : AppCompatActivity() {
         layoutManager.orientation = LinearLayoutManager.VERTICAL
         activity?.invoiceRow?.layoutManager = layoutManager
         activity?.invoiceRow?.adapter = invoiceItemAdapter
+        val orderId = generateOrderId()
 
         activity?.ordersPageSaveBtn?.setOnClickListener {
-            Toast.makeText(this, "saved", Toast.LENGTH_SHORT).show()
+            try {
+                // creating Order Entity
+                val name = activity?.etName?.text.toString()
+                val mob = activity?.etMobile?.text.toString()
+                val order = Order(orderId, name, mob, grandTotal, "Pending")
+                val list = ArrayList<OrderItem>()
+                itemList.forEach { it ->
+                    list.add(OrderItem(order.ordId, it.barCodeId.toString(), it.quantity, it.total))
+                }
+                if (name.isNotEmpty()) {
+                    if (mob.isNotEmpty()) {
+                        if (itemList.isNotEmpty()) {
+                            lifecycleScope.launch(Dispatchers.IO) {
+                               try {
+                                   saveToDB(order, list)
+                               }catch (e:Exception){
+                                   Log.d(TAG, "onCreate: saving error ${e.message}")
+                               }
+                            }
+                        } else
+                            Toast.makeText(this, "pls add Some Items", Toast.LENGTH_SHORT).show()
+
+                    } else
+                        Toast.makeText(this, "pls Enter Mobile number", Toast.LENGTH_LONG).show()
+
+
+                } else
+                    Toast.makeText(this, "pls Enter Name", Toast.LENGTH_LONG).show()
+
+            } catch (e: Exception) {
+                Log.d(TAG, "onCreate:Saving data to db ${e.message}")
+            }
+
+
+        }
+        activity?.ordersPageResetBtn?.setOnClickListener {
+            itemList.clear()
+            invoiceItemAdapter.notifyDataSetChanged()
+            activity?.etName?.text?.clear()
+            activity?.etMobile?.text?.clear()
+            activity?.tvGrandTotal?.text = "Grand Total: 0.00"
         }
 
     }
@@ -63,11 +114,11 @@ class OrderActivity : AppCompatActivity() {
             if (result.text == null || result.text == lastText) {
                 // Prevent duplicate scans
                 try {
-                    addItemToInvoice(lastText!!.toLong()) 
-                }catch (e:Exception){
+                    addItemToInvoice(lastText!!.toLong())
+                } catch (e: Exception) {
                     Log.d(TAG, "barcodeResult: ${e.message}")
                 }
-                
+
                 activity?.barcodeScanner?.setStatusText(result.text)
                 beepManager.playBeepSoundAndVibrate()
                 activity?.barcodeScanner?.pause()
@@ -112,8 +163,7 @@ class OrderActivity : AppCompatActivity() {
         activity?.barcodeScanner?.pause()
     }
 
-    private fun addItemToInvoice(barcodeId: Long) :Boolean{
-        val db =DBHelper.getDatabase(this)
+    private fun addItemToInvoice(barcodeId: Long): Boolean {
         val itemDao = db.itemDao()
         val item = itemDao.getByid(barcodeId)
         if (item.isNotEmpty() && item.size == 1) {
@@ -140,42 +190,63 @@ class OrderActivity : AppCompatActivity() {
                     // You might want to update the quantity here if it's already present
                 }
             }
-
-
-                if (!isPresent) {
-                    itemList.add(invoiceItemToAdd)
-                    invoiceItemAdapter.notifyDataSetChanged()
-                    for (x in itemList) {
-                        Log.d(TAG, "addItemToInvoice: ${x.name} ${x.quantity}")
-                    }
-
+            
+            if (!isPresent) {
+                itemList.add(invoiceItemToAdd)
+                invoiceItemAdapter.notifyDataSetChanged()
+                for (x in itemList) {
+                    Log.d(TAG, "addItemToInvoice: ${x.name} ${x.quantity}")
                 }
+
             }
-        db.close()
+        }
         findGrandTotal()
-            return true
+        return true
+    }
+
+    private suspend fun saveToDB(order: Order, orderItems: List<OrderItem>) {
+       
+        try {
+            db.orderDao().insert(order)
+            Log.d(TAG, "saveToDB: order saved successful")
+        }catch (e:Exception){
+            Log.d(TAG, "saveToDB: Duplicate error ${e.message}")
+            db.orderDao().update(order)
         }
-    private suspend fun saveToDB(order: Order, orderItems:List<OrderItem>){
-        val db = DBHelper.getDatabase(this)
-        db.orderDao().insert(order)
+
         orderItems.forEach { orderItem ->
-            db.orderItemDao().insert(orderItem)
+            try{
+                db.orderItemDao().insert(orderItem)
+                Log.d(TAG, "saveToDB: successful ordered item save")
+            }catch (e:Exception){
+                Log.d(TAG, "saveToDB: Duplicate error ${e.message}")
+                db.orderItemDao().update(orderItem)
+            }finally {
+                Toast.makeText(this, "Saved", Toast.LENGTH_SHORT).show()
+            }
         }
-        db.close()
     }
-    private fun findGrandTotal(){
-      try {
-          grandTotal = 0.00
-          itemList.forEach{ itemList ->
-              grandTotal += itemList.total
-          }
-          val df = DecimalFormat("#,###." + "0".repeat(2))
-          activity?.tvGrandTotal?.text = "Grand Total : ".plus(df.format(grandTotal))
-      }catch (e:Exception){
-          Log.d(TAG, "findGrandTotal: ${e.message}")
-      }
+
+    private fun findGrandTotal() {
+        try {
+            grandTotal = 0.00
+            itemList.forEach { itemList ->
+                grandTotal += itemList.total
+            }
+            val df = DecimalFormat("#,###." + "0".repeat(2))
+            activity?.tvGrandTotal?.text = "Grand Total: ".plus(df.format(grandTotal))
+        } catch (e: Exception) {
+            Log.d(TAG, "findGrandTotal: ${e.message}")
+        }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    public fun generateOrderId(): String {
+        val current = LocalDateTime.now()
+        val formatter = DateTimeFormatter.ofPattern("yyyyMMddHHmmssSSS")
+        return "ORD" + current.format(formatter)
     }
 
 
-    }
+}
 

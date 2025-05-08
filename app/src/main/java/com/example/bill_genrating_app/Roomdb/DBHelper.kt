@@ -10,6 +10,7 @@ import com.example.bill_genrating_app.Roomdb.DAO.itemDao
 import com.example.bill_genrating_app.Roomdb.entities.Order
 import com.example.bill_genrating_app.Roomdb.entities.OrderItem
 import com.example.bill_genrating_app.Roomdb.entities.items
+import kotlinx.coroutines.CoroutineScope
 
 @Database(entities = [items::class, Order::class, OrderItem::class], version = 1)
 abstract class DBHelper :RoomDatabase(){
