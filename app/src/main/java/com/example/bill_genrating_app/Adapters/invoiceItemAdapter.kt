@@ -68,7 +68,6 @@ class invoiceItemAdapter(private val itemList: ArrayList<invoiceItem>): Recycler
                 if (holder.moreOptionLayout.visibility == View.VISIBLE){
                     holder.moreOptionLayout.startAnimation(slideUp)
                         holder.moreOptionLayout.visibility = View.GONE
-
                 }else{
                     holder.moreOptionLayout.startAnimation(slideDown)
                     holder.moreOptionLayout.visibility = View.VISIBLE

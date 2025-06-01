@@ -19,7 +19,7 @@
             android:id="@+id/inoviceSearchlayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="10dp"
             android:orientation="vertical"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -300,27 +300,43 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
             android:layout_marginTop="20dp"
-            android:orientation="vertical"
+            android:orientation="horizontal"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/boxes">
 
-            <TextView
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/recents_transaction"
+                android:orientation="vertical"
+                >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/recents_transaction"
+                    android:textColor="@color/textPrimary"
+                    android:textSize="30sp"
+
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Below are your most recents orders"
+                    android:textSize="15dp"
+                    android:textColor="@color/textSecondary"
+                    />
+            </LinearLayout>
+            <TextView
+                android:id="@+id/fragment_seeAllTag"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="See All"
                 android:textColor="@color/textPrimary"
-                android:textSize="30sp"
-
+                android:gravity="center|end"
+                android:layout_marginEnd="10dp"
+                android:textSize="20dp"
                 />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Below are your most recents orders"
-                android:textSize="15dp"
-                android:textColor="@color/textSecondary"
-                />
-
         </LinearLayout>
 
             <ListView

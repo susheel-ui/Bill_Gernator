@@ -17,6 +17,7 @@ import com.example.bill_genrating_app.Adapters.invoiceItemAdapter
 import com.example.bill_genrating_app.Roomdb.DBHelper
 import com.example.bill_genrating_app.Roomdb.entities.Order
 import com.example.bill_genrating_app.Roomdb.entities.OrderItem
+import com.example.bill_genrating_app.UtilClasses.status
 import com.example.bill_genrating_app.databinding.ActivityOrderBinding
 import com.example.bill_genrating_app.entity.invoiceItem
 import com.google.zxing.BarcodeFormat
@@ -68,7 +69,7 @@ class OrderActivity : AppCompatActivity() {
                 // creating Order Entity
                 val name = activity?.etName?.text.toString()
                 val mob = activity?.etMobile?.text.toString()
-                val order = Order(orderId, name, mob, grandTotal, "Pending")
+                val order = Order(orderId, name, mob, grandTotal, status.PENDING.toString())
                 val list = ArrayList<OrderItem>()
                 itemList.forEach { it ->
                     list.add(OrderItem(order.ordId, it.barCodeId.toString(), it.quantity, it.total))

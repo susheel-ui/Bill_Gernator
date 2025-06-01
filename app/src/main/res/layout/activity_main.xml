@@ -16,7 +16,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/bottomNavaBarCard"
         />
 
 
@@ -25,17 +25,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginRight="10dp"
-        android:layout_marginBottom="30dp"
+        android:layout_marginBottom="10dp"
         android:layout_marginLeft="10dp"
-        app:cardCornerRadius="50dp"
+        app:cardCornerRadius="10dp"
         android:elevation="100.dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
-
-
                 <include
-
                     android:id="@+id/bottomNavBarlayout"
                     layout="@layout/bottom_navbar"
                     style="@style/parentTop"
@@ -43,8 +40,6 @@
                     android:layout_height="match_parent"
 
                     />
-
-
 
     </androidx.cardview.widget.CardView>
 

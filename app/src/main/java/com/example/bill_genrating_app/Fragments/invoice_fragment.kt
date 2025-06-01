@@ -1,25 +1,40 @@
 package com.example.bill_genrating_app.Fragments
 
 import android.content.ContentValues
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
+import com.example.bill_genrating_app.Activities.AllOrdersActiity
 import com.example.bill_genrating_app.Adapters.MyCostomAdapter
+import com.example.bill_genrating_app.R
+import com.example.bill_genrating_app.Roomdb.DBHelper
+import com.example.bill_genrating_app.Roomdb.entities.Order
 import com.example.bill_genrating_app.databinding.FragmentInvoiceFragmentBinding
 import com.example.bill_genrating_app.entity.orders_entity
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.async
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.util.Date
 
 class invoice_fragment() : Fragment() {
     // TODO: Rename and change types of parameters
    lateinit var fragmentsBinding: FragmentInvoiceFragmentBinding
+   lateinit var db:DBHelper
+   lateinit var orderData:List<Order>
+   lateinit var adapter:MyCostomAdapter
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        db = DBHelper.getDatabase(requireContext())
     }
 
     override fun onCreateView(
@@ -28,32 +43,34 @@ class invoice_fragment() : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         fragmentsBinding = FragmentInvoiceFragmentBinding.inflate(layoutInflater);
-// for demo class list
-        val orderList = arrayOf(
-            orders_entity(12345, 100.00, true, Date()),
-            orders_entity(65234567, 100.00, true, Date())
-        , orders_entity(456765456, 100.00, true, Date())
-        , orders_entity(345677654, 100.00, true, Date())
-        , orders_entity(9876545678, 100.00, true, Date())
-        )
-// TODO:: adding the pages
-//        var adapter = MyOrderListAdapter(this,orderList)
-//        fragmentsBinding.ordersListsview.adapter = adapter
-        var adapter = MyCostomAdapter(this, orderList)
-        fragmentsBinding.ordersListsview.adapter = adapter
 
-        print(orderList)
+        //All Click listeners
+            //see all click listener
+                fragmentsBinding.fragmentSeeAllTag.setOnClickListener {
+                   val intent = Intent(requireContext(), AllOrdersActiity::class.java)
+                    startActivity(intent)
+                    requireActivity().overridePendingTransition(R.anim.zoom_in,R.anim.stay_static)
+                }
 
-//        return inflater.inflate(R.layout.fragment_invoice_fragment, container, false)
+        //data getting
+        ShowTransactions()
         return fragmentsBinding.root
     }
+    private suspend fun getData(): List<Order>{
+        return db.orderDao().getAllOrders()
+    }
 
-
-
-    public fun print(arr:Array<orders_entity>){
-        for (x in arr){
-            Log.d(ContentValues.TAG, "print: " + x.orderid)
+    private fun ShowTransactions(){
+        var data:List<Order> = listOf()
+        val job1 = CoroutineScope(Dispatchers.IO).launch{
+            data = getData().reversed();
+        }.invokeOnCompletion {
+            adapter = MyCostomAdapter(this, data.subList(0,3))
+            fragmentsBinding.ordersListsview.adapter = adapter
         }
+
+
+
     }
 
 

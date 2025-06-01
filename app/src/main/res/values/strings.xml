@@ -20,7 +20,7 @@
         <item>100sp</item>
     </array>
 
-<!--    <string name="app_name">Bill_Genrating_App</string>-->
+    <!--    <string name="app_name">Bill_Genrating_App</string>-->
     <string name="app_logo">App Logo</string>
     <string name="login">Login</string>
     <string name="email">Email</string>

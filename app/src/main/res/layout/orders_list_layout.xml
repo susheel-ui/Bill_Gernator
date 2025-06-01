@@ -15,68 +15,43 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         >
-        <TextView
-             android:id="@+id/orderIDTag"
-             android:layout_width="wrap_content"
-             android:layout_height="wrap_content"
-             android:text="Order#:"
-            android:textColor="@color/textPrimary"
-             android:layout_marginLeft="20dp"
-             android:layout_marginTop="10dp"
-             android:textSize="20dp"
-             app:layout_constraintStart_toStartOf="parent"
-             app:layout_constraintTop_toTopOf="parent"
-             />
+
          <TextView
-             android:id="@+id/orderNo"
+             android:id="@+id/OrderNameField"
              android:layout_width="wrap_content"
              android:layout_height="wrap_content"
              android:layout_marginLeft="5dp"
-             android:text="12345678765"
+             android:text="ZYZ"
              android:textSize="20dp"
              android:textColor="@color/textPrimary"
-             app:layout_constraintStart_toEndOf="@id/orderIDTag"
-             app:layout_constraintTop_toTopOf="@id/orderIDTag"
-             app:layout_constraintBottom_toBottomOf="@id/orderIDTag"
+             app:layout_constraintStart_toStartOf="parent"
+             app:layout_constraintBaseline_toTopOf="parent"
+
              />
 
          <TextView
              android:id="@+id/priceTag"
              android:layout_width="wrap_content"
              android:layout_height="wrap_content"
-             android:text="$1.50"
+             android:text=" \u20B91.50"
              android:textSize="25dp"
              android:layout_marginRight="20dp"
              android:textStyle="bold"
-             android:textColor="@color/textPrimary"
              app:layout_constraintEnd_toEndOf="parent"
-             app:layout_constraintTop_toBottomOf="@id/billStatus"
-             />
+             app:layout_constraintTop_toTopOf="parent"
+             app:layout_constraintBottom_toBottomOf="parent"
+
+              />
 
          <TextView
              android:id="@+id/date"
              android:layout_width="wrap_content"
              android:layout_height="wrap_content"
              android:text="Mon. July 3rd"
+             android:textSize="15dp"
              android:textColor="@color/textSecondary"
-             app:layout_constraintStart_toStartOf="@id/orderIDTag"
-             app:layout_constraintTop_toBottomOf="@id/orderIDTag"
-             />
-         <TextView
-             android:id="@+id/billStatus"
-             android:layout_width="wrap_content"
-             android:layout_height="wrap_content"
-             android:text="Paid"
-             android:textAlignment="center"
-             android:paddingLeft="5dp"
-             android:paddingRight="5dp"
-             android:paddingTop="2dp"
-             android:textColor="@color/textPrimary"
-             android:background="@drawable/btn_paid_bg"
-             app:layout_constraintTop_toTopOf="@id/orderIDTag"
-             app:layout_constraintStart_toStartOf="@id/priceTag"
-             app:layout_constraintEnd_toEndOf="@id/priceTag"
-
+             app:layout_constraintStart_toStartOf="@id/OrderNameField"
+             app:layout_constraintTop_toBottomOf="@id/OrderNameField"
              />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
