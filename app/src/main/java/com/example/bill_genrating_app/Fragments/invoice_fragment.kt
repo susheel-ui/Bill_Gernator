@@ -1,35 +1,27 @@
 package com.example.bill_genrating_app.Fragments
 
-import android.content.ContentValues
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
-import com.example.bill_genrating_app.Activities.AllOrdersActiity
-import com.example.bill_genrating_app.Adapters.MyCostomAdapter
+import com.example.bill_genrating_app.Activities.ViewOrdersActivity
+import com.example.bill_genrating_app.Adapters.MyOrdersViewItemAdapter
 import com.example.bill_genrating_app.R
 import com.example.bill_genrating_app.Roomdb.DBHelper
 import com.example.bill_genrating_app.Roomdb.entities.Order
 import com.example.bill_genrating_app.databinding.FragmentInvoiceFragmentBinding
-import com.example.bill_genrating_app.entity.orders_entity
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import java.util.Date
 
 class invoice_fragment() : Fragment() {
     // TODO: Rename and change types of parameters
    lateinit var fragmentsBinding: FragmentInvoiceFragmentBinding
    lateinit var db:DBHelper
    lateinit var orderData:List<Order>
-   lateinit var adapter:MyCostomAdapter
+   lateinit var adapter:MyOrdersViewItemAdapter
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -47,7 +39,7 @@ class invoice_fragment() : Fragment() {
         //All Click listeners
             //see all click listener
                 fragmentsBinding.fragmentSeeAllTag.setOnClickListener {
-                   val intent = Intent(requireContext(), AllOrdersActiity::class.java)
+                   val intent = Intent(requireContext(), ViewOrdersActivity::class.java)
                     startActivity(intent)
                     requireActivity().overridePendingTransition(R.anim.zoom_in,R.anim.stay_static)
                 }
@@ -65,7 +57,7 @@ class invoice_fragment() : Fragment() {
         val job1 = CoroutineScope(Dispatchers.IO).launch{
             data = getData().reversed();
         }.invokeOnCompletion {
-            adapter = MyCostomAdapter(this, data.subList(0,3))
+            adapter = MyOrdersViewItemAdapter(requireContext(), data.subList(0,3))
             fragmentsBinding.ordersListsview.adapter = adapter
         }
 
