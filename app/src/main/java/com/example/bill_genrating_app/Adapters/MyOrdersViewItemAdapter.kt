@@ -2,17 +2,21 @@ package com.example.bill_genrating_app.Adapters
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
+import android.widget.Toast
 import androidx.core.content.ContextCompat
+import com.example.bill_genrating_app.Activities.FinalOrderActivity
 import com.example.bill_genrating_app.databinding.OrdersListLayoutBinding
 import com.example.bill_genrating_app.Fragments.invoice_fragment
 import com.example.bill_genrating_app.R
 import com.example.bill_genrating_app.Roomdb.entities.Order
 import com.example.bill_genrating_app.UtilClasses.ExtractDateFromOrdID
 import com.example.bill_genrating_app.UtilClasses.status
+import com.example.bill_genrating_app.databinding.ActivityFinalOrderBinding
 import java.util.Locale
 
 class MyOrdersViewItemAdapter(val context: Context, val arr:List<Order>) : BaseAdapter(){
@@ -43,6 +47,11 @@ class MyOrdersViewItemAdapter(val context: Context, val arr:List<Order>) : BaseA
         }
         val date  = ExtractDateFromOrdID(entity.ordId.toString())
         convertview.date.text = date
+        convertview.root.setOnClickListener {
+            val intent = Intent(context, FinalOrderActivity::class.java)
+            intent.putExtra("OrderId",entity.ordId);
+            context.startActivity(intent)
+        }
         return convertview.root
 
     }
