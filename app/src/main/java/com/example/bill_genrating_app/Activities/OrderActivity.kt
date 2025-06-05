@@ -164,7 +164,7 @@ class OrderActivity : AppCompatActivity() {
         activity?.barcodeScanner?.pause()
     }
 
-    private fun addItemToInvoice(barcodeId: Long): Boolean {
+    public fun addItemToInvoice(barcodeId: Long): Boolean {
         val itemDao = db.itemDao()
         val item = itemDao.getByid(barcodeId)
         if (item.isNotEmpty() && item.size == 1) {

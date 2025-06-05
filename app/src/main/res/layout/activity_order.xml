@@ -101,7 +101,8 @@
                 android:layout_below="@id/qr_preview"
                 android:background="@color/colorSecondary"
                 android:orientation="horizontal"
-                android:padding="8dp">
+                android:padding="8dp"
+                >
 
 
                 <TextView

@@ -25,5 +25,8 @@ interface OrderItemDao {
     @Query("DELETE FROM OrderItem where ordId = :orderId")
     suspend fun deleteById(orderId: String)
 
+    @Query("SELECT * FROM OrderItem WHERE ordId = :orderId")
+    suspend fun findByOrderId(orderId: String): List<OrderItem>
+
 
 }
