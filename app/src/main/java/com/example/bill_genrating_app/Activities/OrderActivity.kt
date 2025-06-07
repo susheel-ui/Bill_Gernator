@@ -8,13 +8,16 @@ import android.os.Handler
 import android.util.AttributeSet
 import android.util.Log
 import android.view.View
+import android.view.animation.AnimationUtils
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.bill_genrating_app.Adapters.invoiceItemAdapter
+import com.example.bill_genrating_app.R
 import com.example.bill_genrating_app.Roomdb.DBHelper
+import com.example.bill_genrating_app.Roomdb.Repos.OrderActivityServices
 import com.example.bill_genrating_app.Roomdb.entities.Order
 import com.example.bill_genrating_app.Roomdb.entities.OrderItem
 import com.example.bill_genrating_app.UtilClasses.status
@@ -41,7 +44,7 @@ class OrderActivity : AppCompatActivity() {
     private var itemList = ArrayList<invoiceItem>()
     private lateinit var invoiceItemAdapter: invoiceItemAdapter
     private var grandTotal = 0.00;
-    private lateinit var db:DBHelper
+    private lateinit var db: DBHelper
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -49,7 +52,7 @@ class OrderActivity : AppCompatActivity() {
         invoiceItemAdapter = invoiceItemAdapter(itemList)
         super.onCreate(savedInstanceState)
         setContentView(activity!!.root)
-       db = DBHelper.getDatabase(applicationContext)
+        db = DBHelper.getDatabase(applicationContext)
         //barcode scanner preview
         val formats = listOf(BarcodeFormat.QR_CODE, BarcodeFormat.CODE_39)
         activity?.barcodeScanner?.decoderFactory = DefaultDecoderFactory(formats)
@@ -71,6 +74,8 @@ class OrderActivity : AppCompatActivity() {
                 val mob = activity?.etMobile?.text.toString()
                 val order = Order(orderId, name, mob, grandTotal, status.PENDING.toString())
                 val list = ArrayList<OrderItem>()
+                val anim = AnimationUtils.loadAnimation(this, R.anim.btn_popup)
+                activity?.ordersPageSaveBtn?.startAnimation(anim)
                 itemList.forEach { it ->
                     list.add(OrderItem(order.ordId, it.barCodeId.toString(), it.quantity, it.total))
                 }
@@ -78,11 +83,11 @@ class OrderActivity : AppCompatActivity() {
                     if (mob.isNotEmpty()) {
                         if (itemList.isNotEmpty()) {
                             lifecycleScope.launch(Dispatchers.IO) {
-                               try {
-                                   saveToDB(order, list)
-                               }catch (e:Exception){
-                                   Log.d(TAG, "onCreate: saving error ${e.message}")
-                               }
+                                try {
+                                    saveToDB(order, list)
+                                } catch (e: Exception) {
+                                    Log.d(TAG, "onCreate: saving error ${e.message}")
+                                }
                             }
                         } else
                             Toast.makeText(this, "pls add Some Items", Toast.LENGTH_SHORT).show()
@@ -141,14 +146,6 @@ class OrderActivity : AppCompatActivity() {
 
     }
 
-    override fun onCreateView(name: String, context: Context, attrs: AttributeSet): View? {
-        return super.onCreateView(name, context, attrs)
-    }
-
-    fun triggerScan(view: View) {
-        activity?.barcodeScanner?.decodeSingle(callback)
-    }
-
     override fun onStart() {
         super.onStart()
         activity?.barcodeScanner?.resume()
@@ -164,7 +161,7 @@ class OrderActivity : AppCompatActivity() {
         activity?.barcodeScanner?.pause()
     }
 
-    public fun addItemToInvoice(barcodeId: Long): Boolean {
+    fun addItemToInvoice(barcodeId: Long): Boolean {
         val itemDao = db.itemDao()
         val item = itemDao.getByid(barcodeId)
         if (item.isNotEmpty() && item.size == 1) {
@@ -191,7 +188,7 @@ class OrderActivity : AppCompatActivity() {
                     // You might want to update the quantity here if it's already present
                 }
             }
-            
+
             if (!isPresent) {
                 itemList.add(invoiceItemToAdd)
                 invoiceItemAdapter.notifyDataSetChanged()
@@ -205,26 +202,9 @@ class OrderActivity : AppCompatActivity() {
         return true
     }
 
-    private suspend fun saveToDB(order: Order, orderItems: List<OrderItem>) {
-       
-        try {
-            db.orderDao().insert(order)
-            Log.d(TAG, "saveToDB: order saved successful")
-        }catch (e:Exception){
-            Log.d(TAG, "saveToDB: Duplicate error ${e.message}")
-            db.orderDao().update(order)
-        }
-
-        orderItems.forEach { orderItem ->
-            try{
-                db.orderItemDao().insert(orderItem)
-                Log.d(TAG, "saveToDB: successful ordered item save")
-            }catch (e:Exception){
-                Log.d(TAG, "saveToDB: Duplicate error ${e.message}")
-                db.orderItemDao().update(orderItem)
-            }finally {
-                Toast.makeText(this, "Saved", Toast.LENGTH_SHORT).show()
-            }
+    private fun saveToDB(order: Order, orderItems: List<OrderItem>) {
+        lifecycleScope.launch {
+            OrderActivityServices(applicationContext).saveToDb(order, orderItems)
         }
     }
 
