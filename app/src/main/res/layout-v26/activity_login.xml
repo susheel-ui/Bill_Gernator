@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Activities.LoginActivity"
-    android:background="@color/colorBackground"
+    android:background="@color/colorSecondary"
     >
 
     <TextView
@@ -64,26 +64,30 @@
         app:layout_constraintBottom_toBottomOf="parent"
 
         >
-        <com.google.android.material.textfield.TextInputLayout
+       <LinearLayout
+           android:layout_width="match_parent"
+           android:layout_height="match_parent">
+           <com.google.android.material.textfield.TextInputLayout
 
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="email"
-            android:padding="5dp"
-            android:textColorHint="@color/textDisabled"
-            android:background="@color/colorOnBackground"
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:hint="email"
+               android:padding="5dp"
+               android:textColorHint="@color/black"
 
-            >
+               >
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="textEmailAddress"
-                android:drawableLeft="@drawable/email_vector"
-                android:drawablePadding="10dp"
-                />
-        </com.google.android.material.textfield.TextInputLayout>
-    </androidx.cardview.widget.CardView>
+           <com.google.android.material.textfield.TextInputEditText
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:inputType="textEmailAddress"
+               android:drawableLeft="@drawable/email_vector"
+               android:drawablePadding="10dp"
+               />
+           </com.google.android.material.textfield.TextInputLayout>
+
+       </LinearLayout>
+            </androidx.cardview.widget.CardView>
     <!--    password card view -->
     <androidx.cardview.widget.CardView
         android:id="@+id/cardPasswordEditText"
@@ -102,7 +106,6 @@
             android:hint="Password"
             android:padding="5dp"
             android:textColorHint="@color/colorDisabled"
-            android:background="@color/colorOnBackground"
 
             >
             <com.google.android.material.textfield.TextInputEditText
@@ -110,7 +113,6 @@
                 android:layout_height="wrap_content"
                 android:drawablePadding="10dp"
                 android:inputType="textPassword"
-
                 android:drawableStart="@drawable/password_vector"
                 android:drawableEnd="@drawable/password_eye"
                 />

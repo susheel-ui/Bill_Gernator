@@ -30,7 +30,7 @@ class LoginActivity : AppCompatActivity() {
             val intent = Intent(this,MainActivity::class.java)
             val anim = AnimationUtils.loadAnimation(this, R.anim.btn_popup)
             CoroutineScope(Dispatchers.Main).launch{
-                ActivityBinding?.btnLogin?.startAnimation(anim)
+                ActivityBinding?.loginbtnCard?.startAnimation(anim)
             }.invokeOnCompletion {
                 startActivity(intent)
             }
