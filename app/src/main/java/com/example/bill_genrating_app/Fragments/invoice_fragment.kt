@@ -48,6 +48,10 @@ class invoice_fragment() : Fragment() {
         ShowTransactions()
         return fragmentsBinding.root
     }
+
+    override fun onResume() {
+        super.onResume()
+    }
     private suspend fun getData(): List<Order>{
         return db.orderDao().getAllOrders()
     }

@@ -1,18 +1,24 @@
 package com.example.bill_genrating_app.Activities
 
+import android.app.LauncherActivity
 import android.content.ContentValues.TAG
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.animation.AnimationUtils
+import android.widget.Toast
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import com.example.bill_genrating_app.Fragments.Fragment_Invoice_billingItems
 import com.example.bill_genrating_app.Fragments.QR_CodePreview
+import com.example.bill_genrating_app.Payment_Options_Activity
 import com.example.bill_genrating_app.R
 import com.example.bill_genrating_app.Roomdb.DBHelper
+import com.example.bill_genrating_app.Roomdb.Repos.OrderActivityServices
 import com.example.bill_genrating_app.Roomdb.entities.Order
 import com.example.bill_genrating_app.Roomdb.entities.OrderItem
 import com.example.bill_genrating_app.Roomdb.entities.items
@@ -35,6 +41,7 @@ class FinalOrderActivity : AppCompatActivity() {
     lateinit var orderData: Order
     lateinit var invoiceItemList: ArrayList<invoiceItem>
     lateinit var lastFragmentName: String
+    lateinit var launcherActivity: ActivityResultLauncher<Intent>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,7 +51,22 @@ class FinalOrderActivity : AppCompatActivity() {
         db = DBHelper.getDatabase(this);
         invoiceItemList = ArrayList()
 //        Log.d(TAG, "onCreate:  $OrderId")   // for only testing purpose and working propper tested
-
+        launcherActivity = registerForActivityResult(ActivityResultContracts.StartActivityForResult(),
+            { result ->
+                if (result.resultCode == RESULT_OK) {
+                    activityBinding.btnNextActivity.text = "Print Bill"
+                    activityBinding.cardPrintBillbtn.setCardBackgroundColor(
+                        ContextCompat.getColor(
+                            this,
+                            R.color.colorSuccess
+                        )
+                    )
+              lifecycleScope.launch {
+                  OrderActivityServices(applicationContext).updateOrderStatus(orderData.ordId,status.PAID.toString())
+              }
+                }
+        }
+            )
 
         lifecycleScope.launch {
             val OrderData = async {
@@ -170,6 +192,13 @@ class FinalOrderActivity : AppCompatActivity() {
             lastFragmentName = FragementsName.SHOWITEMS.toString()
         }
         activityBinding.cardPrintBillbtn.setOnClickListener {
+            if(activityBinding?.btnNextActivity?.text == "Make Paymemt"){
+                val intent = Intent(this, Payment_Options_Activity::class.java)
+                intent.putExtra("OrderId",orderData.ordId)
+                launcherActivity.launch(intent)
+            }else{
+                //TODO:: here we will work to activity for Printing pdf or save invoice
+            }
             activityBinding.cardPrintBillbtn.startAnimation(
                 AnimationUtils.loadAnimation(
                     this,
@@ -185,7 +214,9 @@ class FinalOrderActivity : AppCompatActivity() {
                     R.anim.btn_popup
                 )
             )
-            startActivity(Intent(this, OrderActivity::class.java))
+            val intent = Intent(this, OrderActivity::class.java)
+            intent.putExtra("OrderId",orderData.ordId)
+            startActivity(intent)
         }
 
 

@@ -35,7 +35,6 @@ class LoginActivity : AppCompatActivity() {
                 startActivity(intent)
             }
         }
-
         return super.onCreateView(name, context, attrs)
     }
 }

@@ -36,4 +36,13 @@ class OrderActivityServices(private val context:Context) {
             }
         }
         }
+    suspend fun getOrderInfoDataUsingOrderID(orderId:String): Order? {
+        return db.orderDao().findById(orderId)
+    }
+    suspend fun getAllItemUsingOrderId(orderId:String): List<OrderItem> {
+        return db.orderItemDao().findByOrderId(orderId)
+    }
+    suspend fun updateOrderStatus(orderId: String,status:String){
+        db.orderDao().updateOrderStatus(orderId,status);
+    }
 }

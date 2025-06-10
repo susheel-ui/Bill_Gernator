@@ -30,6 +30,7 @@ import com.journeyapps.barcodescanner.BarcodeResult
 import com.journeyapps.barcodescanner.DefaultDecoderFactory
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -45,6 +46,7 @@ class OrderActivity : AppCompatActivity() {
     private lateinit var invoiceItemAdapter: invoiceItemAdapter
     private var grandTotal = 0.00;
     private lateinit var db: DBHelper
+    lateinit var orderId: String
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -59,13 +61,37 @@ class OrderActivity : AppCompatActivity() {
         activity?.barcodeScanner?.initializeFromIntent(intent)
         activity?.barcodeScanner?.decodeContinuous(callback)
         beepManager = BeepManager(this)
-
-
         val layoutManager = LinearLayoutManager(this)
         layoutManager.orientation = LinearLayoutManager.VERTICAL
         activity?.invoiceRow?.layoutManager = layoutManager
         activity?.invoiceRow?.adapter = invoiceItemAdapter
-        val orderId = generateOrderId()
+        val intent = intent.getStringExtra("OrderId")
+        if(intent != null){
+            orderId = intent
+            lifecycleScope.launch {
+                val orderJob = async {
+                    OrderActivityServices(applicationContext).getOrderInfoDataUsingOrderID(orderId)
+                }.await()
+                val itemJob = async {
+                    OrderActivityServices(applicationContext).getAllItemUsingOrderId(orderId)
+                }.await()
+                if(orderJob != null){
+                    activity?.etName?.setText(orderJob.name)
+                    activity?.etMobile?.setText(orderJob.mob)
+                }
+                itemJob.forEach {
+                    addItemToInvoice(it.BarcodeId.toLong())
+                }
+
+
+            }
+            Log.d(TAG, "onCreate:You are coming to via intent $orderId")
+        }else{
+           orderId = generateOrderId()
+            Log.d(TAG, "onCreate: You are coming to direct")
+        }
+
+
 
         activity?.ordersPageSaveBtn?.setOnClickListener {
             try {
@@ -161,6 +187,7 @@ class OrderActivity : AppCompatActivity() {
         activity?.barcodeScanner?.pause()
     }
 
+
     fun addItemToInvoice(barcodeId: Long): Boolean {
         val itemDao = db.itemDao()
         val item = itemDao.getByid(barcodeId)
@@ -195,7 +222,6 @@ class OrderActivity : AppCompatActivity() {
                 for (x in itemList) {
                     Log.d(TAG, "addItemToInvoice: ${x.name} ${x.quantity}")
                 }
-
             }
         }
         findGrandTotal()

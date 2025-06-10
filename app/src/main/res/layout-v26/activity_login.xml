@@ -150,7 +150,7 @@
         android:id="@+id/loginbtnCard"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:cardCornerRadius="50dp"
+        app:cardCornerRadius="10dp"
         android:layout_margin="30dp"
         android:backgroundTint="@color/colorPrimary"
         app:layout_constraintStart_toStartOf="parent"

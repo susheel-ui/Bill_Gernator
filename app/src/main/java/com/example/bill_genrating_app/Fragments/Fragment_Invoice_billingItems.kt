@@ -20,15 +20,18 @@ import java.text.DecimalFormat
  * Use the [Fragment_Invoice_billingItems.newInstance] factory method to
  * create an instance of this fragment.
  */
-class Fragment_Invoice_billingItems(val data: ArrayList<invoiceItem>, val GrandTotal: String) :
-    Fragment() {
+class Fragment_Invoice_billingItems() : Fragment() {
     lateinit var fragmentBinding: FragmentInvoiceBillingItemsBinding
     lateinit var adapter: invoiceItemAdapter
-
+    var data:ArrayList<invoiceItem> = ArrayList()
+    var GrandTotal:String = "0.0" // Initialize with a default value
+    constructor(data: ArrayList<invoiceItem>, GrandTotal: String):this(){
+        this.data = data
+        this.GrandTotal = GrandTotal
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
     }
 
     override fun onCreateView(
@@ -36,18 +39,18 @@ class Fragment_Invoice_billingItems(val data: ArrayList<invoiceItem>, val GrandT
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        fragmentBinding = FragmentInvoiceBillingItemsBinding.inflate(inflater)
-        adapter = invoiceItemAdapter(data as ArrayList<invoiceItem>)
+        fragmentBinding = FragmentInvoiceBillingItemsBinding.inflate(inflater, container, false)
+        adapter = invoiceItemAdapter(data) // Ensure data is initialized before adapter creation
         val layoutManager = LinearLayoutManager(requireContext())
         layoutManager.orientation = LinearLayoutManager.VERTICAL
         fragmentBinding.itemRecycleView.layoutManager = layoutManager
         fragmentBinding.itemRecycleView.adapter = adapter
+        // GrandTotal is initialized in the constructor or with a default value, so no need for ::GrandTotal.isInitialized check
         fragmentBinding.GrandTotalTextView.text = "\u20B9" + GrandTotal
         lifecycleScope.launch {
             val result = calculateSavedMoney(GrandTotal.toDouble())
             val df = DecimalFormat("#,###." + "0".repeat(2))
-            fragmentBinding.saveMoneyTV.text = "\u20B9" .plus(df.format(result))
-
+            fragmentBinding.saveMoneyTV.text = "\u20B9".plus(df.format(result))
         }
         return fragmentBinding.root
     }
