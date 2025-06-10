@@ -1,7 +1,9 @@
 package com.example.bill_genrating_app.Fragments
 
+import android.content.ContentValues.TAG
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,6 +17,7 @@ import com.example.bill_genrating_app.databinding.FragmentInvoiceFragmentBinding
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class invoice_fragment() : Fragment() {
     // TODO: Rename and change types of parameters
@@ -51,8 +54,9 @@ class invoice_fragment() : Fragment() {
 
     override fun onResume() {
         super.onResume()
+        ShowTransactions()
     }
-    private suspend fun getData(): List<Order>{
+      private suspend fun getData(): List<Order>{
         return db.orderDao().getAllOrders()
     }
 
@@ -61,8 +65,16 @@ class invoice_fragment() : Fragment() {
         val job1 = CoroutineScope(Dispatchers.IO).launch{
             data = getData().reversed();
         }.invokeOnCompletion {
-            adapter = MyOrdersViewItemAdapter(requireContext(), data.subList(0,3))
-            fragmentsBinding.ordersListsview.adapter = adapter
+            Log.d(TAG, "ShowTransactions: dataset initialised")
+            // Ensure the fragment is still attached to an activity and context is available
+            if (isAdded && context != null) {
+               requireActivity().runOnUiThread{
+                    // Check if data has enough elements before creating a subList
+                    val itemsToShow = if (data.size >= 3) data.subList(0, 3) else data
+                    adapter = MyOrdersViewItemAdapter(requireContext(), itemsToShow)
+                    fragmentsBinding.ordersListsview.adapter = adapter
+                }
+            }
         }
 
 
