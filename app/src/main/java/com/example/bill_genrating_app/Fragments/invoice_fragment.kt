@@ -33,8 +33,6 @@ class invoice_fragment() : Fragment() {
             orders_entity(12345, 100.00, true, Date()),
             orders_entity(65234567, 100.00, true, Date())
         , orders_entity(456765456, 100.00, true, Date())
-        , orders_entity(345677654, 100.00, true, Date())
-        , orders_entity(9876545678, 100.00, true, Date())
         )
 // TODO:: adding the pages
 //        var adapter = MyOrderListAdapter(this,orderList)
