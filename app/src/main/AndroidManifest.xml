@@ -16,10 +16,16 @@
         android:hardwareAccelerated="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@mipmap/logo"
         android:supportsRtl="true"
         android:theme="@style/Theme.Bill_Genrating_App"
         tools:targetApi="31">
+        <activity
+            android:name=".Activities.ShopDetailsEditPage"
+            android:exported="false" />
+        <activity
+            android:name=".Activities.RegisterUserActivity"
+            android:exported="false" />
         <activity
             android:name=".Payment_Options_Activity"
             android:exported="false" />

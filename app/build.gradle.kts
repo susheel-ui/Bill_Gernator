@@ -57,6 +57,7 @@ dependencies {
     ksp(libs.room.compiler)
     implementation(libs.room.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
+    implementation(libs.android.xml.to.pdf.generator)
 
 
 }

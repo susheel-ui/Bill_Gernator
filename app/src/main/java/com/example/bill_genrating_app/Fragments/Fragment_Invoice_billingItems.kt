@@ -25,9 +25,12 @@ class Fragment_Invoice_billingItems() : Fragment() {
     lateinit var adapter: invoiceItemAdapter
     var data:ArrayList<invoiceItem> = ArrayList()
     var GrandTotal:String = "0.0" // Initialize with a default value
-    constructor(data: ArrayList<invoiceItem>, GrandTotal: String):this(){
+    var flag:Boolean = false
+    constructor(data: ArrayList<invoiceItem>,
+                GrandTotal: String,flag:Boolean = false):this(){
         this.data = data
         this.GrandTotal = GrandTotal
+        this.flag = flag
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -40,7 +43,7 @@ class Fragment_Invoice_billingItems() : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         fragmentBinding = FragmentInvoiceBillingItemsBinding.inflate(inflater, container, false)
-        adapter = invoiceItemAdapter(data) // Ensure data is initialized before adapter creation
+        adapter = invoiceItemAdapter(data,flag) // Ensure data is initialized before adapter creation
         val layoutManager = LinearLayoutManager(requireContext())
         layoutManager.orientation = LinearLayoutManager.VERTICAL
         fragmentBinding.itemRecycleView.layoutManager = layoutManager
@@ -55,7 +58,7 @@ class Fragment_Invoice_billingItems() : Fragment() {
         return fragmentBinding.root
     }
 
-    private fun calculateSavedMoney(grandTotal: Double): Double {
+   private fun calculateSavedMoney(grandTotal: Double): Double {
         var MRP_GrandTotal: Double = 0.0;
         for (x in data) {
             MRP_GrandTotal += x.MRP * x.quantity;

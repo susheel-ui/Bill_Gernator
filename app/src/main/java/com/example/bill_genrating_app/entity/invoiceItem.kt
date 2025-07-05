@@ -1,7 +1,8 @@
 package com.example.bill_genrating_app.entity
 
-class invoiceItem(barCodeId:Long,name:String,MRP:Double,quantity:Int,discount:Double) {
-        var total = MRP - MRP * (discount / 100)
+class invoiceItem(barCodeId:Long,name:String,initialMRP:Double,initialQuantity:Int,initialDiscount:Double) {
+
+        var total : Double = 0.0
             get(){
                 return field
             }
@@ -13,19 +14,34 @@ class invoiceItem(barCodeId:Long,name:String,MRP:Double,quantity:Int,discount:Do
             get(){
                 return field
             }
-        var quantity = quantity
+        var quantity = initialQuantity
             get()  {
                 return field
             }
             set(q:Int) {
                 field = q
+                calculateTotal()
             }
-    var MRP = MRP
+    var MRP = initialMRP
         get(){
             return field
         }
-    var discount = discount
+        set(value) {
+            field = value
+            calculateTotal()
+        }
+    var discount = initialDiscount
         get() {
             return field
         }
+        set(value) {
+            field = value
+            calculateTotal()
+        }
+   private fun calculateTotal() {
+       total = MRP * quantity - MRP * quantity * (discount / 100)
+   }
+    init {
+        calculateTotal()
+    }
 }
