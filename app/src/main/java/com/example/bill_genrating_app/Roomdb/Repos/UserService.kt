@@ -9,8 +9,8 @@ class UserService(private val context:Context) {
     suspend fun registerUser(user: User): Long {
         return db.userDao().registerUser(user)
     }
-  fun authenticateUser(username: String, password: String):User? {
-        val user = db.userDao().authenticateUser(username, password)
+  fun authenticateUser(email: String, password: String):User? {
+        val user = db.userDao().authenticateUser(email, password)
         return user
     }
    fun getUserById(id: Long?): User? {

@@ -31,15 +31,20 @@ class RegisterUserActivity : AppCompatActivity() {
         activityBinding = ActivityRegisterUserBinding.inflate(layoutInflater)
         setContentView(activityBinding.root)
 
+        activityBinding.backBtn.setOnClickListener{
+            finish()
+        }
+
         activityBinding.btnSignUp.setOnClickListener {
             val username = activityBinding.usernameET.text.toString()
             val password = activityBinding.passwordET.text.toString()
+            val email = activityBinding.emailET.text.toString()
 
-            if (username.isNotEmpty() && password.isNotEmpty()) {
+            if (username.isNotEmpty() && password.isNotEmpty() && email.isNotEmpty()) {
                 lifecycleScope.launch {
                     try {
                         val id = withContext(Dispatchers.IO) {
-                            UserService(applicationContext).registerUser(User(null, username, password))
+                            UserService(applicationContext).registerUser(User(null,email, username, password))
                         }
 
                         if (id != null) {

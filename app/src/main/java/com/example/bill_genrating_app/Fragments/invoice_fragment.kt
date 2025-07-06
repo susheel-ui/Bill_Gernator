@@ -48,7 +48,7 @@ class invoice_fragment(private val user: User?) : Fragment() {
                     startActivity(intent)
                     requireActivity().overridePendingTransition(R.anim.zoom_in,R.anim.stay_static)
                 }
-fragmentsBinding.invoiceSearchbar.username.text  = user?.username.toString()
+fragmentsBinding.invoiceSearchbar.emailEt.text  = user?.username.toString()
         //data getting
         ShowTransactions()
         return fragmentsBinding.root

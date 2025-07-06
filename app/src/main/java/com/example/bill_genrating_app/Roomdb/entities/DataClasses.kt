@@ -24,6 +24,7 @@ data class shopDetails(
 @Entity(tableName = "users")
 data class User(
     @PrimaryKey(autoGenerate = true) val id: Int?,
+    val email:String,
     val username: String,
     val password: String  // In production, never store plain passwords.
 )

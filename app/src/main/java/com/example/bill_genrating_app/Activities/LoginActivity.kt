@@ -1,19 +1,13 @@
 package com.example.bill_genrating_app.Activities
 
-import android.content.ContentValues.TAG
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.AttributeSet
-import android.util.Log
-import android.view.LayoutInflater
 import android.view.View
 import android.view.animation.AnimationUtils
 import android.widget.Toast
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import com.example.bill_genrating_app.R
 import com.example.bill_genrating_app.Roomdb.Repos.UserService
 import com.example.bill_genrating_app.databinding.ActivityLoginBinding
@@ -36,10 +30,10 @@ class LoginActivity : AppCompatActivity() {
             CoroutineScope(Dispatchers.Main).launch{
                 ActivityBinding?.loginbtnCard?.startAnimation(anim)
             }.invokeOnCompletion {
-                val username = ActivityBinding?.username?.text.toString()
+                val email = ActivityBinding?.emailEt?.text.toString()
                 val password = ActivityBinding?.password?.text.toString()
 
-                    val user = UserService(applicationContext).authenticateUser(username,password)
+                    val user = UserService(applicationContext).authenticateUser(email,password)
 //                Log.d(TAG, "onCreateView: ${user?.id}")
                     if(user != null) {
                         intent.putExtra("_id", user.id)
