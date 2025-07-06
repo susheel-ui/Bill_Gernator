@@ -12,14 +12,14 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/colorBackground"
+
         >
 
         <LinearLayout
             android:id="@+id/inoviceSearchlayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="10dp"
             android:orientation="vertical"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -38,18 +38,18 @@
             android:layout_width="match_parent"
             android:layout_height="200dp"
             android:layout_margin="20dp"
-            android:backgroundTint="@color/colorPrimary"
-            app:cardCornerRadius="30dp"
+            app:cardCornerRadius="20dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-
             app:layout_constraintTop_toBottomOf="@id/inoviceSearchlayout"
 
             >
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:background="@color/colorPrimary"
+                >
 
                 <TextView
                     android:id="@+id/incomeTitle"
@@ -64,7 +64,6 @@
                     android:textStyle="bold"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-
                     />
 
                 <TextView
@@ -72,17 +71,17 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="-10dp"
-                    android:fontFamily="@font/poppins_extrabold"
-                    android:text="600000$"
-                    android:textColor="@color/textSecondary"
-                    android:textSize="30dp"
+                    android:text="600000"
+                    android:textColor="@color/green"
+                    android:textSize="50dp"
+                    android:textStyle="bold"
                     app:layout_constraintStart_toStartOf="@id/incomeTitle"
                     app:layout_constraintTop_toBottomOf="@id/incomeTitle" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="-10dp"
+                    android:layout_marginTop="5dp"
                     android:fontFamily="@font/poppins_regular"
                     android:text="Your balance right now"
                     android:textColor="@color/textPrimary"
@@ -300,27 +299,43 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
             android:layout_marginTop="20dp"
-            android:orientation="vertical"
+            android:orientation="horizontal"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/boxes">
 
-            <TextView
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/recents_transaction"
+                android:orientation="vertical"
+                >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/recents_transaction"
+                    android:textColor="@color/textPrimary"
+                    android:textSize="30sp"
+
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Below are your most recents orders"
+                    android:textSize="15dp"
+                    android:textColor="@color/textSecondary"
+                    />
+            </LinearLayout>
+            <TextView
+                android:id="@+id/fragment_seeAllTag"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="See All"
                 android:textColor="@color/textPrimary"
-                android:textSize="30sp"
-
+                android:gravity="center|end"
+                android:layout_marginEnd="10dp"
+                android:textSize="20dp"
                 />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Below are your most recents orders"
-                android:textSize="15dp"
-                android:textColor="@color/textSecondary"
-                />
-
         </LinearLayout>
 
             <ListView

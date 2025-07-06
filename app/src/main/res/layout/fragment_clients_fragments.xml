@@ -1,18 +1,221 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".Fragments.clients_fragments">
 
-    <!-- TODO: Update blank fragment layout -->
-
-    <!-- TODO: Update blank fragment layout -->
+    <ImageButton
+        android:id="@+id/backBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/back_button"
+        android:background="@android:color/transparent"
+        android:layout_margin="20dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        />
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="hello client fragement" />
+        android:id="@+id/profileTag"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="18sp"
+        android:textColor="@color/black"
+        android:fontFamily="@font/manrope_regular"
+        android:text="Profile"
+        android:textStyle="bold"
+        app:layout_constraintTop_toTopOf="@id/backBtn"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
 
-</FrameLayout>
+        />
+
+        <LinearLayout
+            android:id="@+id/boxUserDb"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_margin="16dp"
+            android:gravity="center"
+            app:layout_constraintTop_toBottomOf="@id/profileTag"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            >
+            <androidx.cardview.widget.CardView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="500dp"
+
+                >
+            <ImageView
+                android:layout_width="128dp"
+                android:layout_height="128dp"
+                android:src="@mipmap/user_dp_round"
+                />
+            </androidx.cardview.widget.CardView>
+            <TextView
+                android:id="@+id/UserNameTF"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="22sp"
+                android:text="User name"
+                android:textStyle="bold"
+                android:background="@android:color/transparent"
+                android:enabled="false"
+                android:textColor="@color/BlackTextColor"
+                />
+            <TextView
+                android:id="@+id/GSTIN"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:text="GSTIN: 24AABCS1409R1Z6"
+                android:textColor="@color/textSecondary"
+                />
+           </LinearLayout>
+<TextView
+    android:id="@+id/shopDetailsTag"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="Shop Details"
+    android:textSize="18sp"
+    android:textStyle="bold"
+    android:layout_marginTop="16dp"
+    android:layout_marginStart="16dp"
+    android:layout_marginBottom="8dp"
+    android:textColor="@color/BlackTextColor"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@id/boxUserDb"
+    />
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintTop_toBottomOf="@id/shopDetailsTag"
+    >
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingStart="16dp"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Shop Name"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:textColor="@color/BlackTextColor"
+            />
+        <TextView
+            android:id="@+id/ShopNameTF"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Sharma General Store"
+            android:textSize="16sp"
+            android:background="@android:color/transparent"
+            android:enabled="false"
+            />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingStart="16dp"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Address"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:textColor="@color/BlackTextColor"
+            />
+        <TextView
+            android:id="@+id/AddressTF"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="123, Main Street, Mumbai, 400001"
+            android:textSize="16sp"
+            android:background="@android:color/transparent"
+            android:enabled="false"
+            />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingStart="16dp"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Contact Number"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:textColor="@color/BlackTextColor"
+            />
+        <TextView
+            android:id="@+id/MobileNoTF"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="+91 9876543210"
+            android:textSize="16sp"
+            android:background="@android:color/transparent"
+            android:enabled="false"
+            />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingStart="16dp"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Business Hours"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:textColor="@color/BlackTextColor"
+            />
+
+        <TextView
+            android:id="@+id/BusinessHoursTF"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:enabled="false"
+            android:text="Mon-Sat: 9 AM - 9 PM"
+            android:textSize="16sp" />
+    </LinearLayout>
+
+</LinearLayout>
+
+
+    <Button
+        android:id="@+id/btnUpdateClient"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/colorPrimaryVariant"
+        android:layout_margin="16dp"
+        android:text="Update Profile"
+        android:textStyle="bold"
+        android:textColor="@color/BlackTextColor"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

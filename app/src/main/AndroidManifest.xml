@@ -5,8 +5,8 @@
     <uses-feature
         android:name="android.hardware.camera"
         android:required="false" />
-    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_CAMERA" />
 
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_CAMERA" />
     <uses-permission android:name="android.permission.CAMERA" />
 
     <application
@@ -16,10 +16,28 @@
         android:hardwareAccelerated="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@mipmap/logo"
         android:supportsRtl="true"
         android:theme="@style/Theme.Bill_Genrating_App"
         tools:targetApi="31">
+        <activity
+            android:name=".Activities.ShopDetailsEditPage"
+            android:exported="false" />
+        <activity
+            android:name=".Activities.RegisterUserActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Payment_Options_Activity"
+            android:exported="false" />
+        <activity
+            android:name=".Activities.FinalOrderActivity"
+            android:exported="false" />
+        <activity
+            android:name=".FinalOrderActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Activities.ViewOrdersActivity"
+            android:exported="false" />
         <activity
             android:name=".Activities.LoginActivity"
             android:exported="true">
@@ -40,9 +58,7 @@
             android:exported="false" />
         <activity
             android:name=".Activities.MainActivity"
-            android:exported="true">
-
-        </activity>
+            android:exported="true" />
         <activity
             android:name="com.journeyapps.barcodescanner.CaptureActivity"
             android:screenOrientation="fullSensor"

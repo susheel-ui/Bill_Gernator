@@ -1,6 +1,7 @@
 [versions]
 agp = "8.3.2"
 androidAnimationsKotlin = "1.0.1"
+androidXmlToPdfGenerator = "2.6.8"
 kotlin = "2.1.0"
 coreKtx = "1.13.1"
 junit = "4.13.2"
@@ -21,6 +22,7 @@ org-jetbrains-kotlin-android = "1.8.0"
 [libraries]
 
 android-animations-kotlin = { module = "com.github.gayanvoice:android-animations-kotlin", version.ref = "androidAnimationsKotlin" }
+android-xml-to-pdf-generator = { module = "com.github.Gkemon:Android-XML-to-PDF-Generator", version.ref = "androidXmlToPdfGenerator" }
 androidx-lifecycle-runtime-ktx = { module = "androidx.lifecycle:lifecycle-runtime-ktx", version.ref = "lifecycleRuntimeKtx" }
 androidx-room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "room" }
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }

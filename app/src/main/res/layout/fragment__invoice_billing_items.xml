@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".Fragments.Fragment_Invoice_billingItems">
+
+    <LinearLayout
+        android:id="@+id/invoice_header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorSecondary"
+        android:orientation="horizontal"
+        android:padding="8dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        >
+
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1.5"
+            android:text="Item Name"
+            android:textSize="13dp"
+            android:textColor="@color/colorOnPrimary"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="MRP"
+            android:textSize="15dp"
+            android:gravity="end"
+            android:textColor="@color/colorOnPrimary"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Discount%"
+            android:textSize="15dp"
+            android:gravity="end"
+            android:textColor="@color/colorOnPrimary"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Quantity"
+            android:textSize="15dp"
+            android:gravity="end"
+            android:textColor="@color/colorOnPrimary"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Final Amt"
+            android:textSize="15dp"
+            android:gravity="end"
+            android:textColor="@color/colorOnPrimary"
+            android:textStyle="bold"/>
+    </LinearLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/itemRecycleView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/cardView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/invoice_header" />
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/colorPrimaryVariant"
+            android:padding="10.dp">
+
+            <TextView
+                android:id="@+id/GrandTotalFragmentTag"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingEnd="20.dp"
+                android:text="Grand Total:- "
+                android:textSize="30.dp"
+                app:layout_constraintBottom_toBottomOf="@id/GrandTotalTextView"
+                app:layout_constraintEnd_toStartOf="@id/GrandTotalTextView"
+                app:layout_constraintTop_toTopOf="@id/GrandTotalTextView" />
+
+            <TextView
+                android:id="@+id/GrandTotalTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="10.dp"
+                android:text="000000 /-"
+                android:textSize="30.dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/saveMoneyTV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="10.dp"
+                android:text="00000 /-"
+                android:textColor="@color/red"
+                android:textSize="30dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/GrandTotalTextView" />
+
+            <TextView
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="20dp"
+                android:text="Saved :-"
+                android:textColor="@color/red"
+                android:textSize="30dp"
+                app:layout_constraintBottom_toBottomOf="@id/saveMoneyTV"
+                app:layout_constraintEnd_toStartOf="@id/saveMoneyTV"
+                app:layout_constraintTop_toTopOf="@id/saveMoneyTV"
+
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Mode Of Payment :- "
+                android:textSize="25.dp"
+                app:layout_constraintBottom_toBottomOf="@id/ModeOfPaymentTv"
+                app:layout_constraintEnd_toStartOf="@id/ModeOfPaymentTv"
+                app:layout_constraintTop_toTopOf="@id/ModeOfPaymentTv"
+
+                />
+
+            <TextView
+                android:id="@+id/ModeOfPaymentTv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="UPI"
+                android:textColor="@color/green"
+                android:textSize="20sp"
+                android:textStyle="bold|italic"
+                app:layout_constraintEnd_toEndOf="@id/saveMoneyTV"
+                app:layout_constraintTop_toBottomOf="@id/saveMoneyTV"
+
+                />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.cardview.widget.CardView>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
