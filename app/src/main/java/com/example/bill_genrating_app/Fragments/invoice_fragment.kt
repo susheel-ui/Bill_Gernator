@@ -67,7 +67,7 @@ fragmentsBinding.invoiceSearchbar.username.text  = user?.username.toString()
         val job1 = CoroutineScope(Dispatchers.IO).launch{
             data = getData().reversed();
         }.invokeOnCompletion {
-            Log.d(TAG, "ShowTransactions: dataset initialised")
+//            Log.d(TAG, "ShowTransactions: dataset initialised")
             // Ensure the fragment is still attached to an activity and context is available
             if (isAdded && context != null) {
                requireActivity().runOnUiThread{
