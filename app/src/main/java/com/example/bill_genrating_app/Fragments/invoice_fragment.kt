@@ -1,49 +1,86 @@
 package com.example.bill_genrating_app.Fragments
 
-import android.content.ContentValues
+import android.annotation.SuppressLint
+import android.content.ContentValues.TAG
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import com.example.bill_genrating_app.Activities.ViewOrdersActivity
+import com.example.bill_genrating_app.Adapters.MyOrdersViewItemAdapter
+import com.example.bill_genrating_app.R
+import com.example.bill_genrating_app.Roomdb.DBHelper
+import com.example.bill_genrating_app.Roomdb.entities.Order
+import com.example.bill_genrating_app.Roomdb.entities.User
 import com.example.bill_genrating_app.databinding.FragmentInvoiceFragmentBinding
-import com.example.bill_genrating_app.entity.orders_entity
-import java.util.Date
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
-class invoice_fragment() : Fragment() {
+class invoice_fragment(private val user: User?) : Fragment() {
     // TODO: Rename and change types of parameters
    lateinit var fragmentsBinding: FragmentInvoiceFragmentBinding
+   lateinit var db:DBHelper
+   lateinit var orderData:List<Order>
+   lateinit var adapter:MyOrdersViewItemAdapter
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        db = DBHelper.getDatabase(requireContext())
     }
 
+    @SuppressLint("SuspiciousIndentation")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
         fragmentsBinding = FragmentInvoiceFragmentBinding.inflate(layoutInflater);
-// for demo class list
 
-// TODO:: adding the pages
-//        var adapter = MyOrderListAdapter(this,orderList)
-//        fragmentsBinding.ordersListsview.adapter = adapter
-
-
-
-
-//        return inflater.inflate(R.layout.fragment_invoice_fragment, container, false)
+        //All Click listeners
+            //see all click listener
+                fragmentsBinding.fragmentSeeAllTag.setOnClickListener {
+                   val intent = Intent(requireContext(), ViewOrdersActivity::class.java)
+                    startActivity(intent)
+                    requireActivity().overridePendingTransition(R.anim.zoom_in,R.anim.stay_static)
+                }
+fragmentsBinding.invoiceSearchbar.username.text  = user?.username.toString()
+        //data getting
+        ShowTransactions()
         return fragmentsBinding.root
     }
 
-    public fun print(arr:Array<orders_entity>){
-        for (x in arr){
-            Log.d(ContentValues.TAG, "print: " + x.orderid)
+    override fun onResume() {
+        super.onResume()
+        ShowTransactions()
+    }
+      private suspend fun getData(): List<Order>{
+        return db.orderDao().getAllOrders()
+    }
+
+    private fun ShowTransactions(){
+        var data:List<Order> = listOf()
+        val job1 = CoroutineScope(Dispatchers.IO).launch{
+            data = getData().reversed();
+        }.invokeOnCompletion {
+//            Log.d(TAG, "ShowTransactions: dataset initialised")
+            // Ensure the fragment is still attached to an activity and context is available
+            if (isAdded && context != null) {
+               requireActivity().runOnUiThread{
+                    // Check if data has enough elements before creating a subList
+                    val itemsToShow = if (data.size >= 3) data.subList(0, 3) else data
+                    adapter = MyOrdersViewItemAdapter(requireContext(), itemsToShow)
+                    fragmentsBinding.ordersListsview.adapter = adapter
+                }
+            }
         }
+
+
+
     }
 
 
