@@ -8,6 +8,7 @@ import androidx.room.Transaction
 import com.example.bill_genrating_app.Roomdb.DBHelper
 import com.example.bill_genrating_app.Roomdb.entities.Order
 import com.example.bill_genrating_app.Roomdb.entities.OrderItem
+import java.text.DecimalFormat
 
 class OrderActivityServices(private val context:Context) {
     val db:DBHelper
@@ -16,6 +17,8 @@ class OrderActivityServices(private val context:Context) {
         }
     @Transaction
         public suspend fun saveToDb(order: Order, orderItems: List<OrderItem>){
+        val df = DecimalFormat("#,###." + "0".repeat(2))
+            order.grandTotal = df.format(order.grandTotal).toDouble()
         try {
             db.orderDao().insert(order)
             Log.d(TAG, "saveToDB: order saved successful")

@@ -85,9 +85,6 @@ class AddItem : AppCompatActivity() {
                 Toast.makeText(this, "${radio.text}", Toast.LENGTH_SHORT).show()
             }
         })
-
-
-
     }
     private fun launchScanner(){
         val scanoption = ScanOptions()

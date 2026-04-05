@@ -55,8 +55,209 @@
     <!-- Feedback -->
     <color name="colorError">#E57373</color>
     <color name="colorSuccess">#A8E6CF</color>
-</resources>
+<!-- ══════════════════════════════════════════════════════
+     1. PRIMARY  —  Professional Blue
+     Gradient hero: primary → primary_container (top→bottom)
+     ══════════════════════════════════════════════════════ -->
 
+<!-- Core blue used for section headers, active icons, CTAs -->
+<color name="primary">#FF0040A1</color>
+
+<!-- Lighter blue endpoint of the hero gradient -->
+<color name="primary_container">#FF0056D2</color>
+
+<!-- Used for pill / focus-ring glow behind active nav icon -->
+<color name="primary_fixed">#FFD6E4FF</color>
+
+<!-- Subtle tint layered on glass containers (5 % opacity = #0D) -->
+<color name="surface_tint">#0D0040A1</color>
+
+<!-- ══════════════════════════════════════════════════════
+     2. SECONDARY  —  Warm Neutral
+     Background for secondary buttons (no border).
+     ══════════════════════════════════════════════════════ -->
+
+<color name="secondary">#FF4A5568</color>
+<color name="secondary_container">#FFE8EBF0</color>
+
+<!-- ══════════════════════════════════════════════════════
+     3. TERTIARY  —  Status Green
+     RULE: Use ONLY for status dots or small label chips.
+     Never fill large surfaces with this color.
+     ══════════════════════════════════════════════════════ -->
+
+<color name="tertiary">#FF1B8A4C</color>
+<color name="tertiary_container">#FFD4F5E3</color>
+
+<!-- ══════════════════════════════════════════════════════
+     4. ERROR  —  Status Red
+     Same rule as tertiary: small labels / dots only.
+     ══════════════════════════════════════════════════════ -->
+
+<color name="error">#FFD32F2F</color>
+<color name="error_container">#FFFDE8E8</color>
+
+<!-- ══════════════════════════════════════════════════════
+     5. SURFACE HIERARCHY
+     Think of these as a physical stack of materials.
+
+     Nesting rule:
+       Page background     → surface
+       Primary cards       → surface_container_lowest  (white, "lifted")
+       Secondary grouping  → surface_container
+       Inner sub-groups    → surface_container_low
+       Hover / pressed     → surface_container_high
+
+     The visual "lift" comes from placing
+     surface_container_lowest on top of surface_container_low,
+     never from a drop shadow.
+     ══════════════════════════════════════════════════════ -->
+
+<!-- Page / screen background -->
+<color name="surface">#FFF8F9FA</color>
+
+<!-- Most important interactive cards — purest white "lift" -->
+<color name="surface_container_lowest">#FFFFFFFF</color>
+
+<!-- One tier below cards; wraps groups of related content -->
+<color name="surface_container_low">#FFF2F3F4</color>
+
+<!-- Secondary background grouping (non-interactive sections) -->
+<color name="surface_container">#FFEDEEEF</color>
+
+<!-- Pressed / hover state surface tint -->
+<color name="surface_container_high">#FFE6E7E9</color>
+
+<!-- Deepest surface tier; rarely used — heavy nesting only -->
+<color name="surface_container_highest">#FFDFE0E2</color>
+
+<!-- Glass overlay: surface at 80 % opacity — use with blur 12 px
+     Applied to: Bottom Nav, Modal overlays                     -->
+<color name="surface_glass">#CCF8F9FA</color>
+
+<!-- ══════════════════════════════════════════════════════
+     6. ON-COLORS  (text & icons rendered ON a surface)
+     Typography hierarchy rule:
+       Primary data      → on_surface          (highest weight)
+       Labels / metadata → on_surface_variant  (secondary weight)
+       Instructional     → on_surface_variant
+       Micro-metrics     → secondary            (label-sm)
+     ══════════════════════════════════════════════════════ -->
+
+<!-- Main text / icon on any surface tier -->
+<color name="on_surface">#FF1A1D23</color>
+
+<!-- De-emphasised text: instructional copy, metadata, captions -->
+<color name="on_surface_variant">#FF5A6270</color>
+
+<!-- Text/icon rendered directly on primary (gradient CTAs) -->
+<color name="on_primary">#FFFFFFFF</color>
+
+<!-- Text/icon on primary_container (lighter areas) -->
+<color name="on_primary_container">#FF002A6B</color>
+
+<!-- Text/icon on secondary_container buttons -->
+<color name="on_secondary_container">#FF1E2938</color>
+
+<!-- Text/icon on tertiary status badges -->
+<color name="on_tertiary_container">#FF0A3D22</color>
+
+<!-- Text/icon on error status badges -->
+<color name="on_error_container">#FF7A0000</color>
+
+<!-- ══════════════════════════════════════════════════════
+     7. OUTLINE & GHOST BORDER TOKENS
+     "No-Line Rule" exceptions:
+       Input fields (unfocused) → ghost_border  (outline_variant @ 20 %)
+       Input fields (focused)   → primary        (100 % opacity)
+       Focus outer glow         → primary_fixed
+     ══════════════════════════════════════════════════════ -->
+
+<!-- Full-strength outline; used for accessibility focus rings -->
+<color name="outline">#FF8E97A3</color>
+
+<!-- Source for ghost border; at native opacity this is ~40 % grey.
+     Apply at 20 % alpha in code: #33 prefix → ghost_border value   -->
+<color name="outline_variant">#FFBCC3CB</color>
+
+<!-- Ghost border = outline_variant at 20 % opacity              -->
+<!-- Usage: android:background with a ShapeDrawable using        -->
+<!--   stroke width="1dp" color="@color/ghost_border"            -->
+<color name="ghost_border">#33BDBDBD</color>
+
+<!-- ══════════════════════════════════════════════════════
+     8. GRADIENT TOKENS
+     Hero gradient (Today's Income bar):
+       startColor  → gradient_primary_start
+       endColor    → gradient_primary_end
+       angle       → 135° (diagonal, top-left → bottom-right)
+
+     Usage in XML gradient drawable:
+       android:startColor="@color/gradient_primary_start"
+       android:endColor="@color/gradient_primary_end"
+     ══════════════════════════════════════════════════════ -->
+
+<color name="gradient_primary_start">#FF0040A1</color>
+<color name="gradient_primary_end">#FF0056D2</color>
+
+<!-- ══════════════════════════════════════════════════════
+     9. SHADOW / ELEVATION TINTS
+     Rule: blur 32 px, opacity 4 % MAX.
+     Use on_surface hue so shadows feel like natural ambient light.
+     Never use black (#000) with 25 %+ opacity — it looks dated.
+     ══════════════════════════════════════════════════════ -->
+
+<!-- Shadow color for floating cards / bottom sheets (4 % opacity) -->
+<color name="shadow_ambient">#0A1A1D23</color>
+
+<!-- Slightly stronger for modals (still < 8 %)                  -->
+<color name="shadow_key">#141A1D23</color>
+
+<!-- ══════════════════════════════════════════════════════
+     10. SEMANTIC / ALIAS TOKENS
+     These are convenience aliases that map component states
+     to the canonical tokens above.  Use these in layouts.
+     ══════════════════════════════════════════════════════ -->
+
+<!-- Page scaffold background -->
+<!--<color name="background">@color/surface</color>-->
+<!--<color name="on_background">@color/on_surface</color>-->
+
+<!--&lt;!&ndash; Standard card surface &ndash;&gt;-->
+<!--<color name="card_surface">@color/surface_container_lowest</color>-->
+<!--<color name="card_surface_variant">@color/surface_container_low</color>-->
+
+<!--&lt;!&ndash; Input field background (unfocused) &ndash;&gt;-->
+<!--<color name="input_background">@color/surface_container_lowest</color>-->
+<!--<color name="input_border_unfocused">@color/ghost_border</color>-->
+<!--<color name="input_border_focused">@color/primary</color>-->
+<!--<color name="input_focus_glow">@color/primary_fixed</color>-->
+
+<!--&lt;!&ndash; Bottom navigation bar glass surface &ndash;&gt;-->
+<!--<color name="nav_bar_background">@color/surface_glass</color>-->
+<!--<color name="nav_active_indicator">@color/primary_fixed</color>-->
+<!--<color name="nav_icon_active">@color/primary</color>-->
+<!--<color name="nav_icon_inactive">@color/on_surface_variant</color>-->
+
+<!--&lt;!&ndash; Status indicators (dots / small chips ONLY) &ndash;&gt;-->
+<!--<color name="status_success">@color/tertiary</color>-->
+<!--<color name="status_success_container">@color/tertiary_container</color>-->
+<!--<color name="status_error">@color/error</color>-->
+<!--<color name="status_error_container">@color/error_container</color>-->
+
+<!--&lt;!&ndash; Primary CTA button gradient endpoints &ndash;&gt;-->
+<!--<color name="btn_primary_start">@color/gradient_primary_start</color>-->
+<!--<color name="btn_primary_end">@color/gradient_primary_end</color>-->
+<!--<color name="btn_primary_text">@color/on_primary</color>-->
+
+<!--&lt;!&ndash; Secondary button (no border, no gradient) &ndash;&gt;-->
+<!--<color name="btn_secondary_background">@color/secondary_container</color>-->
+<!--<color name="btn_secondary_text">@color/on_secondary_container</color>-->
+
+<!--&lt;!&ndash; Tertiary / text button &ndash;&gt;-->
+<!--<color name="btn_tertiary_text">@color/primary</color>-->
+
+</resources>
 <!--
 [10/10, 1:05 PM] Gaurav🧿 Harpalpur: #8AC186
 [10/10, 1:06 PM] Gaurav🧿 Harpalpur: #17181C

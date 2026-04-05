@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.ContentValues.TAG
 import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -52,7 +53,11 @@ import org.json.JSONObject
 import java.io.FileInputStream
 import java.io.IOException
 import java.text.DecimalFormat
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
+import java.util.Date
 import kotlin.coroutines.coroutineContext
+import kotlin.properties.Delegates
 
 
 class FinalOrderActivity : AppCompatActivity() {
@@ -63,8 +68,12 @@ class FinalOrderActivity : AppCompatActivity() {
     lateinit var lastFragmentName: String
     lateinit var launcherActivity: ActivityResultLauncher<Intent>
     private lateinit var xmlToPDFLifecycleObserver: XmlToPDFLifecycleObserver
-//    private val sharedPrefarence = getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE)
+    private var id = -1
+    lateinit var shopDetails: shopDetails
+
+    //    private val sharedPrefarence = getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE)
 //    lateinit var shopDetails: shopDetails
+    lateinit var sharedPref: SharedPreferences
 
     @SuppressLint("ResourceType")
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
@@ -74,9 +83,14 @@ class FinalOrderActivity : AppCompatActivity() {
         setContentView(activityBinding.root)
         val OrderId = intent.getStringExtra("OrderId")
         db = DBHelper.getDatabase(this);
+        sharedPref = applicationContext.getSharedPreferences("UserPrefs", Context.MODE_PRIVATE)
         xmlToPDFLifecycleObserver = XmlToPDFLifecycleObserver(this)
         lifecycle.addObserver(xmlToPDFLifecycleObserver)
         invoiceItemList = ArrayList()
+        id = sharedPref.getInt("userId", -1)
+        if (id == -1) {
+            Toast.makeText(this, "id not found check some error", Toast.LENGTH_SHORT).show()
+        }
 //        Log.d(TAG, "onCreate:  $OrderId")   // for only testing purpose and working propper tested
 //        var userId = sharedPrefarence.getString("id",null)
 //        if(userId != null){
@@ -87,7 +101,8 @@ class FinalOrderActivity : AppCompatActivity() {
 //
 //            }
 //        }
-        launcherActivity = registerForActivityResult(ActivityResultContracts.StartActivityForResult()
+        launcherActivity = registerForActivityResult(
+            ActivityResultContracts.StartActivityForResult()
         ) { result ->
             if (result.resultCode == RESULT_OK) {
                 activityBinding.btnNextActivity.text = "Print Bill"
@@ -106,7 +121,9 @@ class FinalOrderActivity : AppCompatActivity() {
                 }
             }
         }
-
+        CoroutineScope(Dispatchers.IO).launch {
+            shopDetails = shopDetailsService(applicationContext).getShopDetails(id)!!
+        }
         lifecycleScope.launch {
             val OrderData = async {
                 getData(OrderId.toString())
@@ -167,9 +184,9 @@ class FinalOrderActivity : AppCompatActivity() {
         }
         activityBinding.btnIconQR.setOnClickListener {
             val data = JSONObject()
-            data.append("OrderId",OrderId)
-            data.append("Amount",orderData.grandTotal.toString())
-            data.append("PaymentStatus",orderData.status.toString())
+            data.append("OrderId", OrderId)
+            data.append("Amount", orderData.grandTotal.toString())
+            data.append("PaymentStatus", orderData.status.toString())
             if (lastFragmentName != FragementsName.QRCODE.toString()) {
                 val navigation: Boolean =
                     if (lastFragmentName == FragementsName.SHOWITEMS.toString()) {
@@ -186,11 +203,11 @@ class FinalOrderActivity : AppCompatActivity() {
                 )
             }
             activityBinding.btnIconQR.startAnimation(
-                    AnimationUtils.loadAnimation(
-                        this,
-                        R.anim.btn_popup
-                    )
-                    )
+                AnimationUtils.loadAnimation(
+                    this,
+                    R.anim.btn_popup
+                )
+            )
             lastFragmentName = FragementsName.QRCODE.toString()
 
         }
@@ -233,11 +250,11 @@ class FinalOrderActivity : AppCompatActivity() {
             lastFragmentName = FragementsName.SHOWITEMS.toString()
         }
         activityBinding.cardPrintBillbtn.setOnClickListener {
-            if(activityBinding?.btnNextActivity?.text == "Make Paymemt"){
+            if (activityBinding?.btnNextActivity?.text == "Make Paymemt") {
                 val intent = Intent(this, Payment_Options_Activity::class.java)
-                intent.putExtra("OrderId",orderData.ordId)
+                intent.putExtra("OrderId", orderData.ordId)
                 launcherActivity.launch(intent)
-            }else{
+            } else {
                 //TODO:: here we will work to activity for Printing pdf or save invoice
 //                val thisIntent = Intent(Intent.ACTION_CREATE_DOCUMENT).apply {
 //                    addCategory(Intent.CATEGORY_OPENABLE)
@@ -245,7 +262,7 @@ class FinalOrderActivity : AppCompatActivity() {
 //                } // The result of this intent will be passed to the get() method of the contract.
 //                createDocLauncher.launch(thisIntent)
                 generatePdfToUri()
-           
+
             }
 
             activityBinding.cardPrintBillbtn.startAnimation(
@@ -264,7 +281,7 @@ class FinalOrderActivity : AppCompatActivity() {
                 )
             )
             val intent = Intent(this, OrderActivity::class.java)
-            intent.putExtra("OrderId",orderData.ordId)
+            intent.putExtra("OrderId", orderData.ordId)
             startActivity(intent)
         }
 
@@ -291,7 +308,8 @@ class FinalOrderActivity : AppCompatActivity() {
     private suspend fun getDetailsOfItems(itemId: String): List<items> {
         return db.itemDao().getByid(itemId.toLong())
     }
-    private fun getShopDetails(){
+
+    private fun getShopDetails() {
 
     }
 
@@ -306,6 +324,14 @@ class FinalOrderActivity : AppCompatActivity() {
         val printBinding = PrintPdfInvoiceBinding.inflate(layoutInflater)
         printBinding.subTotal.text = "Sub Total :  ".plus(orderData.grandTotal)
         printBinding.grandTotal.text = "GrandTotal :   ".plus(orderData.grandTotal)
+        printBinding.ShopName.text = shopDetails.shopName
+        printBinding.Address.text = shopDetails.address
+        val current = LocalDateTime.now()
+        val formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss")
+        val formatted = current.format(formatter)
+        printBinding.DateAndTime.text = formatted
+
+
         val layoutManager = LinearLayoutManager(applicationContext)
         layoutManager.orientation = LinearLayoutManager.VERTICAL
         printBinding.itemList.layoutManager = layoutManager
@@ -313,10 +339,11 @@ class FinalOrderActivity : AppCompatActivity() {
 //            printBinding.ShopName.text = shopDetails.shopName
 //            printBinding.Address.text = shopDetails.address
 
-        val adapter = invoiceItemAdapter(invoiceItemList,true)
+        val adapter = invoiceItemAdapter(invoiceItemList, true)
         printBinding.itemList.adapter = adapter
         val df = DecimalFormat("#,###." + "0".repeat(2))
-        printBinding.discount.text = "Saved : ".plus(df.format(calculateSavedMoney(orderData.grandTotal)))
+        printBinding.discount.text =
+            "Saved : ".plus(df.format(calculateSavedMoney(orderData.grandTotal)))
         PdfGenerator.getBuilder()
             .setContext(this)
             .fromViewSource()
@@ -336,15 +363,27 @@ class FinalOrderActivity : AppCompatActivity() {
                 override fun onSuccess(response: SuccessResponse) {
                     try {
 
-                        Toast.makeText(applicationContext, "Saved to selected location!", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(
+                            applicationContext,
+                            "Saved to selected location!",
+                            Toast.LENGTH_SHORT
+                        ).show()
                     } catch (e: IOException) {
-                        Toast.makeText(applicationContext, "Failed to save PDF: ${e.message}", Toast.LENGTH_LONG).show()
+                        Toast.makeText(
+                            applicationContext,
+                            "Failed to save PDF: ${e.message}",
+                            Toast.LENGTH_LONG
+                        ).show()
                         Log.e("PDFGen", "Error copying PDF: $e")
                     }
                 }
 
                 override fun onFailure(response: FailureResponse) {
-                    Toast.makeText(applicationContext, "PDF generation failed: ${response.errorMessage}", Toast.LENGTH_LONG).show()
+                    Toast.makeText(
+                        applicationContext,
+                        "PDF generation failed: ${response.errorMessage}",
+                        Toast.LENGTH_LONG
+                    ).show()
                     Log.e("PDFGen", "Generation failed: ${response.errorMessage}")
                 }
 
@@ -353,12 +392,13 @@ class FinalOrderActivity : AppCompatActivity() {
                 }
             })
     }
+
     fun calculateSavedMoney(grandTotal: Double): Double {
         var MRP_GrandTotal: Double = 0.0;
         for (x in invoiceItemList) {
             MRP_GrandTotal += x.MRP * x.quantity;
         }
-        return MRP_GrandTotal-grandTotal;
+        return MRP_GrandTotal - grandTotal;
     }
 
 }

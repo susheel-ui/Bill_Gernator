@@ -11,6 +11,6 @@ data class Order(
     val ordId: String,
     val name: String,
     val mob: String,
-    val grandTotal: Double,
+    var grandTotal: Double,
     val status: String
 )

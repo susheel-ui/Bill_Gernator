@@ -22,6 +22,9 @@ class Payment_Options_Activity : AppCompatActivity() {
             setResult(RESULT_OK)
             finish()
         }
+        activityBinding.backBtn.setOnClickListener {
+            finish()
+        }
 
     }
 }

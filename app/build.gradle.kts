@@ -1,7 +1,3 @@
-import org.jetbrains.kotlin.gradle.model.Kapt
-import org.jetbrains.kotlin.gradle.model.impl.KaptImpl
-import org.jetbrains.kotlin.gradle.utils.loadPropertyFromResources
-
 plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsKotlinAndroid)

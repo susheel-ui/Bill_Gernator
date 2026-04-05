@@ -47,7 +47,9 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:padding="10dp">
+            android:padding="10dp"
+            android:background="@color/colorPrimaryVariant"
+            >
 
             <TextView
                 android:id="@+id/itemNameTag"
@@ -59,7 +61,7 @@
                 android:layout_marginTop="10sp"
                 android:fontFamily="@font/poppins_regular"
                 android:text="Item Name"
-                android:textColor="@color/textDisabled"
+
                 android:textSize="20sp" />
 
             <TextView
@@ -83,7 +85,7 @@
                 android:layout_marginEnd="10sp"
                 android:fontFamily="@font/poppins_regular"
                 android:text="Item Price"
-                android:textColor="@color/textDisabled"
+
                 android:textSize="20sp" />
 
             <TextView
@@ -106,7 +108,7 @@
                 android:layout_marginTop="5dp"
                 android:fontFamily="@font/poppins_regular"
                 android:text="item Quantity Availble"
-                android:textColor="@color/textDisabled"
+
                 android:textSize="20sp" />
 
             <TextView
@@ -129,7 +131,7 @@
                 android:layout_alignStart="@id/QunatityTag"
                 android:fontFamily="@font/poppins_regular"
                 android:text="Discounted Rate"
-                android:textColor="@color/textDisabled"
+
                 android:textSize="20sp" />
 
             <TextView
@@ -143,15 +145,15 @@
                 android:textSize="15sp" />
 
             <ImageButton
-                android:contentDescription="image_btn_for_edit_profile"
+                android:id="@+id/btnUpdateItem"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_alignBottom="@id/DiscountedRate"
                 android:layout_alignParentEnd="true"
                 android:layout_margin="20dp"
                 android:background="@android:color/transparent"
-                android:src="@drawable/edit_icon"
-               />
+                android:contentDescription="image_btn_for_edit_profile"
+                android:src="@drawable/edit_icon" />
 
         </RelativeLayout>
     </androidx.cardview.widget.CardView>
@@ -171,7 +173,9 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:padding="20dp">
+            android:padding="20dp"
+            android:background="@color/colorPrimaryVariant"
+            >
 
             <TextView
                 android:id="@+id/tagAddStock"
@@ -181,7 +185,6 @@
                 android:layout_centerHorizontal="true"
                 android:fontFamily="@font/poppins_medium"
                 android:text="Add stock"
-                android:textColor="@color/textDisabled"
                 android:textSize="30sp" />
 
             <androidx.cardview.widget.CardView

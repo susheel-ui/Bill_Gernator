@@ -5,6 +5,7 @@ import android.content.ContentValues.TAG
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.example.bill_genrating_app.databinding.ActivityMainBinding
@@ -70,12 +71,22 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent(applicationContext, OrderActivity::class.java)
             startActivity(intent)
         }
-
-
     }
 
     override fun onStart() {
         super.onStart()
+    }
+    private var lastBackPressed: Long = 0
+
+    override fun onBackPressed() {
+        val now = System.currentTimeMillis()
+        if (now - lastBackPressed < 2000) {
+            finishAffinity()  // or finishAffinity()
+            super.onBackPressed()
+        } else {
+            Toast.makeText(this, "Press back again to exit", Toast.LENGTH_SHORT).show()
+            lastBackPressed = now
+        }
     }
 
 

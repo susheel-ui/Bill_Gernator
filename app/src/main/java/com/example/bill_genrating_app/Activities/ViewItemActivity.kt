@@ -1,5 +1,6 @@
 package com.example.bill_genrating_app.Activities
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -9,6 +10,7 @@ import androidx.room.Room
 import com.example.bill_genrating_app.R
 import com.example.bill_genrating_app.Roomdb.DBHelper
 import com.example.bill_genrating_app.Roomdb.entities.items
+import com.example.bill_genrating_app.databinding.ActivityAddItemBinding
 import com.example.bill_genrating_app.databinding.ActivityViewItemBinding
 
 class ViewItemActivity : AppCompatActivity() {
@@ -85,8 +87,13 @@ class ViewItemActivity : AppCompatActivity() {
             thisPageBinding.backBtn.setOnClickListener {
                 finish()
             }
-
+            thisPageBinding.btnUpdateItem.setOnClickListener {
+                val intent = Intent(this,AddItem::class.java)
+                intent.putExtra("barcodeId",barcodeid)
+                startActivity(intent)
+            }
         }
+
 
     // update the item quntity
         fun updateitemQunatity(id: Long, quntity: Long) {
