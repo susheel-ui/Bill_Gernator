@@ -40,9 +40,9 @@ class LoginActivity : AppCompatActivity() {
         ActivityBinding?.btnLogin?.setOnClickListener {
             val intent = Intent(this,MainActivity::class.java)
             val anim = AnimationUtils.loadAnimation(this, R.anim.btn_popup)
-            CoroutineScope(Dispatchers.Main).launch{
-//                ActivityBinding?.loginbtnCard?.startAnimation(anim)
-            }.invokeOnCompletion {
+//            CoroutineScope(Dispatchers.Main).launch{
+////                ActivityBinding?.loginbtnCard?.startAnimation(anim)
+//            }.invokeOnCompletion {
                 val email = ActivityBinding?.emailEt?.text.toString()
                 val password = ActivityBinding?.password?.text.toString()
 
@@ -62,7 +62,7 @@ class LoginActivity : AppCompatActivity() {
                         Toast.makeText(this, "Wrong id or password", Toast.LENGTH_SHORT).show()
                     }
 
-            }
+//            }
         }
         ActivityBinding?.createanaccountbtn?.setOnClickListener{
             val intent = Intent(this,RegisterUserActivity::class.java)

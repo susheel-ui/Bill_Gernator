@@ -20,10 +20,10 @@
         >
 
         <com.google.android.material.card.MaterialCardView
-            android:layout_width="80dp"
-            android:layout_height="80dp"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
             app:cardBackgroundColor="#0056D2"
-            app:cardCornerRadius="20dp"
+            app:cardCornerRadius="12dp"
             app:cardElevation="8dp"
             app:strokeWidth="0dp">
 
@@ -50,13 +50,12 @@
             android:layout_width="342dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:fontFamily="@font/manrope_regular"
+            android:fontFamily="@font/inter"
             android:gravity="center"
             android:text="Manage your ledger with architectural precision"
             android:textColor="#64748B"
-            android:textSize="16sp" />
+            android:textSize="16sp"/>
     </LinearLayout>
-
     <!-- Login Form Card -->
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/formCard"
@@ -66,6 +65,8 @@
         app:cardBackgroundColor="@android:color/white"
         app:cardCornerRadius="24dp"
         app:cardElevation="0dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/headerContainer"
         app:strokeColor="#F1F5F9"
         app:strokeWidth="1dp">
@@ -94,8 +95,8 @@
                 app:boxCornerRadiusBottomStart="12dp"
                 app:boxCornerRadiusTopEnd="12dp"
                 app:boxCornerRadiusTopStart="12dp"
-                app:boxStrokeWidth="1dp"
                 app:boxStrokeColor="#E2E8F0"
+                app:boxStrokeWidth="1dp"
                 app:hintEnabled="false"
                 app:startIconDrawable="@drawable/ic_mail"
                 app:startIconTint="#94A3B8">
@@ -143,8 +144,8 @@
                 app:boxCornerRadiusBottomStart="12dp"
                 app:boxCornerRadiusTopEnd="12dp"
                 app:boxCornerRadiusTopStart="12dp"
-                app:boxStrokeWidth="1dp"
                 app:boxStrokeColor="#E2E8F0"
+                app:boxStrokeWidth="1dp"
                 app:endIconMode="password_toggle"
                 app:endIconTint="#94A3B8"
                 app:hintEnabled="false"

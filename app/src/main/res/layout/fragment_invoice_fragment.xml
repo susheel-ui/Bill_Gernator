@@ -19,24 +19,22 @@
             android:id="@+id/inoviceSearchlayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
             android:orientation="vertical"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
 
             >
-
             <include
                 android:id="@+id/invoiceSearchbar"
-                layout="@layout/top_bar_home_page" />
+                layout="@layout/top_bar_home_page_v1" />
         </LinearLayout>
 
 
         <androidx.cardview.widget.CardView
             android:id="@+id/incomeCardView"
             android:layout_width="match_parent"
-            android:layout_height="200dp"
+            android:layout_height="184dp"
             android:layout_margin="20dp"
             app:cardCornerRadius="20dp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -48,7 +46,7 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@color/colorPrimary"
+                android:background="@drawable/bg_gradient_120digree"
                 >
 
                 <TextView
@@ -59,9 +57,10 @@
                     android:layout_marginTop="40dp"
                     android:fontFamily="@font/poppins_extrabold"
                     android:text="Today's Income"
-                    android:textColor="@color/textPrimary"
-                    android:textSize="35dp"
+                    android:textColor="#CCD8FF"
+                    android:textSize="14.dp"
                     android:textStyle="bold"
+                    android:textAllCaps="true"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     />
@@ -70,48 +69,59 @@
                     android:id="@+id/incomeAmount"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="-10dp"
-                    android:text="600000"
-                    android:textColor="@color/green"
-                    android:textSize="50dp"
+
+                    android:text="$600000"
+                    android:textColor="@color/white"
+                    android:textSize="48dp"
                     android:textStyle="bold"
                     app:layout_constraintStart_toStartOf="@id/incomeTitle"
                     app:layout_constraintTop_toBottomOf="@id/incomeTitle" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:fontFamily="@font/poppins_regular"
-                    android:text="Your balance right now"
-                    android:textColor="@color/textPrimary"
-                    android:textSize="10dp"
+            
+                <androidx.cardview.widget.CardView
+                    android:layout_width="195.dp"
+                    android:layout_height="28.dp"
+                    app:cardCornerRadius="99dp"
+                    android:backgroundTint="#66CDD9FF"
                     app:layout_constraintStart_toStartOf="@id/incomeAmount"
-                    app:layout_constraintTop_toBottomOf="@id/incomeAmount" />
+                    app:layout_constraintTop_toBottomOf="@id/incomeAmount"
+                    >
+                    
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:paddingStart="12dp"
+                        android:paddingEnd="12dp"
+                        android:paddingTop="4dp"
+                        android:paddingBottom="4dp"
+                        >
+                        
+                        <ImageView
+                            android:layout_width="20dp"
+                            android:layout_height="12dp"
+                            android:src="@drawable/streamline_graph_arrow_increase_solid"
+                            app:tint="#6FFBBE"
+                            />
+                        <TextView
+                            android:layout_width="55dp"
+                            android:layout_height="20dp"
+                            android:text="+42.2%"
+                            android:textSize="14dp"
+                            android:textColor="#6FFBBE"
+                            
+                            />
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:text="vs yesterday"
+                            android:textColor="#CDD9FF"
+                            android:gravity="center_vertical"
+                            />
+                    </LinearLayout>
 
-                <TextView
-                    android:id="@+id/IncDecIndicator"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="30dp"
-                    android:fontFamily="@font/poppins_regular"
-                    android:text="13"
-                    android:textColor="@color/textSecondary"
-                    android:textSize="20dp"
-                    app:layout_constraintBottom_toBottomOf="@+id/incomeTitle"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="@id/incomeTitle" />
-                />
-
-                <ImageButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="5dp"
-                    android:background="@android:color/transparent"
-                    android:src="@drawable/streamline_graph_arrow_increase_solid"
-                    app:layout_constraintBottom_toBottomOf="@id/IncDecIndicator"
-                    app:layout_constraintEnd_toStartOf="@id/IncDecIndicator"
-                    app:layout_constraintTop_toTopOf="@id/IncDecIndicator" />
+                </androidx.cardview.widget.CardView>
+                
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </androidx.cardview.widget.CardView>
