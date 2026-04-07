@@ -61,7 +61,7 @@
      ══════════════════════════════════════════════════════ -->
 
 <!-- Core blue used for section headers, active icons, CTAs -->
-<color name="primary">#FF0040A1</color>
+<color name="primary">#0040A1</color>
 
 <!-- Lighter blue endpoint of the hero gradient -->
 <color name="primary_container">#FF0056D2</color>
