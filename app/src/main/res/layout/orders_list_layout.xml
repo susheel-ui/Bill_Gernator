@@ -1,61 +1,95 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    >
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="16dp"
         android:background="@drawable/bg_fororderlists"
-       android:layout_margin="10dp"
-        android:paddingBottom="10dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        android:padding="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:padding="20.dp"
-        >
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-         <TextView
-             android:id="@+id/OrderNameField"
-             android:layout_width="wrap_content"
-             android:layout_height="wrap_content"
-             android:layout_marginLeft="5dp"
-             android:text="ZYZ"
-             android:textSize="20dp"
-             android:textColor="@color/textPrimary"
-             app:layout_constraintStart_toStartOf="parent"
-             app:layout_constraintBaseline_toTopOf="parent"
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/profileImage"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:padding="2dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/customerpic"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:shapeAppearanceOverlay="@style/CircleImage"
+            />
 
-             />
+        <TextView
+            android:id="@+id/OrderNameField"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="8dp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text="Alex Thompson"
+            android:textColor="@color/on_surface"
+            android:fontFamily="@font/inter_semibold"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/date"
+            app:layout_constraintEnd_toStartOf="@+id/priceTag"
+            app:layout_constraintHorizontal_bias="0"
+            app:layout_constraintStart_toEndOf="@id/profileImage"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_chainStyle="packed" />
 
-         <TextView
-             android:id="@+id/priceTag"
-             android:layout_width="wrap_content"
-             android:layout_height="wrap_content"
-             android:text=" \u20B91.50"
-             android:textSize="25dp"
-             android:layout_marginRight="20dp"
-             android:textStyle="bold"
-             app:layout_constraintEnd_toEndOf="parent"
-             app:layout_constraintTop_toTopOf="parent"
-             app:layout_constraintBottom_toBottomOf="parent"
+        <TextView
+            android:id="@+id/date"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="Oct 24, 2023 • 02:15 PM"
+            android:textColor="@color/on_surface_variant"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/OrderNameField"
+            app:layout_constraintStart_toStartOf="@id/OrderNameField"
+            app:layout_constraintTop_toBottomOf="@id/OrderNameField" />
 
-              />
+        <TextView
+            android:id="@+id/priceTag"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="+$1,240.00"
+            android:textColor="@color/primary"
+            android:textSize="16sp"
+            android:fontFamily="@font/manrope_bold"
+            app:layout_constraintBottom_toTopOf="@+id/statusTag"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_chainStyle="packed" />
 
-         <TextView
-             android:id="@+id/date"
-             android:layout_width="wrap_content"
-             android:layout_height="wrap_content"
-             android:text="Mon. July 3rd"
-             android:textSize="15dp"
-             android:textColor="@color/textSecondary"
-             app:layout_constraintStart_toStartOf="@id/OrderNameField"
-             app:layout_constraintTop_toBottomOf="@id/OrderNameField"
-             />
+        <TextView
+            android:id="@+id/statusTag"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="PAID"
+            android:textColor="@color/tertiary"
+            android:fontFamily="@font/inter"
+            android:textSize="10sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/priceTag" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

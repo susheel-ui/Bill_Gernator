@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".Fragments.invoice_fragment"
     >
@@ -122,20 +123,21 @@
 
         </androidx.cardview.widget.CardView>
 
-       <RelativeLayout
-           android:id="@+id/quickInfoCardsGrid"
-           android:layout_width="match_parent"
-           android:layout_height="314dp"
-           android:columnCount="2"
-           android:rowCount="2"
-           android:layout_marginStart="24dp"
-           android:layout_marginEnd="24dp"
-           android:layout_marginTop="32dp"
-           android:padding="1dp"
-           app:layout_constraintStart_toStartOf="parent"
-           app:layout_constraintEnd_toEndOf="parent"
-           app:layout_constraintTop_toBottomOf="@id/incomeCardView"
-           >
+        <GridLayout
+            android:id="@+id/quickInfoCardsGrid"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:columnCount="2"
+            android:rowCount="2"
+
+            android:layout_marginStart="24dp"
+            android:layout_marginEnd="24dp"
+            android:layout_marginTop="32dp"
+
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/incomeCardView">
 
            <androidx.cardview.widget.CardView
                android:layout_width="163dp"
@@ -143,8 +145,7 @@
                app:cardCornerRadius="12dp"
                android:layout_margin="1dp"
                app:cardElevation="0dp"
-               android:layout_alignParentTop="true"
-               android:layout_alignParentStart="true"
+
                >
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -205,10 +206,8 @@
                android:layout_width="163dp"
                android:layout_height="150dp"
                app:cardCornerRadius="12dp"
-               android:layout_margin="1dp"
+               android:layout_marginStart="16dp"
                app:cardElevation="0dp"
-               android:layout_alignParentTop="true"
-               android:layout_alignParentEnd="true"
                >
                <LinearLayout
                    android:layout_width="match_parent"
@@ -268,10 +267,9 @@
                android:layout_width="163dp"
                android:layout_height="150dp"
                app:cardCornerRadius="12dp"
-               android:layout_marginTop="20dp"
+               android:layout_marginTop="16dp"
                app:cardElevation="0dp"
-               android:layout_alignParentBottom="true"
-               android:layout_alignParentStart="true"
+
                >
                <LinearLayout
                    android:layout_width="match_parent"
@@ -333,14 +331,15 @@
                app:cardCornerRadius="12dp"
                android:layout_margin="1dp"
                app:cardElevation="0dp"
-               android:layout_alignParentBottom="true"
-               android:layout_alignParentEnd="true"
+               android:layout_marginTop="16dp"
+               android:layout_marginLeft="16dp"
                >
                <LinearLayout
                    android:layout_width="match_parent"
                    android:layout_height="match_parent"
                    android:orientation="vertical"
                    android:gravity="start"
+
                    android:paddingTop="20dp"
                    android:paddingRight="24dp"
                    android:paddingLeft="24dp"
@@ -385,7 +384,7 @@
            </androidx.cardview.widget.CardView>
 
 
-       </RelativeLayout>
+        </GridLayout>
 
         <LinearLayout
             android:id="@+id/Orders_listTAG"
@@ -430,8 +429,10 @@
             <ListView
                 android:id="@+id/ordersListsview"
                 android:layout_width="match_parent"
-                android:layout_height="0.dp"
+                android:layout_height="330dp"
+                tools:listitem="@layout/orders_list_layout"
                 android:layout_marginTop="10dp"
+                android:divider="@android:color/transparent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -441,4 +442,4 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-</FrameLayout>
+</androidx.core.widget.NestedScrollView>

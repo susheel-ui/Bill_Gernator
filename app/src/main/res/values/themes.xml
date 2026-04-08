@@ -8,6 +8,11 @@
 
     <style name="Theme.Bill_Genrating_App" parent="Base.Theme.Bill_Genrating_App" />
 
+    <style name="CircleImage">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">50%</item>
+    </style>
+
 <!--    button style-->
     <style name="cardBtn" parent="Base.Theme.Bill_Genrating_App">
         <item name="android:textSize">30dp</item>

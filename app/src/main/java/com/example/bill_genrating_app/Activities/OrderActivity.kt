@@ -191,37 +191,45 @@ class OrderActivity : AppCompatActivity() {
     fun addItemToInvoice(barcodeId: Long): Boolean {
         val itemDao = db.itemDao()
         val item = itemDao.getByid(barcodeId)
-        if (item.isNotEmpty() && item.size == 1) {
+
+        if (item.isNotEmpty()) {
+
             val newItem = item[0]
-            val total = newItem.MRP - newItem.MRP * (newItem.discountRate / 100)
-            val invoiceItemToAdd = invoiceItem(
-                newItem.BarcodeId,
-                newItem.Name,
-                newItem.MRP,
-                1,
-                newItem.discountRate
-            )
+
+            val priceAfterDiscount =
+                newItem.MRP - (newItem.MRP * newItem.discountRate / 100)
 
             var isPresent = false
-            itemList.forEachIndexed { index, invoiceItem ->
-                if (invoiceItem.barCodeId == invoiceItemToAdd.barCodeId) {
+
+            itemList.forEachIndexed { index, existingItem ->
+
+                if (existingItem.barCodeId == barcodeId) {
+
                     isPresent = true
-                    itemList.get(index).quantity = invoiceItem.quantity + 1
-                    itemList.get(index).total = invoiceItem.total + total
-                    invoiceItemAdapter.notifyDataSetChanged()
-                    for (x in itemList) {
-                        Log.d(TAG, "addItemToInvoice: ${x.name} ${x.quantity}")
-                    }
-                    // You might want to update the quantity here if it's already present
+
+                    val newQty = existingItem.quantity + 1
+                    val newTotal = newQty * priceAfterDiscount
+
+                    itemList[index].quantity = newQty
+                    itemList[index].total = newTotal
+
+                    invoiceItemAdapter.notifyItemChanged(index)
                 }
             }
 
             if (!isPresent) {
-                itemList.add(invoiceItemToAdd)
-                invoiceItemAdapter.notifyDataSetChanged()
-                for (x in itemList) {
-                    Log.d(TAG, "addItemToInvoice: ${x.name} ${x.quantity}")
+                val invoiceItemToAdd = invoiceItem(
+                    newItem.BarcodeId,
+                    newItem.Name,
+                    newItem.MRP,
+                    1,
+                    newItem.discountRate
+                ).apply {
+                    total = priceAfterDiscount
                 }
+
+                itemList.add(invoiceItemToAdd)
+                invoiceItemAdapter.notifyItemInserted(itemList.size - 1)
             }
         }
         findGrandTotal()

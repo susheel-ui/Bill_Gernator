@@ -17,6 +17,7 @@ import com.example.bill_genrating_app.UtilClasses.ExtractDateFromOrdID
 import com.example.bill_genrating_app.UtilClasses.status
 import java.util.Locale
 
+
 class MyOrdersViewItemAdapter(val context: Context, private val arr:List<Order>) : BaseAdapter(){
     override fun getCount(): Int {
         return arr.size;
@@ -46,11 +47,10 @@ class MyOrdersViewItemAdapter(val context: Context, private val arr:List<Order>)
         val entity = arr[p0]
         binding.OrderNameField.text = entity.name.toString().uppercase(Locale.getDefault())
         binding.priceTag.text = "\u20B9${entity.grandTotal}"
-
         when (entity.status) {
-            status.PAID.toString() -> binding.priceTag.setTextColor(ContextCompat.getColor(context, R.color.green))
-            status.PENDING.toString() -> binding.priceTag.setTextColor(ContextCompat.getColor(context, R.color.red))
-            else -> binding.priceTag.setTextColor(ContextCompat.getColor(context, R.color.colorBlue))
+            status.PAID.toString() -> binding.statusTag.setTextColor(ContextCompat.getColor(context, R.color.green))
+            status.PENDING.toString() -> binding.statusTag.setTextColor(ContextCompat.getColor(context, R.color.red))
+            else -> binding.statusTag.setTextColor(ContextCompat.getColor(context, R.color.colorBlue))
         }
         binding.date.text = ExtractDateFromOrdID(entity.ordId.toString())
         binding.root.setOnClickListener {
