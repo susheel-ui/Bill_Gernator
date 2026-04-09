@@ -53,19 +53,20 @@ class items_fragment : Fragment() {
 //            }
 //
 //        })
-        thisFagementBinding.topBaritemBar.searchBar.setOnQueryTextListener( object :androidx.appcompat.widget.SearchView.OnQueryTextListener {
-            override fun onQueryTextSubmit(query: String?): Boolean {
-
-                searchByName(query.toString())
-                return false
-            }
-
-            override fun onQueryTextChange(newText: String?): Boolean {
-                ShowItems(requireContext().applicationContext,fetchItemsRoom())
-                return false
-            }
-
-        })
+        //TODO:: CHANGE THIS TO ACCORDING NEW v2 SEARCH VIEW
+//        thisFagementBinding.topBaritemBar.searchBar.setOnQueryTextListener( object :androidx.appcompat.widget.SearchView.OnQueryTextListener {
+//            override fun onQueryTextSubmit(query: String?): Boolean {
+//
+//                searchByName(query.toString())
+//                return false
+//            }
+//
+//            override fun onQueryTextChange(newText: String?): Boolean {
+//                ShowItems(requireContext().applicationContext,fetchItemsRoom())
+//                return false
+//            }
+//
+//        })
 
         return thisFagementBinding.root
     }

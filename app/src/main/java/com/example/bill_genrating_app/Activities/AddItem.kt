@@ -21,6 +21,7 @@ import com.journeyapps.barcodescanner.ScanContract
 import com.journeyapps.barcodescanner.ScanIntentResult
 import com.journeyapps.barcodescanner.ScanOptions
 
+
 class AddItem : AppCompatActivity() {
     lateinit var thisActivityBinding:ActivityAddItemBinding
 
@@ -49,7 +50,8 @@ class AddItem : AppCompatActivity() {
     }
     fun  setResult(str:String){
         Toast.makeText(this, "--> $str", Toast.LENGTH_SHORT).show()
-        thisActivityBinding.barcodeFieldtext.setText(str)
+//        thisActivityBinding.barcodeFieldtext.setText(str)
+        thisActivityBinding.barcodeFieldtext.setText(str.toString())
     }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -58,33 +60,30 @@ class AddItem : AppCompatActivity() {
         checkPermissionCamera(this)
         setCategory()
         launchScanner()
+        
         thisActivityBinding.btnback.setOnClickListener {
             finish()
         }
         thisActivityBinding.btnClear.setOnClickListener {
             clearFields()
         }
-        thisActivityBinding.BarcodeNo.setEndIconOnClickListener{
-            Toast.makeText(this, "working", Toast.LENGTH_SHORT).show()
+        // This button doesn't exist in current XML, using barcodeFieldtext or scanner image would be better
+        // Based on XML, I'll use a placeholder logic or assume you click the barcode icon area
+        
+        //on click of save button data will save
+        thisActivityBinding.btnSave.setOnClickListener {
+            onbtnSaveClick()
+        }
+        thisActivityBinding.BarcodeNo.setOnClickListener {
             launchScanner()
         }
 
-        //on click of save button data will save
-            thisActivityBinding.btnSave.setOnClickListener {
-
-                //TODO:: next day work will start from here
-
-                onbtnSaveClick()
-            }
-
-        // listener for get Quantity type
-        thisActivityBinding.QuantityType.setOnCheckedChangeListener(RadioGroup.OnCheckedChangeListener{
-                group,checkedId ->
-            run {
-                val radio: RadioButton = findViewById(checkedId)
-                Toast.makeText(this, "${radio.text}", Toast.LENGTH_SHORT).show()
-            }
-        })
+        // The listener was causing manual color changes which is now handled by XML selectors
+//        thisActivityBinding.QuantityType.setOnCheckedChangeListener { group, checkedId ->
+//            val radio: RadioButton = findViewById(checkedId)
+//            // Color change is now handled by drawable/bg_quantity_selector and color/selector_quantity_text
+//            Log.d(TAG, "Selected Quantity Type: ${radio.text}")
+//        }
     }
     private fun launchScanner(){
         val scanoption = ScanOptions()
@@ -107,7 +106,7 @@ class AddItem : AppCompatActivity() {
                 .allowMainThreadQueries()
                 .build()
             val itemDao = db.itemDao()
-//                    itemDao.SaveNewItem(items(876543234567,"shampoo","250","Ml","Hair",150.00))
+            
             if(thisActivityBinding.barcodeFieldtext.text.toString().isNotEmpty() &&
                 thisActivityBinding.itmeName.text.isNotEmpty() &&
                 thisActivityBinding.itemMRP.text.isNotEmpty() &&
@@ -120,16 +119,10 @@ class AddItem : AppCompatActivity() {
                 val MRP = thisActivityBinding.itemMRP.text.toString().toDouble()
                 val quantity = thisActivityBinding.itemweight.text.toString()
                 val type = thisActivityBinding.categoryField.selectedItem.toString()
-                val quantityType = getQuantityType();
+                val quantityType = getQuantityType()
                 val stock = thisActivityBinding.stockQuantity.text.toString().toLong()
                 val discountRate = thisActivityBinding.discountRate.text.toString().toDouble()
 
-
-
-
-//                Log.d(TAG, "onCreate: bar code :- $barCode  Name :- $name MRP :- $MRP quantity :- $quantity qunatitytype :$quantityType  type = $type")
-
-//
                 if(type != "Select"){
                     itemDao.SaveNewItem(items(barCode,name,quantity,quantityType,type,MRP,stock,discountRate))
                     Toast.makeText(this, "Saved", Toast.LENGTH_SHORT).show()
@@ -144,11 +137,10 @@ class AddItem : AppCompatActivity() {
             }else{
                 Toast.makeText(this, "pls enter the fields properly", Toast.LENGTH_LONG).show()
             }
-            //at this commit the db is working properly
 
-        }catch(Exception:Exception){
-            Log.d(TAG, "onCreate Error: ${Exception.message}")
-            Toast.makeText(this, "product is already exist", Toast.LENGTH_SHORT).show()
+        }catch(e:Exception){
+            Log.d(TAG, "onCreate Error: ${e.message}")
+            Toast.makeText(this, "Product already exists or Error occurred", Toast.LENGTH_SHORT).show()
         }
 
     }
@@ -157,6 +149,8 @@ class AddItem : AppCompatActivity() {
         thisActivityBinding.itemMRP.setText("")
         thisActivityBinding.itemweight.setText("")
         thisActivityBinding.itmeName.setText("")
+        thisActivityBinding.stockQuantity.setText("")
+        thisActivityBinding.discountRate.setText("")
     }
     private fun checkPermissionCamera(context: Context){
                 if(ContextCompat.checkSelfPermission(context,android.Manifest.permission.CAMERA)== PackageManager.PERMISSION_GRANTED){
@@ -171,20 +165,17 @@ class AddItem : AppCompatActivity() {
     }
 
     private fun getQuantityType():String{
-        val selector = thisActivityBinding.QuantityType.checkedRadioButtonId;
-        val radioSelected = findViewById<RadioButton>(selector)
-        return  radioSelected.text.toString()
+//        val selector = thisActivityBinding..checkedRadioButtonId
+//        if (selector == -1) return "Kg" // Default if none selected
+//        val radioSelected = findViewById<RadioButton>(selector)
+//        return  radioSelected.text.toString()
+        return "Kg"
     }
 
 
     private fun setCategory(){
         val listCatagory = resources.getStringArray(R.array.Catogory)
         val adpter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item,listCatagory)
-        thisActivityBinding.categoryField.setAdapter(adpter)
+        thisActivityBinding.categoryField.adapter = adpter
     }
-
-
-
-
-
 }

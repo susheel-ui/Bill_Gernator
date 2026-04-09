@@ -43,7 +43,7 @@ class ViewItemActivity : AppCompatActivity() {
 
 
         //add ten to the item
-        thisPageBinding.tenPercentagecardView.setOnClickListener {
+        thisPageBinding.tenbtn.setOnClickListener {
             //TODO:: update the item in database
             Toast.makeText(this, "ten", Toast.LENGTH_SHORT).show()
             val quntity = thisPageBinding.Qunatity.text.toString().toLong()
@@ -87,7 +87,7 @@ class ViewItemActivity : AppCompatActivity() {
             thisPageBinding.backBtn.setOnClickListener {
                 finish()
             }
-            thisPageBinding.btnUpdateItem.setOnClickListener {
+            thisPageBinding.costomStockbtn.setOnClickListener {
                 val intent = Intent(this,AddItem::class.java)
                 intent.putExtra("barcodeId",barcodeid)
                 startActivity(intent)

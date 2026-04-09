@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Bill Generating</string>
     <string name="invoices">Invoices</string>
-    <string name="item_lists">Item Lists</string>
+    <string name="item_lists">Inventory Items</string>
     <string name="recents_transaction">Recents Transaction</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string-array name="Catogory">
@@ -32,5 +32,6 @@
     <string name="preference_file_key">LogInInfo</string>
     <string name="search">userlogo</string>
     <string name="inventory">Inventory</string>
+    <string name="stock_management">Stock Management</string>
 
 </resources>
