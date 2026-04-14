@@ -1,6 +1,8 @@
 package com.example.bill_genrating_app.Fragments
 
+import android.content.ContentValues.TAG
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -28,6 +30,7 @@ class Fragment_Invoice_billingItems() : Fragment() {
     var flag:Boolean = false
     constructor(data: ArrayList<invoiceItem>,
                 GrandTotal: String,flag:Boolean = false):this(){
+        Log.d(TAG, "Debug -> ${this.toString()}: $data ")
         this.data = data
         this.GrandTotal = GrandTotal
         this.flag = flag
@@ -40,7 +43,7 @@ class Fragment_Invoice_billingItems() : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
         fragmentBinding = FragmentInvoiceBillingItemsBinding.inflate(inflater, container, false)
         adapter = invoiceItemAdapter(data,flag) // Ensure data is initialized before adapter creation
@@ -49,12 +52,12 @@ class Fragment_Invoice_billingItems() : Fragment() {
         fragmentBinding.itemRecycleView.layoutManager = layoutManager
         fragmentBinding.itemRecycleView.adapter = adapter
         // GrandTotal is initialized in the constructor or with a default value, so no need for ::GrandTotal.isInitialized check
-        fragmentBinding.GrandTotalTextView.text = "\u20B9" + GrandTotal
-        lifecycleScope.launch {
-            val result = calculateSavedMoney(GrandTotal.toDouble())
-            val df = DecimalFormat("#,###." + "0".repeat(2))
-            fragmentBinding.saveMoneyTV.text = "\u20B9".plus(df.format(result))
-        }
+//        fragmentBinding.GrandTotalTextView.text = "\u20B9" + GrandTotal
+//        lifecycleScope.launch {
+//            val result = calculateSavedMoney(GrandTotal.toDouble())
+//            val df = DecimalFormat("#,###." + "0".repeat(2))
+//            fragmentBinding.saveMoneyTV.text = "\u20B9".plus(df.format(result))
+//        }
         return fragmentBinding.root
     }
 

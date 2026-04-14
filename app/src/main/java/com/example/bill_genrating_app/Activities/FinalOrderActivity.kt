@@ -5,7 +5,6 @@ import android.content.ContentValues.TAG
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
-import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
@@ -15,9 +14,7 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.content.ContextCompat
-import androidx.core.content.FileProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.bill_genrating_app.Adapters.invoiceItemAdapter
@@ -45,20 +42,13 @@ import com.gkemon.XMLtoPDF.model.FailureResponse
 import com.gkemon.XMLtoPDF.model.SuccessResponse
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope.coroutineContext
 import kotlinx.coroutines.async
-import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 import org.json.JSONObject
-import java.io.FileInputStream
 import java.io.IOException
 import java.text.DecimalFormat
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
-import java.util.Date
-import kotlin.coroutines.coroutineContext
-import kotlin.properties.Delegates
-
 
 class FinalOrderActivity : AppCompatActivity() {
     lateinit var activityBinding: ActivityFinalOrderBinding
@@ -70,49 +60,32 @@ class FinalOrderActivity : AppCompatActivity() {
     private lateinit var xmlToPDFLifecycleObserver: XmlToPDFLifecycleObserver
     private var id = -1
     lateinit var shopDetails: shopDetails
-
-    //    private val sharedPrefarence = getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE)
-//    lateinit var shopDetails: shopDetails
     lateinit var sharedPref: SharedPreferences
 
-    @SuppressLint("ResourceType")
+    @SuppressLint("ResourceType", "SetTextI18n")
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         activityBinding = ActivityFinalOrderBinding.inflate(layoutInflater)
         setContentView(activityBinding.root)
+
         val OrderId = intent.getStringExtra("OrderId")
-        db = DBHelper.getDatabase(this);
+        db = DBHelper.getDatabase(this)
         sharedPref = applicationContext.getSharedPreferences("UserPrefs", Context.MODE_PRIVATE)
         xmlToPDFLifecycleObserver = XmlToPDFLifecycleObserver(this)
         lifecycle.addObserver(xmlToPDFLifecycleObserver)
         invoiceItemList = ArrayList()
+        
         id = sharedPref.getInt("userId", -1)
         if (id == -1) {
-            Toast.makeText(this, "id not found check some error", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "User ID not found", Toast.LENGTH_SHORT).show()
         }
-//        Log.d(TAG, "onCreate:  $OrderId")   // for only testing purpose and working propper tested
-//        var userId = sharedPrefarence.getString("id",null)
-//        if(userId != null){
-//            lifecycleScope.launch {
-//                shopDetails = CoroutineScope(Dispatchers.IO).async {
-//                    shopDetailsService(applicationContext).getShopDetails(userId.toInt())!!
-//                }.await()
-//
-//            }
-//        }
+
         launcherActivity = registerForActivityResult(
             ActivityResultContracts.StartActivityForResult()
         ) { result ->
             if (result.resultCode == RESULT_OK) {
-                activityBinding.btnNextActivity.text = "Print Bill"
-                activityBinding.cardPrintBillbtn.setCardBackgroundColor(
-                    ContextCompat.getColor(
-                        this,
-                        R.color.colorSuccess
-                    )
-
-                )
+                updateUIForPaidStatus()
                 lifecycleScope.launch {
                     OrderActivityServices(applicationContext).updateOrderStatus(
                         orderData.ordId,
@@ -121,29 +94,28 @@ class FinalOrderActivity : AppCompatActivity() {
                 }
             }
         }
-        CoroutineScope(Dispatchers.IO).launch {
-            shopDetails = shopDetailsService(applicationContext).getShopDetails(id)!!
-        }
-        lifecycleScope.launch {
-            val OrderData = async {
-                getData(OrderId.toString())
-            }
-            val data = OrderData.await() as Order
 
-            val job2 = async {
-                orderData = data
-                getOrderItemsList(data.ordId)
+        CoroutineScope(Dispatchers.IO).launch {
+            val details = shopDetailsService(applicationContext).getShopDetails(id)
+            if (details != null) {
+                shopDetails = details
             }
-            val result = job2.await()
+        }
+
+        lifecycleScope.launch {
+            val OrderDataJob = async { getData(OrderId.toString()) }
+            val data = OrderDataJob.await()
+            orderData = data
+
+            val orderItemsJob = async { getOrderItemsList(data.ordId) }
+            val orderItems = orderItemsJob.await()
 
             invoiceItemList.clear()
-            for (x in result) {
-                val itemJob = async {
-                    getDetailsOfItems(x.BarcodeId)
-                }
-                val result = itemJob.await()
-                if (result.isNotEmpty()) {
-                    val item = result[0];
+            for (x in orderItems) {
+                val itemJob = async { getDetailsOfItems(x.BarcodeId) }
+                val itemDetails = itemJob.await()
+                if (itemDetails.isNotEmpty()) {
+                    val item = itemDetails[0]
                     invoiceItemList.add(
                         invoiceItem(
                             item.BarcodeId,
@@ -153,143 +125,100 @@ class FinalOrderActivity : AppCompatActivity() {
                             item.discountRate
                         )
                     )
-                } else {
-                    Log.d(TAG, "onCreate: ItemNot Found")
                 }
-
             }
 
-        }.invokeOnCompletion {
-            activityBinding.usernameText.text = orderData.name + "( +91-${orderData.mob} )"
-            activityBinding.balanceText.text = "\u20B9" + orderData.grandTotal.toString()
-            setOrderItems(invoiceItemList)
-            lastFragmentName = FragementsName.SHOWITEMS.toString()
-            if (orderData.status == status.PENDING.toString()) {
-                activityBinding.btnNextActivity.text = "Make Paymemt"
-                activityBinding.cardPrintBillbtn.setCardBackgroundColor(
-                    ContextCompat.getColor(
-                        this,
-                        R.color.red
-                    )
-                )
-            } else {
-                activityBinding.btnNextActivity.text = "Print Bill"
-                activityBinding.cardPrintBillbtn.setCardBackgroundColor(
-                    ContextCompat.getColor(
-                        this,
-                        R.color.colorSuccess
-                    )
-                )
-            }
+            // Populate UI after data is loaded
+            populateOrderUI()
         }
+
+        setupClickListeners(OrderId)
+    }
+
+    private fun populateOrderUI() {
+        activityBinding.customerName.text = orderData.name
+        activityBinding.customerPhone.text = "+91-${orderData.mob}"
+        activityBinding.orderId.text = "ORD-${orderData.ordId.takeLast(6)}"
+        activityBinding.totalAmountValue.text = "\u20B9${orderData.grandTotal}"
+        activityBinding.tvSubtotal.text = "\u20B9${orderData.grandTotal}"
+        activityBinding.tvGrandTotalSummary.text = "\u20B9${orderData.grandTotal}"
+        activityBinding.statusPill.text = orderData.status
+        
+        val savedAmount = calculateSavedMoney(orderData.grandTotal)
+        activityBinding.tvSavedAmount.text = "\u20B9${DecimalFormat("#.##").format(savedAmount)} on this order"
+
+        setOrderItems(invoiceItemList)
+        lastFragmentName = FragementsName.SHOWITEMS.toString()
+
+        if (orderData.status == status.PENDING.toString()) {
+            activityBinding.cardPrintBillbtn.text = "Make Payment"
+            activityBinding.statusPill.backgroundTintList = ContextCompat.getColorStateList(this, R.color.red)
+            activityBinding.statusPill.setTextColor(ContextCompat.getColor(this, R.color.white))
+        } else {
+            updateUIForPaidStatus()
+        }
+    }
+
+    private fun updateUIForPaidStatus() {
+        activityBinding.cardPrintBillbtn.text = "Print Bill"
+        activityBinding.statusPill.text = "PAID"
+        activityBinding.statusPill.backgroundTintList = ContextCompat.getColorStateList(this, R.color.tertiary_container)
+        activityBinding.statusPill.setTextColor(ContextCompat.getColor(this, R.color.tertiary))
+    }
+
+    @RequiresApi(Build.VERSION_CODES.Q)
+    private fun setupClickListeners(OrderId: String?) {
+        activityBinding.finalPageBackBtn.setOnClickListener { finish() }
+
         activityBinding.btnIconQR.setOnClickListener {
             val data = JSONObject()
-            data.append("OrderId", OrderId)
-            data.append("Amount", orderData.grandTotal.toString())
-            data.append("PaymentStatus", orderData.status.toString())
+            data.put("OrderId", OrderId)
+            data.put("Amount", orderData.grandTotal.toString())
+            data.put("PaymentStatus", orderData.status)
+            
             if (lastFragmentName != FragementsName.QRCODE.toString()) {
-                val navigation: Boolean =
-                    if (lastFragmentName == FragementsName.SHOWITEMS.toString()) {
-                        true;
-                    } else {
-                        false
-                    }
                 change_fragment(
                     QR_CodePreview(data),
                     activityBinding.boxView.id,
                     FragementsName.QRCODE.toString(),
                     supportFragmentManager,
-                    navigation
+                    lastFragmentName == FragementsName.SHOWITEMS.toString()
                 )
             }
-            activityBinding.btnIconQR.startAnimation(
-                AnimationUtils.loadAnimation(
-                    this,
-                    R.anim.btn_popup
-                )
-            )
+            activityBinding.btnIconQR.startAnimation(AnimationUtils.loadAnimation(this, R.anim.btn_popup))
             lastFragmentName = FragementsName.QRCODE.toString()
-
         }
-//        activityBinding.btnIconShare.setOnClickListener {
-//
-//
-//            if (lastFragmentName != FragementsName.SHARE.toString()) {
-//                change_fragment(
-//                    QR_CodePreview(),
-//                    activityBinding.boxView.id,
-//                    "QR",
-//                    supportFragmentManager
-//                )
-//
-//            }
-//            activityBinding.btnIconShare.startAnimation(
-//                AnimationUtils.loadAnimation(
-//                    this,
-//                    R.anim.btn_popup
-//                )
-//            )
-//            lastFragmentName = FragementsName.SHARE.toString()
-//        }
+
         activityBinding.showItemIconItems.setOnClickListener {
             if (lastFragmentName != FragementsName.SHOWITEMS.toString()) {
                 change_fragment(
-                    Fragment_Invoice_billingItems(
-                        invoiceItemList,
-                        orderData.grandTotal.toString()
-                    ), activityBinding.boxView.id, "QR", supportFragmentManager, false
+                    Fragment_Invoice_billingItems(invoiceItemList, orderData.grandTotal.toString()),
+                    activityBinding.boxView.id,
+                    FragementsName.SHOWITEMS.toString(),
+                    supportFragmentManager,
+                    false
                 )
-
             }
-            activityBinding.showItemIconItems.startAnimation(
-                AnimationUtils.loadAnimation(
-                    this,
-                    R.anim.btn_popup
-                )
-            )
+            activityBinding.showItemIconItems.startAnimation(AnimationUtils.loadAnimation(this, R.anim.btn_popup))
             lastFragmentName = FragementsName.SHOWITEMS.toString()
         }
+
         activityBinding.cardPrintBillbtn.setOnClickListener {
-            if (activityBinding?.btnNextActivity?.text == "Make Paymemt") {
+            if (activityBinding.cardPrintBillbtn.text == "Make Payment") {
                 val intent = Intent(this, Payment_Options_Activity::class.java)
                 intent.putExtra("OrderId", orderData.ordId)
                 launcherActivity.launch(intent)
             } else {
-                //TODO:: here we will work to activity for Printing pdf or save invoice
-//                val thisIntent = Intent(Intent.ACTION_CREATE_DOCUMENT).apply {
-//                    addCategory(Intent.CATEGORY_OPENABLE)
-//                    type = "application/pdf"
-//                } // The result of this intent will be passed to the get() method of the contract.
-//                createDocLauncher.launch(thisIntent)
                 generatePdfToUri()
-
             }
-
-            activityBinding.cardPrintBillbtn.startAnimation(
-                AnimationUtils.loadAnimation(
-                    this,
-                    R.anim.btn_popup
-                )
-            )
-
+            activityBinding.cardPrintBillbtn.startAnimation(AnimationUtils.loadAnimation(this, R.anim.btn_popup))
         }
-        activityBinding.btnMakeChanges.setOnClickListener {
-            activityBinding.btnMakeChanges.startAnimation(
-                AnimationUtils.loadAnimation(
-                    this,
-                    R.anim.btn_popup
-                )
-            )
-            val intent = Intent(this, OrderActivity::class.java)
-            intent.putExtra("OrderId", orderData.ordId)
-            startActivity(intent)
+        
+        activityBinding.btnIconShare.setOnClickListener {
+            activityBinding.btnIconShare.startAnimation(AnimationUtils.loadAnimation(this, R.anim.btn_popup))
+            // TODO: Implement share functionality (e.g. sharing PDF or text)
+            Toast.makeText(this, "Sharing functionality coming soon", Toast.LENGTH_SHORT).show()
         }
-
-        activityBinding.finalPageBackBtn.setOnClickListener {
-            finish()
-        }
-
-
     }
 
     private suspend fun getData(ordId: String): Order {
@@ -301,16 +230,13 @@ class FinalOrderActivity : AppCompatActivity() {
     }
 
     private fun setOrderItems(list: ArrayList<invoiceItem>) {
+        Log.d(TAG, "setOrderItems: $list")
         val fragment = Fragment_Invoice_billingItems(list, orderData.grandTotal.toString())
         supportFragmentManager.beginTransaction().replace(R.id.boxView, fragment).commit()
     }
 
     private suspend fun getDetailsOfItems(itemId: String): List<items> {
         return db.itemDao().getByid(itemId.toLong())
-    }
-
-    private fun getShopDetails() {
-
     }
 
     override fun onDestroy() {
@@ -322,83 +248,52 @@ class FinalOrderActivity : AppCompatActivity() {
     @RequiresApi(Build.VERSION_CODES.Q)
     private fun generatePdfToUri() {
         val printBinding = PrintPdfInvoiceBinding.inflate(layoutInflater)
-        printBinding.subTotal.text = "Sub Total :  ".plus(orderData.grandTotal)
-        printBinding.grandTotal.text = "GrandTotal :   ".plus(orderData.grandTotal)
+        printBinding.subTotal.text = "Sub Total :  \u20B9${orderData.grandTotal}"
+        printBinding.grandTotal.text = "Grand Total : \u20B9${orderData.grandTotal}"
         printBinding.ShopName.text = shopDetails.shopName
         printBinding.Address.text = shopDetails.address
+        
         val current = LocalDateTime.now()
         val formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss")
-        val formatted = current.format(formatter)
-        printBinding.DateAndTime.text = formatted
+        printBinding.DateAndTime.text = current.format(formatter)
 
-
-        val layoutManager = LinearLayoutManager(applicationContext)
-        layoutManager.orientation = LinearLayoutManager.VERTICAL
-        printBinding.itemList.layoutManager = layoutManager
-//
-//            printBinding.ShopName.text = shopDetails.shopName
-//            printBinding.Address.text = shopDetails.address
-
+        printBinding.itemList.layoutManager = LinearLayoutManager(applicationContext)
         val adapter = invoiceItemAdapter(invoiceItemList, true)
         printBinding.itemList.adapter = adapter
-        val df = DecimalFormat("#,###." + "0".repeat(2))
-        printBinding.discount.text =
-            "Saved : ".plus(df.format(calculateSavedMoney(orderData.grandTotal)))
+        
+        val df = DecimalFormat("#,###.00")
+        printBinding.discount.text = "Saved : \u20B9${df.format(calculateSavedMoney(orderData.grandTotal))}"
+
         PdfGenerator.getBuilder()
             .setContext(this)
             .fromViewSource()
-            .fromView(printBinding.root)// your XML layout
-            .setFileName(orderData.ordId) // filename inside scoped storage
+            .fromView(printBinding.root)
+            .setFileName("Invoice_${orderData.ordId}")
             .actionAfterPDFGeneration(PdfGenerator.ActionAfterPDFGeneration.NONE)
-            .savePDFSharedStorage(xmlToPDFLifecycleObserver) // for SDK >= 33
+            .savePDFSharedStorage(xmlToPDFLifecycleObserver)
             .build(object : PdfGeneratorListener() {
+                override fun onSuccess(response: SuccessResponse) {
+                    Toast.makeText(applicationContext, "Saved to selected location!", Toast.LENGTH_SHORT).show()
+                }
+                override fun onFailure(response: FailureResponse) {
+                    Toast.makeText(applicationContext, "PDF generation failed", Toast.LENGTH_LONG).show()
+                }
+                override fun showLog(log: String) { Log.d("PDFGen", log) }
                 override fun onStartPDFGeneration() {
-                    // Optional: show a progress bar
+                    TODO("Not yet implemented")
                 }
 
                 override fun onFinishPDFGeneration() {
-
-                }
-
-                override fun onSuccess(response: SuccessResponse) {
-                    try {
-
-                        Toast.makeText(
-                            applicationContext,
-                            "Saved to selected location!",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    } catch (e: IOException) {
-                        Toast.makeText(
-                            applicationContext,
-                            "Failed to save PDF: ${e.message}",
-                            Toast.LENGTH_LONG
-                        ).show()
-                        Log.e("PDFGen", "Error copying PDF: $e")
-                    }
-                }
-
-                override fun onFailure(response: FailureResponse) {
-                    Toast.makeText(
-                        applicationContext,
-                        "PDF generation failed: ${response.errorMessage}",
-                        Toast.LENGTH_LONG
-                    ).show()
-                    Log.e("PDFGen", "Generation failed: ${response.errorMessage}")
-                }
-
-                override fun showLog(log: String) {
-                    Log.d("PDFGen", log)
+                    TODO("Not yet implemented")
                 }
             })
     }
 
     fun calculateSavedMoney(grandTotal: Double): Double {
-        var MRP_GrandTotal: Double = 0.0;
+        var mrpTotal = 0.0
         for (x in invoiceItemList) {
-            MRP_GrandTotal += x.MRP * x.quantity;
+            mrpTotal += x.MRP * x.quantity
         }
-        return MRP_GrandTotal - grandTotal;
+        return mrpTotal - grandTotal
     }
-
 }

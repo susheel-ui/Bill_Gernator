@@ -41,6 +41,11 @@ class invoiceItem(barCodeId:Long,name:String,initialMRP:Double,initialQuantity:I
    private fun calculateTotal() {
        total = MRP * quantity - MRP * quantity * (discount / 100)
    }
+
+    override fun toString(): String {
+        return "invoiceItem(total=$total, name='$name', barCodeId=$barCodeId, quantity=$quantity, MRP=$MRP, discount=$discount)"
+    }
+
     init {
         calculateTotal()
     }

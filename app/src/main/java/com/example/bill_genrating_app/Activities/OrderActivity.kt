@@ -76,8 +76,8 @@ class OrderActivity : AppCompatActivity() {
                     OrderActivityServices(applicationContext).getAllItemUsingOrderId(orderId)
                 }.await()
                 if(orderJob != null){
-                    activity?.etName?.setText(orderJob.name)
-                    activity?.etMobile?.setText(orderJob.mob)
+//                    activity?.etName?.setText(orderJob.name)
+//                    activity?.etMobile?.setText(orderJob.mob)
                 }
                 itemJob.forEach {
                     addItemToInvoice(it.BarcodeId.toLong())
@@ -96,34 +96,35 @@ class OrderActivity : AppCompatActivity() {
         activity?.ordersPageSaveBtn?.setOnClickListener {
             try {
                 // creating Order Entity
-                val name = activity?.etName?.text.toString()
-                val mob = activity?.etMobile?.text.toString()
-                val order = Order(orderId, name, mob, grandTotal, status.PENDING.toString())
+//                val name = activity?.etName?.text.toString()
+//                val mob = activity?.etMobile?.text.toString()
+                val order = Order(orderId, "name", "mob", grandTotal, status.PENDING.toString())
                 val list = ArrayList<OrderItem>()
                 val anim = AnimationUtils.loadAnimation(this, R.anim.btn_popup)
                 activity?.ordersPageSaveBtn?.startAnimation(anim)
                 itemList.forEach { it ->
                     list.add(OrderItem(order.ordId, it.barCodeId.toString(), it.quantity, it.total))
                 }
-                if (name.isNotEmpty()) {
-                    if (mob.isNotEmpty()) {
-                        if (itemList.isNotEmpty()) {
-                            lifecycleScope.launch(Dispatchers.IO) {
-                                try {
-                                    saveToDB(order, list)
-                                } catch (e: Exception) {
-                                    Log.d(TAG, "onCreate: saving error ${e.message}")
-                                }
-                            }
-                        } else
-                            Toast.makeText(this, "pls add Some Items", Toast.LENGTH_SHORT).show()
-
-                    } else
-                        Toast.makeText(this, "pls Enter Mobile number", Toast.LENGTH_LONG).show()
-
-
-                } else
-                    Toast.makeText(this, "pls Enter Name", Toast.LENGTH_LONG).show()
+                saveToDB(order,list)
+//                if (name.isNotEmpty()) {
+//                    if (mob.isNotEmpty()) {
+//                        if (itemList.isNotEmpty()) {
+//                            lifecycleScope.launch(Dispatchers.IO) {
+//                                try {
+//                                    saveToDB(order, list)
+//                                } catch (e: Exception) {
+//                                    Log.d(TAG, "onCreate: saving error ${e.message}")
+//                                }
+//                            }
+//                        } else
+//                            Toast.makeText(this, "pls add Some Items", Toast.LENGTH_SHORT).show()
+//
+//                    } else
+//                        Toast.makeText(this, "pls Enter Mobile number", Toast.LENGTH_LONG).show()
+//
+//
+//                } else
+//                    Toast.makeText(this, "pls Enter Name", Toast.LENGTH_LONG).show()
 
             } catch (e: Exception) {
                 Log.d(TAG, "onCreate:Saving data to db ${e.message}")
@@ -131,13 +132,13 @@ class OrderActivity : AppCompatActivity() {
 
 
         }
-        activity?.ordersPageResetBtn?.setOnClickListener {
-            itemList.clear()
-            invoiceItemAdapter.notifyDataSetChanged()
-            activity?.etName?.text?.clear()
-            activity?.etMobile?.text?.clear()
-            activity?.tvGrandTotal?.text = "Grand Total: 0.00"
-        }
+//        activity?.ordersPageResetBtn?.setOnClickListener {
+//            itemList.clear()
+//            invoiceItemAdapter.notifyDataSetChanged()
+//            activity?.etName?.text?.clear()
+//            activity?.etMobile?.text?.clear()
+//            activity?.tvGrandTotal?.text = "Grand Total: 0.00"
+//        }
 
     }
 
@@ -249,7 +250,7 @@ class OrderActivity : AppCompatActivity() {
                 grandTotal += itemList.total
             }
             val df = DecimalFormat("#,###." + "0".repeat(2))
-            activity?.tvGrandTotal?.text = "Grand Total: ".plus(df.format(grandTotal))
+            activity?.tvGrandTotal?.text = "".plus(df.format(grandTotal))
         } catch (e: Exception) {
             Log.d(TAG, "findGrandTotal: ${e.message}")
         }

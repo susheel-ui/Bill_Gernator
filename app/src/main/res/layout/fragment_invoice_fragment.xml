@@ -127,14 +127,11 @@
             android:id="@+id/quickInfoCardsGrid"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-
             android:columnCount="2"
             android:rowCount="2"
-
             android:layout_marginStart="24dp"
             android:layout_marginEnd="24dp"
             android:layout_marginTop="32dp"
-
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/incomeCardView">
@@ -145,6 +142,7 @@
                app:cardCornerRadius="12dp"
                android:layout_margin="1dp"
                app:cardElevation="0dp"
+               android:backgroundTint="#E6ECF6"
 
                >
                 <LinearLayout
@@ -206,8 +204,9 @@
                android:layout_width="163dp"
                android:layout_height="150dp"
                app:cardCornerRadius="12dp"
-               android:layout_marginStart="16dp"
+               android:layout_marginStart="30dp"
                app:cardElevation="0dp"
+               android:backgroundTint="#E6ECF6"
                >
                <LinearLayout
                    android:layout_width="match_parent"
@@ -267,8 +266,9 @@
                android:layout_width="163dp"
                android:layout_height="150dp"
                app:cardCornerRadius="12dp"
-               android:layout_marginTop="16dp"
+               android:layout_marginTop="30dp"
                app:cardElevation="0dp"
+               android:backgroundTint="#E6ECF6"
 
                >
                <LinearLayout
@@ -331,15 +331,15 @@
                app:cardCornerRadius="12dp"
                android:layout_margin="1dp"
                app:cardElevation="0dp"
-               android:layout_marginTop="16dp"
-               android:layout_marginLeft="16dp"
+               android:backgroundTint="#E6ECF6"
+               android:layout_marginTop="30dp"
+               android:layout_marginLeft="30dp"
                >
                <LinearLayout
                    android:layout_width="match_parent"
                    android:layout_height="match_parent"
                    android:orientation="vertical"
                    android:gravity="start"
-
                    android:paddingTop="20dp"
                    android:paddingRight="24dp"
                    android:paddingLeft="24dp"
