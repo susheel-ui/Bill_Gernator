@@ -315,8 +315,7 @@
                             android:layout_height="wrap_content"
                             android:columnCount="2"
                             android:useDefaultMargins="true">
-
-                            <RadioButton
+                            <CheckBox
                                 android:id="@+id/Kg"
                                 android:layout_width="0dp"
                                 android:layout_height="48dp"
@@ -329,7 +328,7 @@
                                 android:textColor="@color/selector_quantity_text"
                                 android:textStyle="bold" />
 
-                            <RadioButton
+                            <CheckBox
                                 android:id="@+id/gram"
                                 android:layout_width="0dp"
                                 android:layout_height="48dp"
@@ -340,7 +339,7 @@
                                 android:text="g"
                                 android:textColor="@color/selector_quantity_text"
                                 android:textStyle="bold" />
-                            <RadioButton
+                            <CheckBox
                                 android:id="@+id/ml"
                                 android:layout_width="0dp"
                                 android:layout_height="48dp"
@@ -351,7 +350,7 @@
                                 android:text="ML"
                                 android:textColor="@color/selector_quantity_text"
                                 android:textStyle="bold" />
-                            <RadioButton
+                            <CheckBox
                                 android:id="@+id/Litre"
                                 android:layout_width="0dp"
                                 android:layout_height="48dp"
@@ -363,7 +362,8 @@
                                 android:textColor="@color/selector_quantity_text"
                                 android:textStyle="bold" />
                         </GridLayout>
-                        <RadioButton
+
+                        <CheckBox
                             android:id="@+id/Piece"
                             android:layout_width="match_parent"
                             android:layout_height="48dp"

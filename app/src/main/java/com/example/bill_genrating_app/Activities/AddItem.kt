@@ -17,14 +17,17 @@ import com.example.bill_genrating_app.R
 import com.example.bill_genrating_app.Roomdb.DBHelper
 import com.example.bill_genrating_app.Roomdb.entities.items
 import com.example.bill_genrating_app.databinding.ActivityAddItemBinding
+import com.example.bill_genrating_app.entity.weightType
 import com.journeyapps.barcodescanner.ScanContract
 import com.journeyapps.barcodescanner.ScanIntentResult
 import com.journeyapps.barcodescanner.ScanOptions
 
 
+
+
 class AddItem : AppCompatActivity() {
     lateinit var thisActivityBinding:ActivityAddItemBinding
-
+    var weighttype = weightType.KG;
 
     private val requestPermissionLauncher = registerForActivityResult(ActivityResultContracts.RequestPermission()){
             isGranted :Boolean->
@@ -78,12 +81,53 @@ class AddItem : AppCompatActivity() {
             launchScanner()
         }
 
+//        thisActivityBinding.Kg.setOnClickListener {
+//            if(thisActivityBinding.Kg.isChecked){
+//                thisActivityBinding.Litre.isChecked = false
+//                thisActivityBinding.Piece.isChecked = false
+//                thisActivityBinding.gram.isChecked = false
+//                thisActivityBinding.ml.isChecked = false
+//            }
+//        }
+//        thisActivityBinding.Litre.setOnClickListener {
+//            if(thisActivityBinding.Litre.isChecked){
+//                thisActivityBinding.Kg.isChecked  = false
+//                thisActivityBinding.Piece.isChecked = false
+//                thisActivityBinding.gram.isChecked = false
+//                thisActivityBinding.ml.isChecked = false
+//            }
+//        }
+        setupUnitSelection()
         // The listener was causing manual color changes which is now handled by XML selectors
 //        thisActivityBinding.QuantityType.setOnCheckedChangeListener { group, checkedId ->
 //            val radio: RadioButton = findViewById(checkedId)
 //            // Color change is now handled by drawable/bg_quantity_selector and color/selector_quantity_text
 //            Log.d(TAG, "Selected Quantity Type: ${radio.text}")
 //        }
+    }
+
+    private fun setupUnitSelection() {
+
+        val checkBoxes = listOf(
+            thisActivityBinding.Kg,
+            thisActivityBinding.Litre,
+            thisActivityBinding.gram,
+            thisActivityBinding.ml,
+            thisActivityBinding.Piece
+        )
+
+        checkBoxes.forEach { currentCheckBox ->
+            currentCheckBox.setOnClickListener {
+
+                if (currentCheckBox.isChecked) {
+                    checkBoxes.forEach { checkBox ->
+                        if (checkBox != currentCheckBox) {
+                            checkBox.isChecked = false
+                        }
+                    }
+                }
+            }
+        }
     }
     private fun launchScanner(){
         val scanoption = ScanOptions()

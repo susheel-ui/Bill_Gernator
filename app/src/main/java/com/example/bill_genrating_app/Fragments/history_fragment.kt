@@ -9,10 +9,10 @@ import com.example.bill_genrating_app.R
 
 /**
  * A simple [Fragment] subclass.
- * Use the [setting_fragment.newInstance] factory method to
+ * Use the [history_fragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class setting_fragment : Fragment() {
+class history_fragment : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
@@ -29,7 +29,7 @@ class setting_fragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_setting_fragment, container, false)
+        return inflater.inflate(R.layout.fragment_history_fragment, container, false)
     }
 
     companion object {
@@ -44,7 +44,7 @@ class setting_fragment : Fragment() {
         // TODO: Rename and change types and number of parameters
         @JvmStatic
         fun newInstance(param1: String, param2: String) =
-            setting_fragment().apply {
+            history_fragment().apply {
                 arguments = Bundle().apply {
                 }
             }

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Bill Generating</string>
+    <string name="app_name">iBills</string>
     <string name="invoices">Invoices</string>
     <string name="item_lists">Inventory Items</string>
     <string name="recents_transaction">Recents Transaction</string>
@@ -18,6 +18,12 @@
         <item>40sp</item>
         <item>100sp</item>
     </array>
+
+    <string name="currency">
+        <item>$</item>
+        <item>₹</item>
+        <item>€</item>
+    </string>
 
     <!--    <string name="app_name">Bill_Genrating_App</string>-->
     <string name="app_logo">App Logo</string>

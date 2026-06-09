@@ -1,6 +1,5 @@
 package com.example.bill_genrating_app.Activities
 
-import android.annotation.SuppressLint
 import android.content.ContentValues.TAG
 import android.content.Intent
 import android.os.Bundle
@@ -21,6 +20,7 @@ class MainActivity : AppCompatActivity() {
     lateinit var binding: ActivityMainBinding
     lateinit var invoiceFragment:invoice_fragment
     lateinit var clientsFragments: clients_fragments
+    lateinit var itemFragment: items_fragment
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,6 +43,7 @@ class MainActivity : AppCompatActivity() {
             Log.d(TAG, "onCreate: ${user?.username.toString()}")
             invoiceFragment = invoice_fragment(user)
             clientsFragments = clients_fragments(user)
+            itemFragment = items_fragment()
             change_fragment(invoiceFragment,binding.ContainerView.id, "invoices",fragmentManager)
         }
 
@@ -57,13 +58,13 @@ class MainActivity : AppCompatActivity() {
             change_fragment(invoiceFragment,binding.ContainerView.id, "invoices",fragmentManager)
         }
         this.binding.bottomNavBarlayout.itemTwo.setOnClickListener {
-            change_fragment(items_fragment(),binding.ContainerView.id, "Item",fragmentManager)
+            change_fragment(itemFragment,binding.ContainerView.id, "Item",fragmentManager)
         }
         this.binding.bottomNavBarlayout.itemthree.setOnClickListener {
             change_fragment(clientsFragments,binding.ContainerView.id, "clients",fragmentManager)
         }
         this.binding.bottomNavBarlayout.itemFour.setOnClickListener {
-            change_fragment(setting_fragment(),binding.ContainerView.id, "setting",fragmentManager)
+            change_fragment(history_fragment(),binding.ContainerView.id, "setting",fragmentManager)
         }// Note: here itemOne,itemTwo,itemThree,itemFour is basically menu items because its a custom bottom navbar
 
 //         add order button listner

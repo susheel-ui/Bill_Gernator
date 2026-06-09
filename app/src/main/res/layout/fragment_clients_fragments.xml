@@ -358,6 +358,17 @@
             app:layout_constraintTop_toBottomOf="@id/switches_container"
             app:layout_constraintVertical_bias="1" />
 
+
     </androidx.constraintlayout.widget.ConstraintLayout>
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnLogOut"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="LogOut"
+            android:layout_margin="20dp"
+            android:backgroundTint="@color/primary"
+            >
+        </com.google.android.material.button.MaterialButton>
+
     </LinearLayout>
 </androidx.core.widget.NestedScrollView>

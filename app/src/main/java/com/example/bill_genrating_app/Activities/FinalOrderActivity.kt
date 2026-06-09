@@ -209,7 +209,11 @@ class FinalOrderActivity : AppCompatActivity() {
                 intent.putExtra("OrderId", orderData.ordId)
                 launcherActivity.launch(intent)
             } else {
-                generatePdfToUri()
+                try {
+                    generatePdfToUri()
+                } catch (e: Exception) {
+                    Log.d(TAG, "setupClickListeners: error on pdf Generating method")
+                }
             }
             activityBinding.cardPrintBillbtn.startAnimation(AnimationUtils.loadAnimation(this, R.anim.btn_popup))
         }
@@ -274,17 +278,19 @@ class FinalOrderActivity : AppCompatActivity() {
             .build(object : PdfGeneratorListener() {
                 override fun onSuccess(response: SuccessResponse) {
                     Toast.makeText(applicationContext, "Saved to selected location!", Toast.LENGTH_SHORT).show()
+                    Log.d(TAG, "onSuccess PDF: created ")
                 }
                 override fun onFailure(response: FailureResponse) {
                     Toast.makeText(applicationContext, "PDF generation failed", Toast.LENGTH_LONG).show()
+                    Log.d(TAG, "onFailure: PDF : ${response.errorMessage}")
                 }
                 override fun showLog(log: String) { Log.d("PDFGen", log) }
                 override fun onStartPDFGeneration() {
-                    TODO("Not yet implemented")
+                    Log.d(TAG, "onStartPDFGeneration: PDf Start creating")
                 }
 
                 override fun onFinishPDFGeneration() {
-                    TODO("Not yet implemented")
+                    Log.d(TAG, "onFinishPDFGeneration: on finshi")
                 }
             })
     }
