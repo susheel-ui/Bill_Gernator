@@ -167,7 +167,7 @@
                     android:id="@+id/tv_grand_total"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="$1,784.00"
+                    android:text="$00.00"
                     android:textColor="@color/primary"
                     android:textSize="24sp"
                     android:textStyle="bold"
