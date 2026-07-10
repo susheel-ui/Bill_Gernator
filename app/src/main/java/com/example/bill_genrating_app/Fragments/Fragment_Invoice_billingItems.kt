@@ -11,6 +11,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 
 import com.example.bill_genrating_app.Adapters.invoiceItemAdapter
+import com.example.bill_genrating_app.Api.response.Inventory
 
 import com.example.bill_genrating_app.databinding.FragmentInvoiceBillingItemsBinding
 import com.example.bill_genrating_app.entity.invoiceItem
@@ -25,11 +26,11 @@ import java.text.DecimalFormat
 class Fragment_Invoice_billingItems() : Fragment() {
     lateinit var fragmentBinding: FragmentInvoiceBillingItemsBinding
     lateinit var adapter: invoiceItemAdapter
-    var data:ArrayList<invoiceItem> = ArrayList()
+    var data:ArrayList<Inventory> = ArrayList()
     var GrandTotal:String = "0.0" // Initialize with a default value
     var flag:Boolean = false
-    constructor(data: ArrayList<invoiceItem>,
-                GrandTotal: String,flag:Boolean = false):this(){
+    constructor(data: ArrayList<Inventory>,
+                GrandTotal: String, flag:Boolean = false):this(){
         Log.d(TAG, "Debug -> ${this.toString()}: $data ")
         this.data = data
         this.GrandTotal = GrandTotal
@@ -64,7 +65,7 @@ class Fragment_Invoice_billingItems() : Fragment() {
    private fun calculateSavedMoney(grandTotal: Double): Double {
         var MRP_GrandTotal: Double = 0.0;
         for (x in data) {
-            MRP_GrandTotal += x.initialMRP * x.initialQuantity;
+            MRP_GrandTotal += x.price * x.stockQuantity;
         }
         return MRP_GrandTotal-grandTotal;
     }

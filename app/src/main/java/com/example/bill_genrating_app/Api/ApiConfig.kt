@@ -15,7 +15,8 @@ object ApiConfig {
         .build()
     val retrofit by lazy {
         Retrofit.Builder()
-            .baseUrl("http://10.0.2.2:8090/")
+//            .baseUrl("http://10.0.2.2:8090/")
+            .baseUrl("http://10.174.16.84:8090/")
             .client(client)
             .addConverterFactory(GsonConverterFactory.create())
             .build()

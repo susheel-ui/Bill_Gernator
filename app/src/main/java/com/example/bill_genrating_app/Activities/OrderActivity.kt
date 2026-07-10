@@ -10,11 +10,13 @@ import android.util.Log
 import android.view.View
 import android.view.animation.AnimationUtils
 import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.bill_genrating_app.Adapters.invoiceItemAdapter
+import com.example.bill_genrating_app.Api.response.Inventory
 import com.example.bill_genrating_app.R
 import com.example.bill_genrating_app.Roomdb.DBHelper
 import com.example.bill_genrating_app.Roomdb.Repos.OrderActivityServices
@@ -23,6 +25,7 @@ import com.example.bill_genrating_app.Roomdb.entities.OrderItem
 import com.example.bill_genrating_app.UtilClasses.status
 import com.example.bill_genrating_app.databinding.ActivityOrderBinding
 import com.example.bill_genrating_app.entity.invoiceItem
+import com.example.bill_genrating_app.viewModels.CreateOrderViewModel
 import com.google.zxing.BarcodeFormat
 import com.google.zxing.client.android.BeepManager
 import com.journeyapps.barcodescanner.BarcodeCallback
@@ -42,11 +45,13 @@ class OrderActivity : AppCompatActivity() {
     var activity: ActivityOrderBinding? = null
     private var lastText: String? = null
     private lateinit var beepManager: BeepManager
-    private var itemList = ArrayList<invoiceItem>()
+    private var itemList = ArrayList<Inventory>()
     private lateinit var invoiceItemAdapter: invoiceItemAdapter
     private var grandTotal = 0.00;
     private lateinit var db: DBHelper
     lateinit var orderId: String
+
+    val OrderViewModel : CreateOrderViewModel by viewModels()
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -80,7 +85,7 @@ class OrderActivity : AppCompatActivity() {
 //                    activity?.etMobile?.setText(orderJob.mob)
                 }
                 itemJob.forEach {
-                    addItemToInvoice(it.BarcodeId.toLong())
+//                    addItemToInvoice(it.BarcodeId.toLong())
                 }
 
 
@@ -103,7 +108,7 @@ class OrderActivity : AppCompatActivity() {
                 val anim = AnimationUtils.loadAnimation(this, R.anim.btn_popup)
                 activity?.ordersPageSaveBtn?.startAnimation(anim)
                 itemList.forEach { it ->
-                    list.add(OrderItem(order.ordId, it.barCodeId.toString(), it.initialQuantity, it.total))
+//                    list.add(OrderItem(order.ordId, it.barCodeId.toString(), it.initialQuantity, it.total))
                 }
                 saveToDB(order,list)
 //                if (name.isNotEmpty()) {
@@ -139,6 +144,12 @@ class OrderActivity : AppCompatActivity() {
 //            activity?.etMobile?.text?.clear()
 //            activity?.tvGrandTotal?.text = "Grand Total: 0.00"
 //        }
+        OrderViewModel.itemList.observe(this){
+            itemList.clear()
+            Log.d(TAG, "onCreate: Order Activity $it")
+            itemList.addAll(it)
+            invoiceItemAdapter.notifyDataSetChanged()
+        }
 
     }
 
@@ -147,7 +158,9 @@ class OrderActivity : AppCompatActivity() {
             if (result.text == null || result.text == lastText) {
                 // Prevent duplicate scans
                 try {
-                    addItemToInvoice(lastText!!.toLong())
+//                    addItemToInvoice(lastText!!.toLong())
+                    OrderViewModel.addItem(lastText.toString())
+
                 } catch (e: Exception) {
                     Log.d(TAG, "barcodeResult: ${e.message}")
                 }
@@ -162,7 +175,8 @@ class OrderActivity : AppCompatActivity() {
             }
             lastText = result.text
             Log.d(TAG, "barcodeResult: ${lastText.toString()}")
-            addItemToInvoice(lastText!!.toLong())
+//            addItemToInvoice(lastText!!.toLong())
+            OrderViewModel.addItem(lastText.toString())
             activity?.barcodeScanner?.setStatusText(result.text)
             beepManager.playBeepSoundAndVibrate()
             activity?.barcodeScanner?.pause()
@@ -189,52 +203,52 @@ class OrderActivity : AppCompatActivity() {
     }
 
 
-    fun addItemToInvoice(barcodeId: Long): Boolean {
-        val itemDao = db.itemDao()
-        val item = itemDao.getByid(barcodeId)
-
-        if (item.isNotEmpty()) {
-
-            val newItem = item[0]
-
-            val priceAfterDiscount =
-                newItem.MRP - (newItem.MRP * newItem.discountRate / 100)
-
-            var isPresent = false
-
-            itemList.forEachIndexed { index, existingItem ->
-
-                if (existingItem.barCodeId == barcodeId) {
-
-                    isPresent = true
-
-                    val newQty = existingItem.initialQuantity + 1
-                    val newTotal = newQty * priceAfterDiscount
-
-                    itemList[index].initialQuantity = newQty
-                    itemList[index].total = newTotal
-
-                    invoiceItemAdapter.notifyItemChanged(index)
-                }
-            }
-
-            if (!isPresent) {
-                val invoiceItemToAdd = invoiceItem(
-                    newItem.BarcodeId,
-                    newItem.Name,
-                    newItem.MRP,
-                    1,
-                    newItem.discountRate,
-                    total = priceAfterDiscount
-                )
-
-                itemList.add(invoiceItemToAdd)
-                invoiceItemAdapter.notifyItemInserted(itemList.size - 1)
-            }
-        }
-        findGrandTotal()
-        return true
-    }
+//    fun addItemToInvoice(barcodeId: Long): Boolean {
+//        val itemDao = db.itemDao()
+//        val item = itemDao.getByid(barcodeId)
+//
+//        if (item.isNotEmpty()) {
+//
+//            val newItem = item[0]
+//
+//            val priceAfterDiscount =
+//                newItem.MRP - (newItem.MRP * newItem.discountRate / 100)
+//
+//            var isPresent = false
+//
+//            itemList.forEachIndexed { index, existingItem ->
+//
+//                if (existingItem.barCodeId == barcodeId) {
+//
+//                    isPresent = true
+//
+//                    val newQty = existingItem.initialQuantity + 1
+//                    val newTotal = newQty * priceAfterDiscount
+//
+//                    itemList[index].initialQuantity = newQty
+//                    itemList[index].total = newTotal
+//
+//                    invoiceItemAdapter.notifyItemChanged(index)
+//                }
+//            }
+//
+//            if (!isPresent) {
+//                val invoiceItemToAdd = invoiceItem(
+//                    newItem.BarcodeId,
+//                    newItem.Name,
+//                    newItem.MRP,
+//                    1,
+//                    newItem.discountRate,
+//                    total = priceAfterDiscount
+//                )
+//
+//                itemList.add(invoiceItemToAdd)
+//                invoiceItemAdapter.notifyItemInserted(itemList.size - 1)
+//            }
+//        }
+//        findGrandTotal()
+//        return true
+//    }
 
     private fun saveToDB(order: Order, orderItems: List<OrderItem>) {
         lifecycleScope.launch {
@@ -242,18 +256,18 @@ class OrderActivity : AppCompatActivity() {
         }
     }
 
-    private fun findGrandTotal() {
-        try {
-            grandTotal = 0.00
-            itemList.forEach { itemList ->
-                grandTotal += itemList.total
-            }
-            val df = DecimalFormat("#,###." + "0".repeat(2))
-            activity?.tvGrandTotal?.text = "".plus(df.format(grandTotal))
-        } catch (e: Exception) {
-            Log.d(TAG, "findGrandTotal: ${e.message}")
-        }
-    }
+//    private fun findGrandTotal() {
+//        try {
+//            grandTotal = 0.00
+//            itemList.forEach { itemList ->
+//                grandTotal += itemList.total
+//            }
+//            val df = DecimalFormat("#,###." + "0".repeat(2))
+//            activity?.tvGrandTotal?.text = "".plus(df.format(grandTotal))
+//        } catch (e: Exception) {
+//            Log.d(TAG, "findGrandTotal: ${e.message}")
+//        }
+//    }
 
     @RequiresApi(Build.VERSION_CODES.O)
     public fun generateOrderId(): String {

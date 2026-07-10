@@ -9,13 +9,14 @@ import android.view.animation.AnimationUtils
 import android.widget.Button
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.example.bill_genrating_app.Api.response.Inventory
 import com.example.bill_genrating_app.entity.invoiceItem
 import java.text.DecimalFormat
 import com.example.bill_genrating_app.R
 import com.example.bill_genrating_app.databinding.InvoiceItemRowLayoutBinding
 
 
-class invoiceItemAdapter(private val itemList: ArrayList<invoiceItem>,private val smallTextFlag:Boolean = false): RecyclerView.Adapter<invoiceItemAdapter.ViewHolder>() {
+class invoiceItemAdapter(private val itemList: ArrayList<Inventory>, private val smallTextFlag:Boolean = false): RecyclerView.Adapter<invoiceItemAdapter.ViewHolder>() {
 
     inner class ViewHolder(itemView : View) :RecyclerView.ViewHolder(itemView){
 //            lateinit var layout:InvoiceItemRowLayoutBinding
@@ -25,20 +26,20 @@ class invoiceItemAdapter(private val itemList: ArrayList<invoiceItem>,private va
             val quantity:TextView
             val total:TextView
             val moreOptionLayout:View
-            val btnDelete:TextView
-            val btnAdd:Button
-            val btnDec:Button
+//            val btnDelete:TextView
+//            val btnAdd:Button
+//            val btnDec:Button
             init {
 //                layout = LayoutInflater.from(itemView.context).inflate(R.layout.invoice_item_row_layout,null,false) as InvoiceItemRowLayoutBinding
                 itemName =   itemView.findViewById(R.id.invoice_item_row_itemName)
                 MRP = itemView.findViewById(R.id.invoice_item_row_MRP)
                 discountRate = itemView.findViewById(R.id.invoice_item_row_discountRate)
                 quantity = itemView.findViewById(R.id.invoice_item_row_Quantity)
-                total = itemView.findViewById(R.id.invoice_item_row_total)
+                total = itemView.findViewById(R.id.invoice_item_row_totalBig)
                 moreOptionLayout = itemView.findViewById(R.id.moreOptionLayout)
-                btnDelete = itemView.findViewById(R.id.invoice_item_row_btnDelete)
-                btnAdd = itemView.findViewById(R.id.invoice_item_row_btnAdd)
-                btnDec = itemView.findViewById(R.id.invoice_item_row_btnDec)
+//                btnDelete = itemView.findViewById(R.id.invoice_item_row_btnDelete)
+//                btnAdd = itemView.findViewById(R.id.invoice_item_row_btnAdd)
+//                btnDec = itemView.findViewById(R.id.invoice_item_row_btnDec)
                 if(smallTextFlag){
                     itemName.textSize = 8f
                     MRP.textSize = 8f
@@ -65,20 +66,20 @@ class invoiceItemAdapter(private val itemList: ArrayList<invoiceItem>,private va
         val item = itemList[position]
         val df = DecimalFormat("#,###." + "0".repeat(2))
            holder.itemName.text = item.name
-           holder.MRP.text = item.initialMRP.toString()
-           holder.discountRate.text = item.initialDiscount.toString()
-           holder.quantity.text = item.initialQuantity.toString()
-           holder.total.text = df.format(item.total)
-            holder.itemView.setOnClickListener {
-                if (holder.moreOptionLayout.visibility == View.VISIBLE){
-                    holder.moreOptionLayout.startAnimation(slideUp)
-                        holder.moreOptionLayout.visibility = View.GONE
-                }else{
-                    holder.moreOptionLayout.startAnimation(slideDown)
-                    holder.moreOptionLayout.visibility = View.VISIBLE
-
-                }
-            }
+           holder.MRP.text = item.unitType.toString()
+           holder.discountRate.text = item.discountRate.toString()
+           holder.quantity.text = item.stockQuantity.toString()
+           holder.total.text = df.format(item.finalPrice)
+//            holder.itemView.setOnClickListener {
+//                if (holder.moreOptionLayout.visibility == View.VISIBLE){
+//                    holder.moreOptionLayout.startAnimation(slideUp)
+//                        holder.moreOptionLayout.visibility = View.GONE
+//                }else{
+//                    holder.moreOptionLayout.startAnimation(slideDown)
+//                    holder.moreOptionLayout.visibility = View.VISIBLE
+//
+//                }
+//            }
 //        holder.btnAdd.setOnClickListener {
 //            item.quantity = item.quantity + 1
 //            item.total = item.quantity * item.MRP

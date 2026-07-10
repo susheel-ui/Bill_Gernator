@@ -17,6 +17,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import com.example.bill_genrating_app.Adapters.invoiceItemAdapter
+import com.example.bill_genrating_app.Api.response.Inventory
 
 import com.example.bill_genrating_app.R
 
@@ -41,7 +42,7 @@ class FinalOrderActivity : AppCompatActivity() {
     lateinit var activityBinding: ActivityFinalOrderBinding
 
     lateinit var orderData: Order
-     val orderItems = ArrayList<invoiceItem>()
+     val orderItems = ArrayList<Inventory>()
     lateinit var launcherActivity: ActivityResultLauncher<Intent>
     lateinit var invoiceItemAdapter: invoiceItemAdapter
 
@@ -145,13 +146,20 @@ class FinalOrderActivity : AppCompatActivity() {
         orderItems.clear()
         for (i in x){
             orderItems.add(
-                invoiceItem(
-                    barCodeId = i.inventoryId.toLong(),
-                    name=i.itemName,
-                    initialMRP=i.unitPrice,
-                    initialDiscount=i.discountRate,
-                    initialQuantity=i.quantity,
-                    total = i.totalPrice
+                Inventory(
+                    id = i.id,
+                    barcodeId = i.inventoryId.toString(),
+                    name = i.itemName,
+                    stockQuantity = i.quantity,
+                    discountRate = i.discountRate,
+                    finalPrice = i.totalPrice,
+                    price  = i.unitPrice,
+                    unitType = "",
+                    categories = "",
+                    description = "",
+                    status = "",
+                    createdAt = "",
+                    updatedAt = ""
                 )
             )
         }
