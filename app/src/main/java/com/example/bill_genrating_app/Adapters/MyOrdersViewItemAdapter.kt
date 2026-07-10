@@ -12,13 +12,13 @@ import androidx.core.content.ContextCompat
 import com.example.bill_genrating_app.Activities.FinalOrderActivity
 import com.example.bill_genrating_app.databinding.OrdersListLayoutBinding
 import com.example.bill_genrating_app.R
-import com.example.bill_genrating_app.Roomdb.entities.Order
+import com.example.bill_genrating_app.Api.response.Order
 import com.example.bill_genrating_app.UtilClasses.ExtractDateFromOrdID
 import com.example.bill_genrating_app.UtilClasses.status
 import java.util.Locale
 
 
-class MyOrdersViewItemAdapter(val context: Context, private val arr:List<Order>) : BaseAdapter(){
+class MyOrdersViewItemAdapter(val context: Context, private val arr: List<Order>) : BaseAdapter(){
     override fun getCount(): Int {
         return arr.size;
     }
@@ -45,17 +45,23 @@ class MyOrdersViewItemAdapter(val context: Context, private val arr:List<Order>)
         }
 
         val entity = arr[p0]
-        binding.OrderNameField.text = entity.name.toString().uppercase(Locale.getDefault())
-        binding.priceTag.text = "\u20B9${entity.grandTotal}"
-        when (entity.status) {
-            status.PAID.toString() -> binding.statusTag.setTextColor(ContextCompat.getColor(context, R.color.green))
-            status.PENDING.toString() -> binding.statusTag.setTextColor(ContextCompat.getColor(context, R.color.red))
+        binding.OrderNameField.text = entity.clientName.toString().uppercase(Locale.getDefault())
+        binding.priceTag.text = "\u20B9${entity.totalMoney}"
+        when (entity.paymentStatus) {
+            status.PAID.toString() -> {
+                binding.statusTag.setTextColor(ContextCompat.getColor(context, R.color.green))
+                binding.statusTag.text = status.PAID.toString()
+            }
+            status.PENDING.toString() -> {
+                binding.statusTag.setTextColor(ContextCompat.getColor(context, R.color.red))
+                binding.statusTag.text = status.PENDING.toString()
+            }
             else -> binding.statusTag.setTextColor(ContextCompat.getColor(context, R.color.colorBlue))
         }
-        binding.date.text = ExtractDateFromOrdID(entity.ordId.toString())
+        binding.date.text = ExtractDateFromOrdID(entity.createdAt.toString())
         binding.root.setOnClickListener {
             val intent = Intent(context, FinalOrderActivity::class.java)
-            intent.putExtra("OrderId", entity.ordId)
+            intent.putExtra("OrderId", entity.id.toString())
             context.startActivity(intent)
         }
         return convertView

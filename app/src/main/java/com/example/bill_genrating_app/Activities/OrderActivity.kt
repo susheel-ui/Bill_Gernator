@@ -103,7 +103,7 @@ class OrderActivity : AppCompatActivity() {
                 val anim = AnimationUtils.loadAnimation(this, R.anim.btn_popup)
                 activity?.ordersPageSaveBtn?.startAnimation(anim)
                 itemList.forEach { it ->
-                    list.add(OrderItem(order.ordId, it.barCodeId.toString(), it.quantity, it.total))
+                    list.add(OrderItem(order.ordId, it.barCodeId.toString(), it.initialQuantity, it.total))
                 }
                 saveToDB(order,list)
 //                if (name.isNotEmpty()) {
@@ -208,10 +208,10 @@ class OrderActivity : AppCompatActivity() {
 
                     isPresent = true
 
-                    val newQty = existingItem.quantity + 1
+                    val newQty = existingItem.initialQuantity + 1
                     val newTotal = newQty * priceAfterDiscount
 
-                    itemList[index].quantity = newQty
+                    itemList[index].initialQuantity = newQty
                     itemList[index].total = newTotal
 
                     invoiceItemAdapter.notifyItemChanged(index)
@@ -224,10 +224,9 @@ class OrderActivity : AppCompatActivity() {
                     newItem.Name,
                     newItem.MRP,
                     1,
-                    newItem.discountRate
-                ).apply {
+                    newItem.discountRate,
                     total = priceAfterDiscount
-                }
+                )
 
                 itemList.add(invoiceItemToAdd)
                 invoiceItemAdapter.notifyItemInserted(itemList.size - 1)

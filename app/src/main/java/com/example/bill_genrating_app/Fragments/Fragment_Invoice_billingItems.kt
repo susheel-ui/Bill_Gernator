@@ -64,7 +64,7 @@ class Fragment_Invoice_billingItems() : Fragment() {
    private fun calculateSavedMoney(grandTotal: Double): Double {
         var MRP_GrandTotal: Double = 0.0;
         for (x in data) {
-            MRP_GrandTotal += x.MRP * x.quantity;
+            MRP_GrandTotal += x.initialMRP * x.initialQuantity;
         }
         return MRP_GrandTotal-grandTotal;
     }

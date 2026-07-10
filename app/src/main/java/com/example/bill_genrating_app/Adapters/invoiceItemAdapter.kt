@@ -64,13 +64,10 @@ class invoiceItemAdapter(private val itemList: ArrayList<invoiceItem>,private va
         val slideUp: Animation = AnimationUtils.loadAnimation(holder.itemView.context,R.anim.slide_up)
         val item = itemList[position]
         val df = DecimalFormat("#,###." + "0".repeat(2))
-
-
-
            holder.itemName.text = item.name
-           holder.MRP.text = item.MRP.toString()
-           holder.discountRate.text = item.discount.toString()
-           holder.quantity.text = item.quantity.toString()
+           holder.MRP.text = item.initialMRP.toString()
+           holder.discountRate.text = item.initialDiscount.toString()
+           holder.quantity.text = item.initialQuantity.toString()
            holder.total.text = df.format(item.total)
             holder.itemView.setOnClickListener {
                 if (holder.moreOptionLayout.visibility == View.VISIBLE){

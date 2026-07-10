@@ -13,8 +13,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.bill_genrating_app.R
 import com.example.bill_genrating_app.Roomdb.entities.items
 import com.example.bill_genrating_app.Activities.ViewItemActivity
+import com.example.bill_genrating_app.Api.response.Inventory
 
-class AdapterItems(var mContext:Context, var listItem:List<items>) :RecyclerView.Adapter<AdapterItems.ViewHolder>() {
+class AdapterItems(var mContext:Context, var listItem:List<Inventory>) :RecyclerView.Adapter<AdapterItems.ViewHolder>() {
     inner class ViewHolder(itemView : View) :RecyclerView.ViewHolder(itemView){
         val itemId:TextView
         val name :TextView
@@ -38,16 +39,16 @@ class AdapterItems(var mContext:Context, var listItem:List<items>) :RecyclerView
     }
 
     override fun onBindViewHolder(holder: AdapterItems.ViewHolder, position: Int) {
-        val item:items = listItem.get(position)
-        holder.itemId.text = item.BarcodeId.toString()
-        holder.name.text = item.Name.plus(item.weight.plus(item.weightType))
+        val item = listItem.get(position)
+        holder.itemId.text = item.barcodeId.toString()
+        holder.name.text = item.name
         holder.quntity.text = item.stockQuantity.toString()
         holder.itemView.setOnClickListener {
-            Toast.makeText(mContext, "touch = ${item.Name}", Toast.LENGTH_SHORT).show()
+            Toast.makeText(mContext, "touch = ${item.name}", Toast.LENGTH_SHORT).show()
            try {
                var intent = Intent(mContext, ViewItemActivity::class.java)
                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-               intent.putExtra("itemId",item.BarcodeId.toString())
+               intent.putExtra("itemId",item.barcodeId.toString())
                mContext.startActivity(intent)
            }
            catch (e:Exception){

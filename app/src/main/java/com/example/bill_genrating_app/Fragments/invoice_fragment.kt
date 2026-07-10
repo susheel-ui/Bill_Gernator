@@ -9,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import com.example.bill_genrating_app.Activities.ViewOrdersActivity
 import com.example.bill_genrating_app.Adapters.MyOrdersViewItemAdapter
 import com.example.bill_genrating_app.R
@@ -16,16 +17,20 @@ import com.example.bill_genrating_app.Roomdb.DBHelper
 import com.example.bill_genrating_app.Roomdb.entities.Order
 import com.example.bill_genrating_app.Roomdb.entities.User
 import com.example.bill_genrating_app.databinding.FragmentInvoiceFragmentBinding
+import com.example.bill_genrating_app.viewModels.HomeViewModel
+import com.example.bill_genrating_app.viewModels.OrdersState
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+
 
 class invoice_fragment(private val user: User?) : Fragment() {
     // TODO: Rename and change types of parameters
    lateinit var fragmentsBinding: FragmentInvoiceFragmentBinding
    lateinit var db:DBHelper
-   lateinit var orderData:List<Order>
+   lateinit var orderData: List<com.example.bill_genrating_app.Api.response.Order>
    lateinit var adapter:MyOrdersViewItemAdapter
+    private val viewModel: HomeViewModel by viewModels()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -51,6 +56,29 @@ class invoice_fragment(private val user: User?) : Fragment() {
             //fragmentsBinding.invoiceSearchbar.emailEt.text  = user?.username.toString()
         //data getting
         ShowTransactions()
+
+        viewModel.recentTransactionLiveData.observe(viewLifecycleOwner){
+            when(it){
+                is OrdersState.Failed->{
+                    Log.d(TAG, "onCreateView: ${it.message}")
+                    if(it.code == 403){
+                        viewModel.sharedPreferences.logout(true)
+//                        startActivity(Intent(requireContext(), LoginActivity::class.java))
+//                        activity?.finish()
+                    }
+                }
+                is OrdersState.Loading->{
+                    Log.d(TAG, "onCreateView: data Loading")
+                }
+                is OrdersState.Success->{
+                    Log.d(TAG, "onCreateView: Success ${it.data}")
+                    orderData = it.data!!
+                    adapter = MyOrdersViewItemAdapter(requireContext(), orderData)
+                    fragmentsBinding.ordersListsview.adapter = adapter
+                }
+            }
+        }
+
         return fragmentsBinding.root
     }
 
@@ -60,6 +88,7 @@ class invoice_fragment(private val user: User?) : Fragment() {
     }
       private suspend fun getData(): List<Order>{
         return db.orderDao().getAllOrders()
+
     }
 
     private fun ShowTransactions(){
@@ -72,9 +101,9 @@ class invoice_fragment(private val user: User?) : Fragment() {
             if (isAdded && context != null) {
                requireActivity().runOnUiThread{
                     // Check if data has enough elements before creating a subList
-                    val itemsToShow = if (data.size >= 3) data.subList(0, 3) else data
-                    adapter = MyOrdersViewItemAdapter(requireContext(), itemsToShow)
-                    fragmentsBinding.ordersListsview.adapter = adapter
+//                    val itemsToShow = if (data.size >= 3) data.subList(0, 3) else data
+//                    adapter = MyOrdersViewItemAdapter(requireContext(), itemsToShow)
+//                    fragmentsBinding.ordersListsview.adapter = adapter
                 }
             }
         }

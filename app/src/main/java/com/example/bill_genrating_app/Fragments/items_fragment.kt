@@ -10,13 +10,18 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.SearchView
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.room.Room
 import com.example.bill_genrating_app.Activities.AddItem
 import com.example.bill_genrating_app.Adapters.AdapterItems
+import com.example.bill_genrating_app.Api.response.Inventory
 import com.example.bill_genrating_app.Roomdb.DBHelper
 import com.example.bill_genrating_app.Roomdb.entities.items
 import com.example.bill_genrating_app.databinding.FragmentItemsFragmentBinding
+import com.example.bill_genrating_app.viewModels.HomeViewModel
+import com.example.bill_genrating_app.viewModels.InventoryState
 
 /**
  * A simple [Fragment] subclass.
@@ -28,6 +33,7 @@ class items_fragment : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
+    val homeViewModel : HomeViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -67,6 +73,19 @@ class items_fragment : Fragment() {
 //            }
 //
 //        })
+        homeViewModel.allInventoryLiveData.observe(viewLifecycleOwner){
+            when(it){
+                is InventoryState.Loading->{
+
+                }
+                is InventoryState.Failed->{
+
+                }
+                is InventoryState.Success->{
+                    ShowItems(requireContext().applicationContext,it.data)
+                }
+            }
+        }
 
         return thisFagementBinding.root
     }
@@ -77,7 +96,7 @@ class items_fragment : Fragment() {
             val activityIntent = Intent(context, AddItem::class.java)
             startActivity(activityIntent)
         }
-        ShowItems(requireContext().applicationContext,fetchItemsRoom())
+//        ShowItems(requireContext().applicationContext,fetchItemsRoom())
 //        searchByName("classmate");
 
 
@@ -85,7 +104,7 @@ class items_fragment : Fragment() {
 
     }
 
-    fun ShowItems(context: Context, paralist:List<items>?){
+    fun ShowItems(context: Context, paralist:List<Inventory>?){
         try {
             val list = paralist
             Log.d(ContentValues.TAG, "ShowItems: $list")
@@ -132,16 +151,16 @@ class items_fragment : Fragment() {
         }
     }
 
-    fun searchByName(str:String){
-        val db = fetchDb();
-        val result = db?.itemDao()?.getByname(str);
-        Log.d(ContentValues.TAG, "searchByName: $result")
-        try {
-                ShowItems(requireContext().applicationContext, result)
-        }catch (e:Exception){
-            Log.d(ContentValues.TAG, "searchByName: error ${e.message}")
-        }
-        }
+//    fun searchByName(str:String){
+//        val db = fetchDb();
+//        val result = db?.itemDao()?.getByname(str);
+//        Log.d(ContentValues.TAG, "searchByName: $result")
+//        try {
+//                ShowItems(requireContext().applicationContext, result)
+//        }catch (e:Exception){
+//            Log.d(ContentValues.TAG, "searchByName: error ${e.message}")
+//        }
+//        }
 
 
 }

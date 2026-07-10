@@ -47,10 +47,6 @@ class MainActivity : AppCompatActivity() {
             change_fragment(invoiceFragment,binding.ContainerView.id, "invoices",fragmentManager)
         }
 
-
-
-
-
         // all listeners is here
 
         // fragment changing Actions
