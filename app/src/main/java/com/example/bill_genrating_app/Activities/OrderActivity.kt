@@ -26,6 +26,7 @@ import com.example.bill_genrating_app.UtilClasses.status
 import com.example.bill_genrating_app.databinding.ActivityOrderBinding
 import com.example.bill_genrating_app.entity.invoiceItem
 import com.example.bill_genrating_app.viewModels.CreateOrderViewModel
+import com.example.bill_genrating_app.viewModels.OrderSave
 import com.google.zxing.BarcodeFormat
 import com.google.zxing.client.android.BeepManager
 import com.journeyapps.barcodescanner.BarcodeCallback
@@ -97,6 +98,22 @@ class OrderActivity : AppCompatActivity() {
         }
 
 
+        OrderViewModel.orderApiCalling.observe(this){
+            when(it){
+                is OrderSave.Loading ->{
+                    Toast.makeText(this, "Loading", Toast.LENGTH_SHORT).show()
+                    activity?.ordersPageSaveBtn?.isClickable = false
+                }
+                is OrderSave.Success ->{
+                    Toast.makeText(this, "Order Saved", Toast.LENGTH_SHORT).show()
+                    finish()
+                }
+                is OrderSave.Failed ->{
+                    Toast.makeText(this, it.message, Toast.LENGTH_SHORT).show()
+                    activity?.ordersPageSaveBtn?.isClickable = true
+                }
+            }
+        }
 
         activity?.ordersPageSaveBtn?.setOnClickListener {
             try {
@@ -110,7 +127,8 @@ class OrderActivity : AppCompatActivity() {
                 itemList.forEach { it ->
 //                    list.add(OrderItem(order.ordId, it.barCodeId.toString(), it.initialQuantity, it.total))
                 }
-                saveToDB(order,list)
+                OrderViewModel.SaveOrder()
+//                saveToDB(order,list)
 //                if (name.isNotEmpty()) {
 //                    if (mob.isNotEmpty()) {
 //                        if (itemList.isNotEmpty()) {

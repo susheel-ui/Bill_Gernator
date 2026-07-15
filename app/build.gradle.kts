@@ -68,8 +68,12 @@ dependencies {
 
     implementation(libs.retrofit.core)
     implementation(libs.retrofit.converter.gson)
+//    implementation(platform("com.squareup.okhttp3:okhttp-bom:5.4.0"))
 
+    // Main OkHttp library
+    // Source: https://mvnrepository.com/artifact/com.squareup.okhttp3/okhttp
     implementation("com.squareup.okhttp3:logging-interceptor:5.4.0")
+    implementation("com.squareup.okhttp3:okhttp:4.0.0")
     androidTestImplementation("androidx.test.ext:junit:1.2.1")
     androidTestImplementation("androidx.test:runner:1.6.2")
     implementation("androidx.fragment:fragment-ktx:1.8.9")

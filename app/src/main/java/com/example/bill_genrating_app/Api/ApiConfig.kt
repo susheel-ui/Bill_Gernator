@@ -3,6 +3,7 @@ package com.example.bill_genrating_app.Api
 import com.example.bill_genrating_app.Api.Util.CurlInterceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
+//import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
@@ -17,6 +18,7 @@ object ApiConfig {
         Retrofit.Builder()
 //            .baseUrl("http://10.0.2.2:8090/")
             .baseUrl("http://10.174.16.84:8090/")
+//            .baseUrl("http://127.0.0.1:8090/")
             .client(client)
             .addConverterFactory(GsonConverterFactory.create())
             .build()

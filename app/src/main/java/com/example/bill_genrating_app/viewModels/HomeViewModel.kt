@@ -14,7 +14,6 @@ import com.example.bill_genrating_app.Api.service.InventoryService
 import com.example.bill_genrating_app.Api.service.OrderServices
 import com.example.bill_genrating_app.UtilClasses.SharePreferences
 import kotlinx.coroutines.launch
-import java.util.Arrays
 
 class HomeViewModel(application: Application) : AndroidViewModel(application) {
 
@@ -43,7 +42,7 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
     private fun getAllInventory() {
         viewModelScope.launch {
             _allInventory.postValue(InventoryState.Loading)
-            val response = inventoryRepo.getInventoryItems(token!!)
+            val response = inventoryRepo.getInventoryAllItems(token!!)
             if(response.isSuccessful){
                 _allInventory.postValue(InventoryState.Success(response.body()!!))
             }else{
@@ -105,7 +104,7 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
     }
 }
 
-sealed class InventoryState {
+sealed class InventoryState{
     object Loading : InventoryState()
     data class Success(val data: List<Inventory>) : InventoryState()
     data class Failed(val message: String, val errorCode: Int) : InventoryState()

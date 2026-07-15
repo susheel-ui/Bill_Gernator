@@ -212,6 +212,9 @@
 
 <!-- Slightly stronger for modals (still < 8 %)                  -->
 <color name="shadow_key">#141A1D23</color>
+    <color name="primary_500">#577DB8</color>
+    <color name="primary_50">#C4CAD4</color>
+
 
 <!-- ══════════════════════════════════════════════════════
      10. SEMANTIC / ALIAS TOKENS

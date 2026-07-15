@@ -48,7 +48,8 @@ class AdapterItems(var mContext:Context, var listItem:List<Inventory>) :Recycler
            try {
                var intent = Intent(mContext, ViewItemActivity::class.java)
                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-               intent.putExtra("itemId",item.barcodeId.toString())
+//               intent.putExtra("itemId",item.barcodeId.toString())
+               intent.putExtra("itemId",item.id)
                mContext.startActivity(intent)
            }
            catch (e:Exception){

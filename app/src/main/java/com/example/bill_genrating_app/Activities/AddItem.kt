@@ -10,14 +10,18 @@ import android.widget.RadioButton
 import android.widget.RadioGroup
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.room.Room
+import com.example.bill_genrating_app.Api.payloads.InventoryPayload
 import com.example.bill_genrating_app.R
 import com.example.bill_genrating_app.Roomdb.DBHelper
 import com.example.bill_genrating_app.Roomdb.entities.items
 import com.example.bill_genrating_app.databinding.ActivityAddItemBinding
 import com.example.bill_genrating_app.entity.weightType
+import com.example.bill_genrating_app.viewModels.CreateInventoryState
+import com.example.bill_genrating_app.viewModels.CreateInventoryViewModel
 import com.journeyapps.barcodescanner.ScanContract
 import com.journeyapps.barcodescanner.ScanIntentResult
 import com.journeyapps.barcodescanner.ScanOptions
@@ -28,6 +32,9 @@ import com.journeyapps.barcodescanner.ScanOptions
 class AddItem : AppCompatActivity() {
     lateinit var thisActivityBinding:ActivityAddItemBinding
     var weighttype = weightType.KG;
+
+    private val viewModel: CreateInventoryViewModel by viewModels()
+    private var current_unitType:String = "Kg"
 
     private val requestPermissionLauncher = registerForActivityResult(ActivityResultContracts.RequestPermission()){
             isGranted :Boolean->
@@ -81,6 +88,22 @@ class AddItem : AppCompatActivity() {
             launchScanner()
         }
 
+        viewModel.createInventory.observe(this){
+            when(it){
+                is CreateInventoryState.Loading -> {
+                    Toast.makeText(this, "Loading", Toast.LENGTH_SHORT).show()
+                }
+                is CreateInventoryState.Success -> {
+                    Toast.makeText(this, "Success", Toast.LENGTH_SHORT).show()
+                }
+                is CreateInventoryState.Failed -> {
+                    Toast.makeText(this, "Failed", Toast.LENGTH_SHORT).show()
+                }
+
+            }
+        }
+
+
 //        thisActivityBinding.Kg.setOnClickListener {
 //            if(thisActivityBinding.Kg.isChecked){
 //                thisActivityBinding.Litre.isChecked = false
@@ -120,6 +143,7 @@ class AddItem : AppCompatActivity() {
             currentCheckBox.setOnClickListener {
 
                 if (currentCheckBox.isChecked) {
+                    current_unitType = currentCheckBox.text.toString()
                     checkBoxes.forEach { checkBox ->
                         if (checkBox != currentCheckBox) {
                             checkBox.isChecked = false
@@ -163,12 +187,24 @@ class AddItem : AppCompatActivity() {
                 val MRP = thisActivityBinding.itemMRP.text.toString().toDouble()
                 val quantity = thisActivityBinding.itemweight.text.toString()
                 val type = thisActivityBinding.categoryField.selectedItem.toString()
-                val quantityType = getQuantityType()
+                val quantityType = current_unitType
                 val stock = thisActivityBinding.stockQuantity.text.toString().toLong()
                 val discountRate = thisActivityBinding.discountRate.text.toString().toDouble()
 
                 if(type != "Select"){
-                    itemDao.SaveNewItem(items(barCode,name,quantity,quantityType,type,MRP,stock,discountRate))
+//                    itemDao.SaveNewItem(items(barCode,name,quantity,quantityType,type,MRP,stock,discountRate))
+                    val inventory = InventoryPayload(
+                        name = name,
+                        barcodeId = barCode.toString(),
+                        price = MRP,
+                        discountRate = discountRate,
+                        stockQuantity = stock.toInt(),
+                        unitType = quantityType,
+                        categories = type,
+                        status = "ACTIVE",
+                        description = ""
+                    )
+                    viewModel.saveInventory(inventory)
                     Toast.makeText(this, "Saved", Toast.LENGTH_SHORT).show()
                     clearFields()
                     finish()

@@ -42,7 +42,7 @@ class FinalOrderActivity : AppCompatActivity() {
     lateinit var activityBinding: ActivityFinalOrderBinding
 
     lateinit var orderData: Order
-     val orderItems = ArrayList<Inventory>()
+    val orderItems = ArrayList<Inventory>()
     lateinit var launcherActivity: ActivityResultLauncher<Intent>
     lateinit var invoiceItemAdapter: invoiceItemAdapter
 
@@ -81,12 +81,14 @@ class FinalOrderActivity : AppCompatActivity() {
                 is OrderState.Loading -> {
                     Log.d(TAG, "onCreate: Order Loading ")
                 }
+
                 is OrderState.Success -> {
                     Log.d(TAG, "onCreate: Order Success${it.data} ")
                     orderData = it.data
                     setuserData()
                     setInvoicesItem(it.data.Order_items)
                 }
+
                 is OrderState.Failed -> {
                     Log.d(TAG, "onCreate: Order Failed  ${it.message}")
                 }
@@ -142,9 +144,10 @@ class FinalOrderActivity : AppCompatActivity() {
         activityBinding.tvSubtotal.text = orderData.totalMoney.toString()
 
     }
+
     private fun setInvoicesItem(x: List<OrderItem>) {
         orderItems.clear()
-        for (i in x){
+        for (i in x) {
             orderItems.add(
                 Inventory(
                     id = i.id,
@@ -153,7 +156,7 @@ class FinalOrderActivity : AppCompatActivity() {
                     stockQuantity = i.quantity,
                     discountRate = i.discountRate,
                     finalPrice = i.totalPrice,
-                    price  = i.unitPrice,
+                    price = i.unitPrice,
                     unitType = "",
                     categories = "",
                     description = "",
@@ -163,7 +166,7 @@ class FinalOrderActivity : AppCompatActivity() {
                 )
             )
         }
-        invoiceItemAdapter = invoiceItemAdapter(orderItems)
+        invoiceItemAdapter = invoiceItemAdapter(itemList = orderItems, flagEditable = false)
         activityBinding.ItemListView.adapter = invoiceItemAdapter
     }
 }
