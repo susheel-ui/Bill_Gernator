@@ -96,11 +96,9 @@ class items_fragment : Fragment() {
             val activityIntent = Intent(context, AddItem::class.java)
             startActivity(activityIntent)
         }
+        homeViewModel.refreshUi()
 //        ShowItems(requireContext().applicationContext,fetchItemsRoom())
 //        searchByName("classmate");
-
-
-
 
     }
 

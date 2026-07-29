@@ -1,6 +1,7 @@
 package com.example.bill_genrating_app.viewModels
 
 import android.app.Application
+import android.content.ContentValues.TAG
 import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
@@ -9,9 +10,12 @@ import androidx.lifecycle.viewModelScope
 import com.example.bill_genrating_app.Api.ApiConfig
 import com.example.bill_genrating_app.Api.repository.InventoryRepo
 import com.example.bill_genrating_app.Api.repository.OrderRepo
+import com.example.bill_genrating_app.Api.repository.PreferencesRepo
 import com.example.bill_genrating_app.Api.response.Inventory
+import com.example.bill_genrating_app.Api.response.Metrices
 import com.example.bill_genrating_app.Api.service.InventoryService
 import com.example.bill_genrating_app.Api.service.OrderServices
+import com.example.bill_genrating_app.Api.service.PreferencesServices
 import com.example.bill_genrating_app.UtilClasses.SharePreferences
 import kotlinx.coroutines.launch
 
@@ -23,6 +27,8 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
 
     private val inventoryRepo = InventoryRepo(inventoryService)
     private val orderRepo = OrderRepo(orderServices)
+
+    private val preferencesRepo  = PreferencesRepo(ApiConfig.retrofit.create(PreferencesServices::class.java))
     private val _recentTransaction = MutableLiveData<OrdersState>()
     val recentTransactionLiveData: LiveData<OrdersState> = _recentTransaction
     val sharedPreferences = SharePreferences(application)
@@ -30,13 +36,16 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
     private val _allInventory = MutableLiveData<InventoryState>()
     val allInventoryLiveData: LiveData<InventoryState> = _allInventory
 
+    private val _metrices = MutableLiveData<MetriceState>()
+    val metricesLiveData: LiveData<MetriceState> = _metrices
+
     val token:String? = sharedPreferences.getToken()
 
 
     init {
         recentTransaction()
         getAllInventory()
-        Log.d("Token", "token : $token ")
+        getMatrices()
     }
 
     private fun getAllInventory() {
@@ -51,10 +60,15 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
+    fun refreshUi(){
+//        getAllInventory()
+//        recentTransaction()
+//        getMatrices()
+    }
+
     fun recentTransaction() {
-
+        Log.d(TAG, "recentTransaction: loading")
         _recentTransaction.value = OrdersState.Loading
-
         viewModelScope.launch {
 
             try {
@@ -102,10 +116,26 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
             }
         }
     }
+    fun getMatrices() {
+        viewModelScope.launch {
+            _metrices.postValue(MetriceState.Loading)
+            val response = preferencesRepo.getMetrices(token!!)
+            if(response.isSuccessful){
+                _metrices.postValue(MetriceState.Success(response.body()!!))
+            }else{
+                _metrices.postValue(MetriceState.Failed(response.message(),response.code()))
+            }
+        }
+    }
 }
 
 sealed class InventoryState{
     object Loading : InventoryState()
     data class Success(val data: List<Inventory>) : InventoryState()
     data class Failed(val message: String, val errorCode: Int) : InventoryState()
+}
+sealed class MetriceState{
+    object Loading : MetriceState()
+    data class Success(val data: Metrices) : MetriceState()
+    data class Failed(val message: String, val errorCode: Int) : MetriceState()
 }

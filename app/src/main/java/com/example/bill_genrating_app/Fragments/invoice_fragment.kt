@@ -10,21 +10,25 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import com.example.bill_genrating_app.Activities.LoginActivity
 import com.example.bill_genrating_app.Activities.ViewOrdersActivity
 import com.example.bill_genrating_app.Adapters.MyOrdersViewItemAdapter
+import com.example.bill_genrating_app.Api.response.Metrices
 import com.example.bill_genrating_app.R
 import com.example.bill_genrating_app.Roomdb.DBHelper
 import com.example.bill_genrating_app.Roomdb.entities.Order
 import com.example.bill_genrating_app.Roomdb.entities.User
+import com.example.bill_genrating_app.UtilClasses.change_fragment
 import com.example.bill_genrating_app.databinding.FragmentInvoiceFragmentBinding
 import com.example.bill_genrating_app.viewModels.HomeViewModel
+import com.example.bill_genrating_app.viewModels.MetriceState
 import com.example.bill_genrating_app.viewModels.OrdersState
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 
-class invoice_fragment(private val user: User?) : Fragment() {
+class invoice_fragment() : Fragment() {
     // TODO: Rename and change types of parameters
    lateinit var fragmentsBinding: FragmentInvoiceFragmentBinding
    lateinit var db:DBHelper
@@ -49,22 +53,43 @@ class invoice_fragment(private val user: User?) : Fragment() {
         //All Click listeners
             //see all click listener
                 fragmentsBinding.fragmentSeeAllTag.setOnClickListener {
-                   val intent = Intent(requireContext(), ViewOrdersActivity::class.java)
-                    startActivity(intent)
-                    requireActivity().overridePendingTransition(R.anim.zoom_in,R.anim.stay_static)
-                }
+//                   val intent = Intent(requireContext(), ViewOrdersActivity::class.java)
+//                    startActivity(intent)
+//                    requireActivity().overridePendingTransition(R.anim.zoom_in,R.anim.stay_static)
+
+                       }
+
             //fragmentsBinding.invoiceSearchbar.emailEt.text  = user?.username.toString()
         //data getting
-        ShowTransactions()
+//        ShowTransactions()
 
-        viewModel.recentTransactionLiveData.observe(viewLifecycleOwner){
+
+
+        return fragmentsBinding.root
+    }
+
+    private fun setMetrices(data: Metrices) {
+        fragmentsBinding.incomeAmount.text = data.todayTotalIncome.toString()
+        fragmentsBinding.pendingCount.text = data.pendingOrdersCount.toString()
+        fragmentsBinding.invoiceCount.text = data.totalInvoicesCount.toString()
+        fragmentsBinding.lowStockCount.text = data.lowStocksCount.toString()
+        fragmentsBinding.inventoryCount.text = data.totalInventoriesCount.toString()
+        fragmentsBinding.increamentPercentage.text = data.incomeIncrementPercentage.toString().plus("%")
+
+    }
+
+    override fun onStart() {
+        super.onStart()
+        viewModel.refreshUi()
+
+        viewModel.recentTransactionLiveData.observe(this){
             when(it){
                 is OrdersState.Failed->{
                     Log.d(TAG, "onCreateView: ${it.message}")
                     if(it.code == 403){
-                        viewModel.sharedPreferences.logout(true)
-//                        startActivity(Intent(requireContext(), LoginActivity::class.java))
-//                        activity?.finish()
+//                        viewModel.sharedPreferences.logout(true)
+                        startActivity(Intent(requireContext(), LoginActivity::class.java))
+                        activity?.finish()
                     }
                 }
                 is OrdersState.Loading->{
@@ -78,13 +103,26 @@ class invoice_fragment(private val user: User?) : Fragment() {
                 }
             }
         }
-
-        return fragmentsBinding.root
+        viewModel.metricesLiveData.observe(this){
+            when(it){
+                is MetriceState.Failed->{
+                    Log.d(TAG, "onCreateView: ${it.message}")
+                }
+                is MetriceState.Loading->{
+                    Log.d(TAG, "onCreateView: data Loading")
+                }
+                is MetriceState.Success->{
+                    Log.d(TAG, "onCreateView: Success ${it.data}")
+                    setMetrices(it.data)
+                }
+            }
+        }
     }
 
     override fun onResume() {
         super.onResume()
         ShowTransactions()
+        viewModel.refreshUi()
     }
       private suspend fun getData(): List<Order>{
         return db.orderDao().getAllOrders()
@@ -107,11 +145,5 @@ class invoice_fragment(private val user: User?) : Fragment() {
                 }
             }
         }
-
-
-
     }
-
-
-
 }

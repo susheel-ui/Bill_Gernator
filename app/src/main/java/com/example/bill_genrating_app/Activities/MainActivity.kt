@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import com.example.bill_genrating_app.databinding.ActivityMainBinding
 import com.example.bill_genrating_app.Fragments.*
@@ -27,6 +28,9 @@ class MainActivity : AppCompatActivity() {
         val fragmentManager = supportFragmentManager
         // binding for current activity
         binding = ActivityMainBinding.inflate(layoutInflater)
+        invoiceFragment = invoice_fragment()
+        clientsFragments = clients_fragments()
+        itemFragment = items_fragment()
 
         setContentView(binding.root)
         var id: Int? = null
@@ -36,14 +40,14 @@ class MainActivity : AppCompatActivity() {
         } catch (e: Exception) {
             Log.d("Error MainActivity : getIntentError", "onCreate: ${e.message}")
         }
+
+
         lifecycleScope.launch {
             val user = withContext(Dispatchers.IO) {
                 id?.let { UserService(applicationContext).getUserById(it.toLong()) }
             }
             Log.d(TAG, "onCreate: ${user?.username.toString()}")
-            invoiceFragment = invoice_fragment(user)
-            clientsFragments = clients_fragments(user)
-            itemFragment = items_fragment()
+
             change_fragment(invoiceFragment,binding.ContainerView.id, "invoices",fragmentManager)
         }
 
@@ -69,6 +73,8 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
         }
     }
+
+
 
     override fun onStart() {
         super.onStart()

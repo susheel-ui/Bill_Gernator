@@ -100,6 +100,7 @@
                             app:tint="#6FFBBE"
                             />
                         <TextView
+                            android:id="@+id/increamentPercentage"
                             android:layout_width="55dp"
                             android:layout_height="20dp"
                             android:text="+42.2%"
@@ -126,7 +127,7 @@
         <GridLayout
             android:id="@+id/quickInfoCardsGrid"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="330dp"
             android:columnCount="2"
             android:rowCount="2"
             android:layout_marginStart="24dp"
@@ -180,6 +181,7 @@
                         android:gravity="start"
                         >
                         <TextView
+                            android:id="@+id/inventoryCount"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="1234"
@@ -204,7 +206,7 @@
                android:layout_width="163dp"
                android:layout_height="150dp"
                app:cardCornerRadius="12dp"
-               android:layout_marginStart="30dp"
+               android:layout_gravity="end"
                app:cardElevation="0dp"
                android:backgroundTint="#E6ECF6"
                >
@@ -243,6 +245,7 @@
                        android:gravity="start"
                        >
                        <TextView
+                           android:id="@+id/pendingCount"
                            android:layout_width="wrap_content"
                            android:layout_height="wrap_content"
                            android:text="1234"
@@ -266,7 +269,7 @@
                android:layout_width="163dp"
                android:layout_height="150dp"
                app:cardCornerRadius="12dp"
-               android:layout_marginTop="30dp"
+               android:layout_gravity="start|bottom"
                app:cardElevation="0dp"
                android:backgroundTint="#E6ECF6"
 
@@ -306,6 +309,7 @@
                        android:gravity="start"
                        >
                        <TextView
+                           android:id="@+id/invoiceCount"
                            android:layout_width="wrap_content"
                            android:layout_height="wrap_content"
                            android:text="1234"
@@ -332,8 +336,7 @@
                android:layout_margin="1dp"
                app:cardElevation="0dp"
                android:backgroundTint="#E6ECF6"
-               android:layout_marginTop="30dp"
-               android:layout_marginLeft="30dp"
+               android:layout_gravity="bottom|end"
                >
                <LinearLayout
                    android:layout_width="match_parent"
@@ -370,6 +373,7 @@
                        android:gravity="start"
                        >
                        <TextView
+                           android:id="@+id/lowStockCount"
                            android:layout_width="wrap_content"
                            android:layout_height="wrap_content"
                            android:text="150"
@@ -419,6 +423,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:text="See All"
+                android:visibility="gone"
                 android:textColor="@color/primary"
                 android:gravity="center|end"
                 android:layout_marginEnd="20dp"

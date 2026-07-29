@@ -1,0 +1,11 @@
+package com.example.bill_genrating_app.entity
+
+data class Invoice_item(
+    val id:Int,
+    val barCodeId:Long,
+    val name:String?,
+    val initialMRP:Double,
+    var initialQuantity:Int,
+    val initialDiscount:Double,
+    var total: Double
+)

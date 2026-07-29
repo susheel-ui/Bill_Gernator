@@ -14,6 +14,7 @@ import com.example.bill_genrating_app.Adapters.invoiceItemAdapter
 import com.example.bill_genrating_app.Api.response.Inventory
 
 import com.example.bill_genrating_app.databinding.FragmentInvoiceBillingItemsBinding
+import com.example.bill_genrating_app.entity.Invoice_item
 import com.example.bill_genrating_app.entity.invoiceItem
 import kotlinx.coroutines.launch
 import java.text.DecimalFormat
@@ -26,10 +27,10 @@ import java.text.DecimalFormat
 class Fragment_Invoice_billingItems() : Fragment() {
     lateinit var fragmentBinding: FragmentInvoiceBillingItemsBinding
     lateinit var adapter: invoiceItemAdapter
-    var data:ArrayList<Inventory> = ArrayList()
+    var data:ArrayList<Invoice_item> = ArrayList()
     var GrandTotal:String = "0.0" // Initialize with a default value
     var flag:Boolean = false
-    constructor(data: ArrayList<Inventory>,
+    constructor(data: ArrayList<Invoice_item>,
                 GrandTotal: String, flag:Boolean = false):this(){
         Log.d(TAG, "Debug -> ${this.toString()}: $data ")
         this.data = data
@@ -65,7 +66,7 @@ class Fragment_Invoice_billingItems() : Fragment() {
    private fun calculateSavedMoney(grandTotal: Double): Double {
         var MRP_GrandTotal: Double = 0.0;
         for (x in data) {
-            MRP_GrandTotal += x.price * x.stockQuantity;
+//            MRP_GrandTotal += x.price * x.stockQuantity;
         }
         return MRP_GrandTotal-grandTotal;
     }

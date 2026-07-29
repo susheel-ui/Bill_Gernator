@@ -7,6 +7,7 @@ import android.os.Build
 
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
@@ -32,6 +33,7 @@ import com.example.bill_genrating_app.Api.response.OrderItem
 import com.example.bill_genrating_app.Payment_Options_Activity
 import com.example.bill_genrating_app.UtilClasses.formatDateTime
 import com.example.bill_genrating_app.UtilClasses.status
+import com.example.bill_genrating_app.entity.Invoice_item
 import com.example.bill_genrating_app.entity.invoiceItem
 import com.example.bill_genrating_app.viewModels.Factories.ViewOrderViewFactory
 import com.example.bill_genrating_app.viewModels.OrderState
@@ -41,13 +43,14 @@ import kotlin.text.clear
 class FinalOrderActivity : AppCompatActivity() {
     lateinit var activityBinding: ActivityFinalOrderBinding
 
-    lateinit var orderData: Order
-    val orderItems = ArrayList<Inventory>()
+    var orderData: Order? = null
+    val orderItems = ArrayList<Invoice_item>()
     lateinit var launcherActivity: ActivityResultLauncher<Intent>
     lateinit var invoiceItemAdapter: invoiceItemAdapter
 
     val viewModel: ViewOrderViewModel by viewModels {
-        ViewOrderViewFactory(application, intent.getStringExtra("OrderId")!!)
+        val orderId = intent.getStringExtra("OrderId") ?: ""
+        ViewOrderViewFactory(application, orderId)
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -58,6 +61,12 @@ class FinalOrderActivity : AppCompatActivity() {
 
         val OrderId = intent.getStringExtra("OrderId")
 
+        if (OrderId == null) {
+            Toast.makeText(this, "Order ID missing", Toast.LENGTH_SHORT).show()
+            finish()
+            return
+        }
+
         Log.d(TAG, "onCreate: Order : $OrderId")
 
 
@@ -66,11 +75,13 @@ class FinalOrderActivity : AppCompatActivity() {
         ) { result ->
             if (result.resultCode == RESULT_OK) {
 //                updateUIForPaidStatus()
-                lifecycleScope.launch {
-                    OrderActivityServices(applicationContext).updateOrderStatus(
-                        orderData.id.toString(),
-                        status.PAID.toString()
-                    )
+                orderData?.let { data ->
+                    lifecycleScope.launch {
+                        OrderActivityServices(applicationContext).updateOrderStatus(
+                            data.id.toString(),
+                            status.PAID.toString()
+                        )
+                    }
                 }
             }
         }
@@ -91,22 +102,27 @@ class FinalOrderActivity : AppCompatActivity() {
 
                 is OrderState.Failed -> {
                     Log.d(TAG, "onCreate: Order Failed  ${it.message}")
+                    Toast.makeText(this, "Failed to load order: ${it.message}", Toast.LENGTH_LONG).show()
                 }
             }
         }
 
         activityBinding.btnNextProcess.setOnClickListener {
-            when (orderData.paymentStatus) {
-                status.PAID.toString() -> {
-
-                }
-
-                status.PENDING.toString() -> {
-                    val intent = Intent(this, Payment_Options_Activity::class.java).apply {
-                        putExtra("OrderId", orderData.id.toString())
+            orderData?.let { data ->
+                when (data.paymentStatus) {
+                    status.PAID.toString() -> {
+                        // Handle Print Bill or next step
                     }
-                    launcherActivity.launch(intent)
+
+                    status.PENDING.toString() -> {
+                        val intent = Intent(this, Payment_Options_Activity::class.java).apply {
+                            putExtra("OrderId", data.id.toString())
+                        }
+                        launcherActivity.launch(intent)
+                    }
                 }
+            } ?: run {
+                Toast.makeText(this, "Order data not loaded yet", Toast.LENGTH_SHORT).show()
             }
         }
 
@@ -114,14 +130,15 @@ class FinalOrderActivity : AppCompatActivity() {
 
     @RequiresApi(Build.VERSION_CODES.O)
     private fun setuserData() {
-        activityBinding.customerName.text = orderData.clientName
-        activityBinding.orderId.text = orderData.id.toString()
+        val data = orderData ?: return
+        activityBinding.customerName.text = data.clientName
+        activityBinding.orderId.text = data.id.toString()
 //        activityBinding.customerEmail.text = orderData.clientEmail
 //        activityBinding.customerPhone.text = orderData.
-        activityBinding.totalAmountValue.text = orderData.finalPrice.toString()
-        activityBinding.tvGrandTotalSummary.text = orderData.finalPrice.toString()
-        activityBinding.statusChip.text = orderData.paymentStatus
-        when (orderData.paymentStatus) {
+        activityBinding.totalAmountValue.text = data.finalPrice.toString()
+        activityBinding.tvGrandTotalSummary.text = data.finalPrice.toString()
+        activityBinding.statusChip.text = data.paymentStatus
+        when (data.paymentStatus) {
             status.PAID.toString() -> {
                 activityBinding.statusChip.setTextColor(ContextCompat.getColor(this, R.color.green))
                 activityBinding.btnNextProcess.text = "Print Bill"
@@ -139,9 +156,9 @@ class FinalOrderActivity : AppCompatActivity() {
                 )
             )
         }
-        activityBinding.tvPaymentMode.text = orderData.paymentMode
-        activityBinding.tvDueDate.text = formatDateTime(orderData.createdAt)
-        activityBinding.tvSubtotal.text = orderData.totalMoney.toString()
+        activityBinding.tvPaymentMode.text = data.paymentMode
+        activityBinding.tvDueDate.text = formatDateTime(data.createdAt)
+        activityBinding.tvSubtotal.text = data.totalMoney.toString()
 
     }
 
@@ -149,20 +166,14 @@ class FinalOrderActivity : AppCompatActivity() {
         orderItems.clear()
         for (i in x) {
             orderItems.add(
-                Inventory(
-                    id = i.id,
-                    barcodeId = i.inventoryId.toString(),
+                Invoice_item(
+                    id = i.inventoryId,
+                    barCodeId = i.inventoryId.toLong(),
                     name = i.itemName,
-                    stockQuantity = i.quantity,
-                    discountRate = i.discountRate,
-                    finalPrice = i.totalPrice,
-                    price = i.unitPrice,
-                    unitType = "",
-                    categories = "",
-                    description = "",
-                    status = "",
-                    createdAt = "",
-                    updatedAt = ""
+                    initialMRP = i.unitPrice,
+                    initialQuantity = i.quantity,
+                    initialDiscount = i.discountRate,
+                    total = i.totalPrice
                 )
             )
         }
@@ -170,5 +181,3 @@ class FinalOrderActivity : AppCompatActivity() {
         activityBinding.ItemListView.adapter = invoiceItemAdapter
     }
 }
-
-

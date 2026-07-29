@@ -1,6 +1,7 @@
 package com.example.bill_genrating_app.Api.service
 
 import com.example.bill_genrating_app.Api.payloads.OrderPayload
+import com.example.bill_genrating_app.Api.response.CreateOrderResponse
 import com.example.bill_genrating_app.Api.response.Order
 import retrofit2.Response
 import retrofit2.http.Body
@@ -14,7 +15,7 @@ import retrofit2.http.Query
 
 interface OrderServices {
     @POST("/api/orders/create")
-    suspend fun createOrder(@Header("Authorization") token: String, @Body order: OrderPayload): Response<Order>
+    suspend fun createOrder(@Header("Authorization") token: String, @Body order: OrderPayload): Response<CreateOrderResponse>
     @GET("api/orders/all")
     suspend fun getAllOrder(@Header("Authorization") token: String): Response<List<Order>>
 

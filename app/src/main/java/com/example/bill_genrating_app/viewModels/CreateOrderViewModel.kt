@@ -21,22 +21,32 @@ import com.example.bill_genrating_app.UtilClasses.UtilString
 import com.example.bill_genrating_app.entity.invoiceItem
 import kotlinx.coroutines.launch
 import com.example.bill_genrating_app.UtilClasses.SharePreferences
+import com.example.bill_genrating_app.entity.Invoice_item
 import kotlin.math.PI
 
 class CreateOrderViewModel(application: Application): AndroidViewModel(application) {
 
-    val clientName = "Guest"
-    val mobileNumber = "12345678901"
+    private val _clientName = MutableLiveData<String>()
+    val clientName: LiveData<String> = _clientName
+
 
     private val _orderApiCalling = MutableLiveData<OrderSave>()
     val orderApiCalling: LiveData<OrderSave> = _orderApiCalling
 
-    private val _itemList = MutableLiveData<ArrayList<Inventory>>()
-    val itemList: LiveData<ArrayList<Inventory>> = _itemList
+    private val _grandTotal = MutableLiveData<Double>()
+    val grandTotal: LiveData<Double> = _grandTotal
+
+
+    private val _itemList = MutableLiveData<ArrayList<Invoice_item>>()
+    val itemList: LiveData<ArrayList<Invoice_item>> = _itemList
     val sharedPreferences = SharePreferences(application)
     val token = sharedPreferences.getToken()
 
     val invetoryRepo = InventoryRepo(ApiConfig.retrofit.create(InventoryService::class.java))
+
+    fun setName(name: String){
+        _clientName.value = name
+    }
 
     fun addItem(barcodeId:String){
         viewModelScope.launch {
@@ -45,7 +55,17 @@ class CreateOrderViewModel(application: Application): AndroidViewModel(applicati
             if(respoonse.isSuccessful){
                 val item = respoonse.body()
                 if(item != null){
-                    addItemToInvoice(item)
+                    addItemToInvoice(
+                        Invoice_item(
+                            id = item.id,
+                            barCodeId = item.id.toLong(),
+                            name = item.name,
+                            initialMRP = item.price,
+                            initialQuantity = 1,
+                            initialDiscount = item.discountRate,
+                            total = item.finalPrice
+                    )
+                    )
                 }
             }
         }
@@ -53,11 +73,50 @@ class CreateOrderViewModel(application: Application): AndroidViewModel(applicati
 //        list.add(item)
 //        _itemList.value = list
     }
-    fun addItemToInvoice(item: Inventory){
+    fun addItemToInvoice(item: Invoice_item){
         val list = _itemList.value ?: ArrayList()
-        list.add(item)
+        var found = false
+        list.forEach {
+            if (it.barCodeId == item.barCodeId) {
+                it.initialQuantity = it.initialQuantity + 1
+                it.total = it.initialQuantity * it.initialMRP - (it.initialDiscount / 100) * it.initialMRP *it.initialQuantity
+                found = true
+            }
+        }
+        if(!found){
+            list.add(item)
+        }
         _itemList.value = list
-         }
+        calculateGrandTotal()
+    }
+
+    fun removeItem(id: Int) {
+        val list = _itemList.value ?: return
+        list.removeAll { it.id == id }
+        _itemList.value = list
+        calculateGrandTotal()
+    }
+
+    fun updateQuantity(id: Int, isIncrement: Boolean) {
+        val list = _itemList.value ?: return
+        list.find { it.id == id }?.let {
+            if (isIncrement) {
+                it.initialQuantity++
+            } else if (it.initialQuantity > 1) {
+                it.initialQuantity--
+            }
+            it.total = (it.initialQuantity * it.initialMRP)-(it.initialDiscount/100)*it.initialMRP*it.initialQuantity
+        }
+        _itemList.value = list
+        calculateGrandTotal()
+    }
+
+     fun calculateGrandTotal() {
+        val grandTotal = _itemList.value?.sumOf { it.total } ?: 0.0
+        Log.d(TAG, "calculateGrandTotal: $grandTotal")
+        _grandTotal.postValue(grandTotal)
+    }
+
     fun SaveOrder(){
         _orderApiCalling.value = OrderSave.Loading
         val orderitem = ArrayList<OrderItem>()
@@ -65,14 +124,14 @@ class CreateOrderViewModel(application: Application): AndroidViewModel(applicati
             orderitem.add(
                 OrderItem(
                     inventoryId = x.id,
-                    unitPrice = x.price.toInt(),
-                    quantity = x.stockQuantity,
-                    discountRate = x.discountRate.toInt()
+                    unitPrice = x.initialMRP.toInt(),
+                    quantity = x.initialQuantity,
+                    discountRate = x.initialDiscount.toInt()
                 )
             )
         }
         val orderPayload = OrderPayload(
-            customerName = clientName,
+            customerName = _clientName.value.toString(),
             orderItems = orderitem,
             paymentMethod = "CASH",
             paymentStatus = "PENDING"
@@ -83,7 +142,7 @@ class CreateOrderViewModel(application: Application): AndroidViewModel(applicati
             val response =orderRepo.createOrder(token!!,orderPayload)
             if(response.isSuccessful){
                 Log.d(TAG, "SaveOrder: ${response.body()}")
-                _orderApiCalling.value = OrderSave.Success(response.code())
+                _orderApiCalling.value = OrderSave.Success(response.code(),response.body()!!.orderId)
             }
             else{
                 Log.d(TAG, "SaveOrder: ${response.errorBody()}")
@@ -96,6 +155,6 @@ class CreateOrderViewModel(application: Application): AndroidViewModel(applicati
 
 sealed class OrderSave{
     object Loading: OrderSave()
-    class Success(val code:Int): OrderSave()
+    class Success(val code:Int,val orderId:Int): OrderSave()
     class Failed(val message: String): OrderSave()
 }

@@ -30,7 +30,7 @@ class ViewOrdersActivity : AppCompatActivity() {
         data = emptyList()
         adapter = MyOrdersViewItemAdapter(this, data)
         binding.ListOfOrderRV.adapter = adapter
-       setData()
+        setData()
         orderViewModel.allOrderLiveData.observe(this){
             when(it){
                 is OrdersState.Failed->{
