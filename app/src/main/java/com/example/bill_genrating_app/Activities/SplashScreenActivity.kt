@@ -35,12 +35,19 @@ class SplashScreenActivity : AppCompatActivity() {
         val sharePreferences = SharePreferences(application)
         val token = sharePreferences.getToken()
 
+        try {
+            val addresses = java.net.InetAddress.getAllByName("ibill-production.up.railway.app")
+            Log.d("DNS", addresses.joinToString())
+        } catch (e: Exception) {
+            Log.e("DNS", "DNS lookup failed", e)
+        }
+
         CoroutineScope(Dispatchers.IO).launch {
             Log.d(TAG, "onCreate: Splash screen Token ->$token ")
-            delay(5000)
+
             val authRepo = AuthRepo(ApiConfig.retrofit.create(AuthService::class.java))
             val response = authRepo.validateUser(token!!)
-                when(response.code()){
+            when(response.code()){
                     200 -> {
                         startActivity(Intent(this@SplashScreenActivity, MainActivity::class.java))
                     }

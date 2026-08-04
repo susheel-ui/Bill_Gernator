@@ -45,7 +45,7 @@
             android:layout_height="wrap_content"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/topBaritemBar"
+            app:layout_constraintTop_toTopOf="parent"
             >
 
             <com.google.android.material.imageview.ShapeableImageView
@@ -72,6 +72,7 @@
                 android:src="@android:drawable/ic_menu_edit"
                 app:backgroundTint="@color/primary"
                 app:fabCustomSize="32dp"
+                android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="@id/profileImage"
                 app:layout_constraintEnd_toEndOf="@id/profileImage"
                 app:tint="@color/white" />
@@ -117,6 +118,7 @@
             app:layout_constraintTop_toBottomOf="@id/GSTIN" />
 
         <TextView
+            android:id="@+id/userStatus"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/bg_verified_pill"
@@ -145,7 +147,8 @@
                 android:text="Shop Name"
                 android:textColor="@color/on_surface_variant"
                 android:textSize="13sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                />
 
             <TextView
                 android:id="@+id/ShopNameTF"
@@ -187,7 +190,9 @@
                 android:text="Contact Number"
                 android:textColor="@color/on_surface_variant"
                 android:textSize="13sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:visibility="gone"
+                />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -196,7 +201,9 @@
                 android:layout_marginBottom="16dp"
                 android:background="@drawable/bg_field_card"
                 android:gravity="center_vertical"
-                android:padding="16dp">
+                android:padding="16dp"
+                android:visibility="gone"
+                >
 
                 <ImageView
                     android:layout_width="20dp"
@@ -364,9 +371,10 @@
             android:id="@+id/btnLogOut"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="LogOut"
+            android:text="@string/logout"
+            android:textStyle="bold"
             android:layout_margin="20dp"
-            android:backgroundTint="@color/primary"
+            android:backgroundTint="@color/red"
             >
         </com.google.android.material.button.MaterialButton>
 

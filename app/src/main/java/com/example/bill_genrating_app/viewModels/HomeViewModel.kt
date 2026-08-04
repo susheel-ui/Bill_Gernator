@@ -17,6 +17,9 @@ import com.example.bill_genrating_app.Api.service.InventoryService
 import com.example.bill_genrating_app.Api.service.OrderServices
 import com.example.bill_genrating_app.Api.service.PreferencesServices
 import com.example.bill_genrating_app.UtilClasses.SharePreferences
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.IO_PARALLELISM_PROPERTY_NAME
 import kotlinx.coroutines.launch
 
 class HomeViewModel(application: Application) : AndroidViewModel(application) {
@@ -41,6 +44,10 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
 
     val token:String? = sharedPreferences.getToken()
 
+    private val _DataLoading = MutableLiveData<Boolean>()
+    val DataLoading: LiveData<Boolean> = _DataLoading
+
+
 
     init {
         recentTransaction()
@@ -53,7 +60,11 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
             _allInventory.postValue(InventoryState.Loading)
             val response = inventoryRepo.getInventoryAllItems(token!!)
             if(response.isSuccessful){
-                _allInventory.postValue(InventoryState.Success(response.body()!!))
+                if (response.code()== 200){
+                    _allInventory.postValue(InventoryState.Success(response.body()!!))
+                }else if(response.code() == 204){
+                    _allInventory.postValue(InventoryState.Success(emptyList()))
+                }
             }else{
                 _allInventory.postValue(InventoryState.Failed(response.message(),response.code()))
             }
@@ -61,16 +72,18 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     fun refreshUi(){
-//        getAllInventory()
-//        recentTransaction()
-//        getMatrices()
+        _DataLoading.value = true
+            getAllInventory()
+            recentTransaction()
+            getMatrices()
+        _DataLoading.value = false;
     }
 
     fun recentTransaction() {
         Log.d(TAG, "recentTransaction: loading")
         _recentTransaction.value = OrdersState.Loading
-        viewModelScope.launch {
 
+        viewModelScope.launch {
             try {
                 if (token.isNullOrBlank()) {
                     _recentTransaction.postValue(
@@ -119,11 +132,15 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
     fun getMatrices() {
         viewModelScope.launch {
             _metrices.postValue(MetriceState.Loading)
-            val response = preferencesRepo.getMetrices(token!!)
-            if(response.isSuccessful){
-                _metrices.postValue(MetriceState.Success(response.body()!!))
-            }else{
-                _metrices.postValue(MetriceState.Failed(response.message(),response.code()))
+            try {
+                val response = preferencesRepo.getMetrices(token!!)
+                if(response.isSuccessful){
+                    _metrices.postValue(MetriceState.Success(response.body()!!))
+                }else{
+                    _metrices.postValue(MetriceState.Failed(response.message(),response.code()))
+                }
+            } catch (e: Exception) {
+                Log.d(TAG, "getMatrices: exception")
             }
         }
     }

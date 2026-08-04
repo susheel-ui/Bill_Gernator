@@ -76,15 +76,15 @@ class LoginActivity : AppCompatActivity() {
         viewModel.loginStateLiveData.observe(this) {
             when (it) {
                 is LoginState.Error -> {
-                    Toast.makeText(this, it.message, Toast.LENGTH_SHORT).show()
-                    Log.d(TAG, "onCreateView: error ${it.message}")
+                    if(it.code == 403){
+                        Toast.makeText(this, "Invalid Credentials", Toast.LENGTH_SHORT).show()
+                    }
                     ActivityBinding?.btnLogin?.text = "Login"
-
+                    ActivityBinding?.btnLogin?.isEnabled = true
                 }
 
                 is LoginState.Loading -> {
 //                    Toast.makeText(this, "Loading", Toast.LENGTH_SHORT).show()
-                    Log.d(TAG, "onCreateView: loading")
                     ActivityBinding?.btnLogin?.text = "..."
                     ActivityBinding?.btnLogin?.isEnabled = false
                 }
@@ -92,7 +92,6 @@ class LoginActivity : AppCompatActivity() {
                 is LoginState.Success -> {
 //                    Toast.makeText(this, it.message, Toast.LENGTH_SHORT).show()
                     Log.d(TAG, "onCreateView: success ${it.message}")
-                    ActivityBinding?.btnLogin?.text = "Logging success"
                     if(it.code == 200){
                         sharedPref.edit {
                             putBoolean(UtilString.isLoggedIn.toString(), true)

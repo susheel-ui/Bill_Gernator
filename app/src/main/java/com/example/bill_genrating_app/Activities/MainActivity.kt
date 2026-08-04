@@ -19,7 +19,7 @@ import kotlinx.coroutines.withContext
 class MainActivity : AppCompatActivity() {
 
     lateinit var binding: ActivityMainBinding
-    lateinit var invoiceFragment:invoice_fragment
+    lateinit var invoiceFragment: InvoiceFragment
     lateinit var clientsFragments: clients_fragments
     lateinit var itemFragment: items_fragment
 
@@ -28,7 +28,7 @@ class MainActivity : AppCompatActivity() {
         val fragmentManager = supportFragmentManager
         // binding for current activity
         binding = ActivityMainBinding.inflate(layoutInflater)
-        invoiceFragment = invoice_fragment()
+        invoiceFragment = InvoiceFragment()
         clientsFragments = clients_fragments()
         itemFragment = items_fragment()
 

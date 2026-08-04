@@ -53,6 +53,8 @@ class Fragment_Invoice_billingItems() : Fragment() {
         layoutManager.orientation = LinearLayoutManager.VERTICAL
         fragmentBinding.itemRecycleView.layoutManager = layoutManager
         fragmentBinding.itemRecycleView.adapter = adapter
+
+
         // GrandTotal is initialized in the constructor or with a default value, so no need for ::GrandTotal.isInitialized check
 //        fragmentBinding.GrandTotalTextView.text = "\u20B9" + GrandTotal
 //        lifecycleScope.launch {

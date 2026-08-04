@@ -24,7 +24,6 @@ class invoiceItemAdapter(
     private val flagEditable: Boolean = true,
     private val onDataChanged: ((Pair<Int,String>) -> Unit)? = null
 ): RecyclerView.Adapter<invoiceItemAdapter.ViewHolder>() {
-
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         //            lateinit var layout:InvoiceItemRowLayoutBinding
         val itemName: TextView
@@ -36,6 +35,7 @@ class invoiceItemAdapter(
         val btnDelete: ImageButton
         val btnAdd: ImageButton
         val btnDec: ImageButton
+        val SaveAmountTV: TextView
 
         init {
 //                layout = LayoutInflater.from(itemView.context).inflate(R.layout.invoice_item_row_layout,null,false) as InvoiceItemRowLayoutBinding
@@ -48,6 +48,7 @@ class invoiceItemAdapter(
             btnDelete = itemView.findViewById(R.id.invoice_item_row_btnDelete)
             btnAdd = itemView.findViewById(R.id.invoice_item_row_btnAdd)
             btnDec = itemView.findViewById(R.id.invoice_item_row_btnDec)
+            SaveAmountTV = itemView.findViewById(R.id.savedItemAmount)
             if (!flagEditable) {
                 btnAdd.visibility = View.GONE
                 btnDec.visibility = View.GONE
@@ -88,6 +89,9 @@ class invoiceItemAdapter(
         holder.discountRate.text = item.initialDiscount.toString()
         holder.quantity.text = item.initialQuantity.toString()
         holder.total.text = df.format(item.total)
+        val total = (item.initialMRP*item.initialQuantity)-item.total
+        holder.SaveAmountTV.text = total.toString();
+
 //            holder.itemView.setOnClickListener {
 //                if (holder.moreOptionLayout.visibility == View.VISIBLE){
 //                    holder.moreOptionLayout.startAnimation(slideUp)

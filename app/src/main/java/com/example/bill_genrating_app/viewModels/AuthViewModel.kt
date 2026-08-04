@@ -24,7 +24,11 @@ class AuthViewModel: ViewModel() {
             loginState.postValue(LoginState.Loading)
             try {
                 val result = authService.login(LoginRequest(email,password))
-                loginState.postValue(LoginState.Success(result.body(),result.code()))
+                if(result.isSuccessful){
+                    loginState.postValue(LoginState.Success(result.body(),result.code()))
+                }else{
+                    loginState.postValue(LoginState.Error(result.message(),result.code()))
+                }
             }catch (e: Exception){
                 Log.d("Debug", "login: ${e.message}")
             }

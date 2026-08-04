@@ -77,6 +77,6 @@ dependencies {
     androidTestImplementation("androidx.test.ext:junit:1.2.1")
     androidTestImplementation("androidx.test:runner:1.6.2")
     implementation("androidx.fragment:fragment-ktx:1.8.9")
-
+    implementation(libs.androidx.swiperefreshlayout)
 
 }

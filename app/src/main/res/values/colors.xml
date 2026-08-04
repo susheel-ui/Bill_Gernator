@@ -5,6 +5,7 @@
     <color name="bottomsheetColor">#A6FFFFFF</color>
 
     <color name="gray">#6FD1D1D1</color>
+    <color name="glassEffact">#26FFFFFF</color>
     <color name="green" >#2c9f1c</color>
     <color name="red">#C80101</color>
 
@@ -64,6 +65,7 @@
 
 <!-- Core blue used for section headers, active icons, CTAs -->
 <color name="primary">#0040A1</color>
+<color name="primaryBlur">#AA0040A1</color>
 
 <!-- Lighter blue endpoint of the hero gradient -->
 <color name="primary_container">#FF0056D2</color>

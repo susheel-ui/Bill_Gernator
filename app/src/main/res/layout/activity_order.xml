@@ -194,7 +194,7 @@
                        android:textSize="20sp"
                        android:fontFamily="@font/manrope_bold"
                        />
-                       />
+
                    <com.google.android.material.textfield.TextInputEditText
                        android:id="@+id/clientName"
                        android:layout_width="match_parent"

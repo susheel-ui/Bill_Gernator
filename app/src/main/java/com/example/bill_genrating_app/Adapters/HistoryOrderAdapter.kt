@@ -1,12 +1,15 @@
 package com.example.bill_genrating_app.Adapters
 
+import android.os.Build
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.example.bill_genrating_app.Api.response.Order
 import com.example.bill_genrating_app.R
 import com.example.bill_genrating_app.UtilClasses.ExtractDateFromOrdID
+import com.example.bill_genrating_app.UtilClasses.formatDateTime
 import com.example.bill_genrating_app.UtilClasses.status
 import com.example.bill_genrating_app.databinding.OrdersListLayoutBinding
 import java.util.Locale
@@ -19,6 +22,7 @@ class HistoryOrderAdapter(
     inner class ViewHolder(private val binding: OrdersListLayoutBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
+        @RequiresApi(Build.VERSION_CODES.O)
         fun bind(order: Order) {
             binding.OrderNameField.text = order.clientName.uppercase(Locale.getDefault())
             binding.priceTag.text = "₹${order.finalPrice}"
@@ -37,7 +41,7 @@ class HistoryOrderAdapter(
             }
 
             try {
-                binding.date.text = ExtractDateFromOrdID(order.createdAt)
+                binding.date.text = formatDateTime(order.createdAt)
             } catch (e: Exception) {
                 binding.date.text = "N/A"
             }
@@ -55,6 +59,7 @@ class HistoryOrderAdapter(
         return ViewHolder(binding)
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(orders[position])
     }

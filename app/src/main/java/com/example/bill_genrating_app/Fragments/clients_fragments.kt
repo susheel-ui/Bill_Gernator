@@ -1,5 +1,6 @@
 package com.example.bill_genrating_app.Fragments
 
+import android.app.Application
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -14,6 +15,7 @@ import androidx.core.content.edit
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.transition.Visibility
 import com.example.bill_genrating_app.Activities.LoginActivity
 import com.example.bill_genrating_app.Activities.RegisterUserActivity
 import com.example.bill_genrating_app.Activities.ShopDetailsEditPage
@@ -35,6 +37,7 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import com.example.bill_genrating_app.Api.response.User
+import com.example.bill_genrating_app.UtilClasses.SharePreferences
 
 /**
  * A simple [Fragment] subclass.
@@ -59,50 +62,47 @@ class clients_fragments() : Fragment() {
         super.onCreate(savedInstanceState)
         clientsFragmentsBinding = FragmentClientsFragmentsBinding.inflate(layoutInflater)
 
-        clientsFragmentsBinding.btnUpdateClient.setOnClickListener {
-//            if (user != null) {
-//                launcherActivity.launch(
-//                    Intent(
-//                        this.context,
-//                        ShopDetailsEditPage::class.java
-//                    ).putExtra("_id", user.id?.toLong())
-//                )
-//            }
-        }
+
+        clientsFragmentsBinding.topBaritemBar.searchIcon.visibility = View.GONE
+        clientsFragmentsBinding.topBaritemBar.userCardView.visibility = View.GONE
         clientsFragmentsBinding.btnLogOut.setOnClickListener {
-                val sharedPreferences  = activity?.getSharedPreferences("UserPrefs", Context.MODE_PRIVATE)
-                sharedPreferences?.edit {
-                    putBoolean(UtilString.isLoggedIn.toString(), false)
-                }
-                startActivity(Intent(requireContext(), LoginActivity::class.java))
+            val sharedPred = SharePreferences(requireActivity().application)
+            sharedPred.logout (false)
+            startActivity(Intent(requireContext(), LoginActivity::class.java))
             activity?.finish()
         }
     }
 
     override fun onStart() {
         super.onStart()
-        viewModel.shopDetails.observe(viewLifecycleOwner){
-            when(it){
-                is ShopState.Loading ->{
-                    Toast.makeText(requireContext(), "Loading Shop Details", Toast.LENGTH_SHORT).show()
+        viewModel.shopDetails.observe(viewLifecycleOwner) {
+            when (it) {
+                is ShopState.Loading -> {
+                    Toast.makeText(requireContext(), "Loading Shop Details", Toast.LENGTH_SHORT)
+                        .show()
                 }
-                is ShopState.Success ->{
+
+                is ShopState.Success -> {
                     setShopDetails(it.data)
                 }
-                is ShopState.Failes ->{
-                    Toast.makeText(requireContext(), "Error: ${it.message}", Toast.LENGTH_SHORT).show()
+
+                is ShopState.Failes -> {
+                    Toast.makeText(requireContext(), "Error: ${it.message}", Toast.LENGTH_SHORT)
+                        .show()
                 }
             }
         }
-        viewModel.user.observe(viewLifecycleOwner){
-            when(it){
-                is UserState.Loading->{
+        viewModel.user.observe(viewLifecycleOwner) {
+            when (it) {
+                is UserState.Loading -> {
 
                 }
-                is UserState.Success->{
+
+                is UserState.Success -> {
                     setUserDetails(it.data)
                 }
-                is UserState.Failes->{
+
+                is UserState.Failes -> {
 
                 }
             }
@@ -122,7 +122,6 @@ class clients_fragments() : Fragment() {
     }
 
 
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -130,7 +129,6 @@ class clients_fragments() : Fragment() {
         // Inflate the layout for this fragment
         return clientsFragmentsBinding.root
     }
-
 
 
 }

@@ -42,5 +42,6 @@
     <string name="client_mobile_number">Client Mobile Number</string>
     <string name="client_name">Client Name</string>
     <string name="client_infomation">Client Infomation</string>
+    <string name="logout">Logout</string>
 
 </resources>
