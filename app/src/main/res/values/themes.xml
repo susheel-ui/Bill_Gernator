@@ -1,12 +1,17 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
     <style name="Base.Theme.Bill_Genrating_App" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your light theme here. -->
-        <item name="fontFamily">@font/manrope_regular</item>
-        <item name="android:statusBarColor">@color/colorPrimary</item>
+        <item name="android:statusBarColor">@color/white</item>
+        <!-- Forces status bar icons/text to DARK (visible on white bg) -->
+        <item name="android:windowLightStatusBar">true</item>
     </style>
 
     <style name="Theme.Bill_Genrating_App" parent="Base.Theme.Bill_Genrating_App" />
+
+    <style name="CircleImage">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">50%</item>
+    </style>
 
 <!--    button style-->
     <style name="cardBtn" parent="Base.Theme.Bill_Genrating_App">
@@ -24,17 +29,12 @@
         <item name="backgroundColor">@color/colorPrimary</item>
     </style>
     <style name="parentTop">
-        <item name="layout_constraintStart_toStartOf">
-            parent
-        </item>
+        <item name="layout_constraintStart_toStartOf">parent</item>
         <item name="layout_constraintEnd_toEndOf">parent</item>
         <item name="layout_constraintTop_toTopOf">parent</item>
         <item name="layout_constraintBottom_toBottomOf">parent</item>
-
     </style>
-
-<!--    style for the editText for login, registration and Other where dev want-->
-
+<!-- style for the editText for login, registration and Other where dev want -->
     <style name="loginEdittext">
         <item name="android:layout_marginLeft">30dp</item>
         <item name="android:layout_marginRight">30dp</item>

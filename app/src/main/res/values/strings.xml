@@ -1,10 +1,9 @@
 <resources>
-    <string name="app_name">Bill_Genrating_App</string>
+    <string name="app_name">iBills</string>
     <string name="invoices">Invoices</string>
-    <string name="item_lists">Item Lists</string>
+    <string name="item_lists">Inventory Items</string>
     <string name="recents_transaction">Recents Transaction</string>
     <!-- TODO: Remove or change this placeholder text -->
-
     <string-array name="Catogory">
         <item>Select</item>
         <item>Food</item>
@@ -20,6 +19,12 @@
         <item>100sp</item>
     </array>
 
+    <string name="currency">
+        <item>$</item>
+        <item>₹</item>
+        <item>€</item>
+    </string>
+
     <!--    <string name="app_name">Bill_Genrating_App</string>-->
     <string name="app_logo">App Logo</string>
     <string name="login">Login</string>
@@ -31,5 +36,12 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="preference_file_key">LogInInfo</string>
+    <string name="search">userlogo</string>
+    <string name="inventory">Inventory</string>
+    <string name="stock_management">Stock Management</string>
+    <string name="client_mobile_number">Client Mobile Number</string>
+    <string name="client_name">Client Name</string>
+    <string name="client_infomation">Client Infomation</string>
+    <string name="logout">Logout</string>
 
 </resources>

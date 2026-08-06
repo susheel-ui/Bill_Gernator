@@ -1,11 +1,12 @@
 package com.example.bill_genrating_app.Activities
 
-import android.annotation.SuppressLint
 import android.content.ContentValues.TAG
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import com.example.bill_genrating_app.databinding.ActivityMainBinding
 import com.example.bill_genrating_app.Fragments.*
@@ -18,14 +19,18 @@ import kotlinx.coroutines.withContext
 class MainActivity : AppCompatActivity() {
 
     lateinit var binding: ActivityMainBinding
-    lateinit var invoiceFragment:invoice_fragment
+    lateinit var invoiceFragment: InvoiceFragment
     lateinit var clientsFragments: clients_fragments
+    lateinit var itemFragment: items_fragment
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val fragmentManager = supportFragmentManager
         // binding for current activity
         binding = ActivityMainBinding.inflate(layoutInflater)
+        invoiceFragment = InvoiceFragment()
+        clientsFragments = clients_fragments()
+        itemFragment = items_fragment()
 
         setContentView(binding.root)
         var id: Int? = null
@@ -35,19 +40,16 @@ class MainActivity : AppCompatActivity() {
         } catch (e: Exception) {
             Log.d("Error MainActivity : getIntentError", "onCreate: ${e.message}")
         }
+
+
         lifecycleScope.launch {
             val user = withContext(Dispatchers.IO) {
                 id?.let { UserService(applicationContext).getUserById(it.toLong()) }
             }
             Log.d(TAG, "onCreate: ${user?.username.toString()}")
-            invoiceFragment = invoice_fragment(user)
-            clientsFragments = clients_fragments(user)
+
             change_fragment(invoiceFragment,binding.ContainerView.id, "invoices",fragmentManager)
         }
-
-
-
-
 
         // all listeners is here
 
@@ -56,13 +58,13 @@ class MainActivity : AppCompatActivity() {
             change_fragment(invoiceFragment,binding.ContainerView.id, "invoices",fragmentManager)
         }
         this.binding.bottomNavBarlayout.itemTwo.setOnClickListener {
-            change_fragment(items_fragment(),binding.ContainerView.id, "Item",fragmentManager)
+            change_fragment(itemFragment,binding.ContainerView.id, "Item",fragmentManager)
         }
         this.binding.bottomNavBarlayout.itemthree.setOnClickListener {
             change_fragment(clientsFragments,binding.ContainerView.id, "clients",fragmentManager)
         }
         this.binding.bottomNavBarlayout.itemFour.setOnClickListener {
-            change_fragment(setting_fragment(),binding.ContainerView.id, "setting",fragmentManager)
+            change_fragment(history_fragment(),binding.ContainerView.id, "setting",fragmentManager)
         }// Note: here itemOne,itemTwo,itemThree,itemFour is basically menu items because its a custom bottom navbar
 
 //         add order button listner
@@ -70,12 +72,24 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent(applicationContext, OrderActivity::class.java)
             startActivity(intent)
         }
-
-
     }
+
+
 
     override fun onStart() {
         super.onStart()
+    }
+    private var lastBackPressed: Long = 0
+
+    override fun onBackPressed() {
+        val now = System.currentTimeMillis()
+        if (now - lastBackPressed < 2000) {
+            finishAffinity()  // or finishAffinity()
+            super.onBackPressed()
+        } else {
+            Toast.makeText(this, "Press back again to exit", Toast.LENGTH_SHORT).show()
+            lastBackPressed = now
+        }
     }
 
 

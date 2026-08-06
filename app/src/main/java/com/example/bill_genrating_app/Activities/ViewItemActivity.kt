@@ -1,18 +1,25 @@
 package com.example.bill_genrating_app.Activities
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.room.Room
+import com.example.bill_genrating_app.Api.response.Inventory
 import com.example.bill_genrating_app.R
 import com.example.bill_genrating_app.Roomdb.DBHelper
 import com.example.bill_genrating_app.Roomdb.entities.items
+import com.example.bill_genrating_app.databinding.ActivityAddItemBinding
 import com.example.bill_genrating_app.databinding.ActivityViewItemBinding
+import com.example.bill_genrating_app.viewModels.ViewInventoryViewModel
 
 class ViewItemActivity : AppCompatActivity() {
-    lateinit var thisPageBinding:ActivityViewItemBinding;
+    lateinit var thisPageBinding: ActivityViewItemBinding;
+    val viewModel: ViewInventoryViewModel by viewModels()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         thisPageBinding = ActivityViewItemBinding.inflate(layoutInflater)
@@ -28,85 +35,112 @@ class ViewItemActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
-        val barcodeid = intent.getStringExtra("itemId")
+        val id = intent.getIntExtra("itemId",-1)
         //this is for only test purpose
 
-        val item = barcodeid?.let { fetchData(it.toLong()) }
-        thisPageBinding.itemName.text = item?.Name.toString()
-        thisPageBinding.itemMRP.text = item?.MRP.toString().plus(" Rs.")
-//        thisPageBinding?.text = item?.weight.toString().plus(item?.weightType.toString())
-//        thisPageBinding.itemCatagory.text = item?.Type.toString()
-        thisPageBinding.Qunatity.setText(item?.stockQuantity.toString())
-        thisPageBinding.DiscountedRate.text = item?.discountRate.toString().plus(" %")
+//        val item = barcodeid?.let { fetchData(it.toLong()) }
 
+        viewModel.setInventoryId(id)
+
+        viewModel.inventory.observe(this){
+            when(it){
+                is ViewInventoryViewModel.InventoryState.Loading -> {
+                    Toast.makeText(this, "Loading", Toast.LENGTH_SHORT).show()
+                }
+                is ViewInventoryViewModel.InventoryState.Success -> {
+                    Toast.makeText(this, "Success", Toast.LENGTH_SHORT).show()
+                    setData(it.data)
+                }
+                is ViewInventoryViewModel.InventoryState.Failed -> {
+                    Toast.makeText(this, "Failed", Toast.LENGTH_SHORT).show()
+                }
+            }
+
+
+        }
 
         //add ten to the item
-        thisPageBinding.tenPercentagecardView.setOnClickListener {
+        thisPageBinding.tenbtn.setOnClickListener {
             //TODO:: update the item in database
             Toast.makeText(this, "ten", Toast.LENGTH_SHORT).show()
             val quntity = thisPageBinding.Qunatity.text.toString().toLong()
             val final = quntity!!.plus(10)
-            val id = item?.BarcodeId
-            if (id != null) {
-                updateitemQunatity(id, final)
-                thisPageBinding.Qunatity.text = final.toString()
-            }
+//            val id = item?.BarcodeId
+//            if (id != null) {
+//                updateitemQunatity(id, final)
+//                thisPageBinding.Qunatity.text = final.toString()
+//            }
         }
         // add twenty to the item
         thisPageBinding.twentybtn.setOnClickListener {
-                Toast.makeText(this, "twenty", Toast.LENGTH_SHORT).show()
-                val quntity = thisPageBinding.Qunatity.text.toString().toLong()
-                val final = quntity!! +20;
-                val id = item?.BarcodeId
-                if(id != null){
-                    updateitemQunatity(id,final)
-                    thisPageBinding.Qunatity.text = final.toString()
-                }
-            }
+            Toast.makeText(this, "twenty", Toast.LENGTH_SHORT).show()
+            val quntity = thisPageBinding.Qunatity.text.toString().toLong()
+//            val final = quntity!! + 20;
+//            val id = item?.BarcodeId
+//            if (id != null) {
+//                updateitemQunatity(id, final)
+//                thisPageBinding.Qunatity.text = final.toString()
+//            }
+        }
         //add fifty to the item
         thisPageBinding.fiftybtn.setOnClickListener {
             val quntity = thisPageBinding.Qunatity.text.toString().toLong()
-            val final = quntity!! +50;
-            val id = item?.BarcodeId
-            if(id != null){
-                updateitemQunatity(id,final)
-                thisPageBinding.Qunatity.text = final.toString()
-            }
+            val final = quntity + 50;
+//            val id = item?.BarcodeId
+//            if (id != null) {
+//                updateitemQunatity(id, final)
+//                thisPageBinding.Qunatity.text = final.toString()
+//            }
         }
         //TODO:: YOU HAVE TO COMPLETE THE TASK TO CREATE THE CUSTOM QUANTITY ADD TO THE ITEM
         thisPageBinding.costomStockbtn.setOnClickListener {
             // here add the adapter to open and the room and the data in room
             // simple and attractive Ui
             // function simple and straight
-
         }
 
-            // back btn press
-            thisPageBinding.backBtn.setOnClickListener {
-                finish()
-            }
-
+        // back btn press
+        thisPageBinding.backBtn.setOnClickListener {
+            finish()
         }
+        thisPageBinding.costomStockbtn.setOnClickListener {
+            val intent = Intent(this, AddItem::class.java)
+//            intent.putExtra("barcodeId", barcodeid)
+//            startActivity(intent)
+        }
+    }
+
 
     // update the item quntity
-        fun updateitemQunatity(id: Long, quntity: Long) {
-            val db = fetchDb()
-            db.itemDao().updateItemsQuantity(quntity, id)
-            db.close()
-        }
+    fun updateitemQunatity(id: Long, quntity: Long) {
+        val db = fetchDb()
+        db.itemDao().updateItemsQuantity(quntity, id)
+        db.close()
+    }
+
     // fetch the database from the room
     private fun fetchDb(): DBHelper {
-            val db = Room.databaseBuilder(
-                applicationContext,
-                DBHelper::class.java, "DatabaseBillGenerator"
-            ).allowMainThreadQueries().fallbackToDestructiveMigration().build()
-            return db;
-        }
+        val db = Room.databaseBuilder(
+            applicationContext,
+            DBHelper::class.java, "DatabaseBillGenerator"
+        ).allowMainThreadQueries().fallbackToDestructiveMigration().build()
+        return db;
+    }
+
     // fetch the data from database using barcode_id
     private fun fetchData(barcode: Long): items {
-            val db = fetchDb();
-            val item = db.itemDao().getByid(barcode)
-            return item.get(0);
-        }
+        val db = fetchDb();
+        val item = db.itemDao().getByid(barcode)
+        return item.get(0);
+    }
+
+    private fun setData(item: Inventory){
+        thisPageBinding.itemName.text = item.name.toString()
+        thisPageBinding.itemMRP.text = item.price.toString().plus(" Rs.")
+//        thisPageBinding?.text = item?.weight.toString().plus(item?.weightType.toString())
+//        thisPageBinding.itemCatagory.text = item?.Type.toString()
+        thisPageBinding.Qunatity.setText(item.stockQuantity.toString())
+        thisPageBinding.DiscountedRate.text = item.discountRate.toString().plus(" %")
+    }
 
 }

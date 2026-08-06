@@ -1,6 +1,8 @@
 package com.example.bill_genrating_app.Fragments
 
+import android.content.ContentValues.TAG
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,8 +11,10 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 
 import com.example.bill_genrating_app.Adapters.invoiceItemAdapter
+import com.example.bill_genrating_app.Api.response.Inventory
 
 import com.example.bill_genrating_app.databinding.FragmentInvoiceBillingItemsBinding
+import com.example.bill_genrating_app.entity.Invoice_item
 import com.example.bill_genrating_app.entity.invoiceItem
 import kotlinx.coroutines.launch
 import java.text.DecimalFormat
@@ -23,11 +27,12 @@ import java.text.DecimalFormat
 class Fragment_Invoice_billingItems() : Fragment() {
     lateinit var fragmentBinding: FragmentInvoiceBillingItemsBinding
     lateinit var adapter: invoiceItemAdapter
-    var data:ArrayList<invoiceItem> = ArrayList()
+    var data:ArrayList<Invoice_item> = ArrayList()
     var GrandTotal:String = "0.0" // Initialize with a default value
     var flag:Boolean = false
-    constructor(data: ArrayList<invoiceItem>,
-                GrandTotal: String,flag:Boolean = false):this(){
+    constructor(data: ArrayList<Invoice_item>,
+                GrandTotal: String, flag:Boolean = false):this(){
+        Log.d(TAG, "Debug -> ${this.toString()}: $data ")
         this.data = data
         this.GrandTotal = GrandTotal
         this.flag = flag
@@ -40,7 +45,7 @@ class Fragment_Invoice_billingItems() : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
         fragmentBinding = FragmentInvoiceBillingItemsBinding.inflate(inflater, container, false)
         adapter = invoiceItemAdapter(data,flag) // Ensure data is initialized before adapter creation
@@ -48,20 +53,22 @@ class Fragment_Invoice_billingItems() : Fragment() {
         layoutManager.orientation = LinearLayoutManager.VERTICAL
         fragmentBinding.itemRecycleView.layoutManager = layoutManager
         fragmentBinding.itemRecycleView.adapter = adapter
+
+
         // GrandTotal is initialized in the constructor or with a default value, so no need for ::GrandTotal.isInitialized check
-        fragmentBinding.GrandTotalTextView.text = "\u20B9" + GrandTotal
-        lifecycleScope.launch {
-            val result = calculateSavedMoney(GrandTotal.toDouble())
-            val df = DecimalFormat("#,###." + "0".repeat(2))
-            fragmentBinding.saveMoneyTV.text = "\u20B9".plus(df.format(result))
-        }
+//        fragmentBinding.GrandTotalTextView.text = "\u20B9" + GrandTotal
+//        lifecycleScope.launch {
+//            val result = calculateSavedMoney(GrandTotal.toDouble())
+//            val df = DecimalFormat("#,###." + "0".repeat(2))
+//            fragmentBinding.saveMoneyTV.text = "\u20B9".plus(df.format(result))
+//        }
         return fragmentBinding.root
     }
 
    private fun calculateSavedMoney(grandTotal: Double): Double {
         var MRP_GrandTotal: Double = 0.0;
         for (x in data) {
-            MRP_GrandTotal += x.MRP * x.quantity;
+//            MRP_GrandTotal += x.price * x.stockQuantity;
         }
         return MRP_GrandTotal-grandTotal;
     }

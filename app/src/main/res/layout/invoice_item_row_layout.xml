@@ -1,105 +1,238 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
     <LinearLayout
         android:id="@+id/invoice_item_row"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
-        android:background="@color/colorSurface"
-        android:orientation="horizontal"
-        android:padding="8dp">
+        android:layout_marginTop="8dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginEnd="4dp"
+        android:background="@drawable/bg_item_card"
+        android:orientation="vertical"
+        android:padding="16dp">
 
-        <TextView
-            android:id="@+id/invoice_item_row_itemName"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="2"
-            android:text="Item A"
-            android:textColor="@color/textPrimary" />
-
-        <TextView
-            android:id="@+id/invoice_item_row_MRP"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="100"
-            android:gravity="end"
-            android:textColor="@color/textPrimary" />
-
-        <TextView
-            android:id="@+id/invoice_item_row_discountRate"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="10%"
-            android:gravity="end"
-            android:textColor="@color/textPrimary" />
-
+        <!-- Title row -->
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:paddingStart="5.dp"
-            android:paddingEnd="5.dp"
-            >
+            android:gravity="center_vertical">
 
             <TextView
-                android:id="@+id/invoice_item_row_Quantity"
-                android:layout_width="wrap_content"
+                android:id="@+id/invoice_item_row_itemName"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="1"
                 android:layout_weight="1"
-                android:gravity="end"
+                android:text="Carrara Marble Slab"
+                android:textSize="19sp"
+                android:textStyle="bold"
                 android:textColor="@color/textPrimary" />
+
+            <ImageButton
+                android:id="@+id/invoice_item_row_btnDelete"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:background="@drawable/bg_delete_chip"
+                android:src="@drawable/ic_delete"
+                android:padding="8dp"
+                app:tint="@color/red"
+                android:contentDescription="Delete item" />
         </LinearLayout>
 
+        <!-- Description -->
         <TextView
-            android:id="@+id/invoice_item_row_total"
-            android:layout_width="0dp"
+            android:id="@+id/invoice_item_row_description"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="90"
-            android:gravity="end"
-            android:textColor="@color/textPrimary" />
+            android:layout_marginTop="8dp"
+            android:text="Grade A Italian sourcing. Polished finish. 2400mm x 1200mm x 20mm."
+            android:textSize="14sp"
+            android:lineSpacingExtra="2dp"
+            android:textColor="@color/textSecondary" />
+
+        <!-- Divider -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="16dp"
+            android:background="@color/gray" />
+
+        <!-- Stats row: Unit price / Discount / Item total -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="UNIT PRICE"
+                    android:textSize="11sp"
+                    android:letterSpacing="0.05"
+                    android:textColor="@color/textSecondary" />
+
+                <TextView
+                    android:id="@+id/invoice_item_row_MRP"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:text="$1,225.00"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/textPrimary" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="DISCOUNT"
+                    android:textSize="11sp"
+                    android:letterSpacing="0.05"
+                    android:textColor="@color/textSecondary" />
+
+                <TextView
+                    android:id="@+id/invoice_item_row_discountRate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:text="0%"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/green" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Saved Amount On item"
+                    android:textSize="11sp"
+                    android:letterSpacing="0.05"
+                    android:textColor="@color/textSecondary" />
+
+                <TextView
+                    android:id="@+id/savedItemAmount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:text="$2,450.00"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/textPrimary" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- Divider -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="16dp"
+            android:background="@color/gray" />
+
+        <!-- Quantity stepper + big item total -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+            <!-- Stepper -->
+            <LinearLayout
+                android:id="@+id/moreOptionLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:background="@drawable/bg_stepper_pill"
+                android:padding="4dp">
+
+                <ImageButton
+                    android:id="@+id/invoice_item_row_btnDec"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:background="@drawable/bg_stepper_btn_outline"
+                    android:src="@drawable/ic_minus"
+                    android:padding="10dp"
+                    app:tint="@color/textPrimary"
+                    android:contentDescription="Decrease quantity" />
+
+                <TextView
+                    android:id="@+id/invoice_item_row_Quantity"
+                    android:layout_width="40dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="2"
+                    android:textSize="17sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/textPrimary" />
+
+                <ImageButton
+                    android:id="@+id/invoice_item_row_btnAdd"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:background="@drawable/bg_stepper_btn_filled"
+                    android:src="@drawable/ic_add"
+                    android:padding="10dp"
+                    app:tint="@android:color/white"
+                    android:contentDescription="Increase quantity" />
+            </LinearLayout>
+
+            <!-- Spacer -->
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+            <!-- Big item total -->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="end">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="ITEM TOTAL"
+                    android:textSize="11sp"
+                    android:letterSpacing="0.05"
+                    android:textColor="@color/textSecondary" />
+
+                <TextView
+                    android:id="@+id/invoice_item_row_totalBig"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:text="$2,450.00"
+                    android:textSize="22sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/primary" />
+            </LinearLayout>
+        </LinearLayout>
+
     </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/moreOptionLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/invoice_item_row"
-        android:orientation="horizontal"
-        android:gravity="end"
-        android:visibility="gone"
-        >
-        <Button
-            android:id="@+id/invoice_item_row_btnAdd"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="+"
-            android:backgroundTint="@color/green"
-            />
-        <Button
-            android:id="@+id/invoice_item_row_btnDec"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="-"
-            android:backgroundTint="@color/red"
-            android:layout_marginStart="5dp"
-            />
-        <Button
-            android:id="@+id/invoice_item_row_btnDelete"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Delete"
-            android:layout_marginStart="5dp"
-            />
-
-    </LinearLayout>
-
 
 </RelativeLayout>

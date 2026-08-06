@@ -1,12 +1,16 @@
 package com.example.bill_genrating_app.UtilClasses
 
+import android.os.Build
 import android.text.format.Formatter
 import android.util.Log
 import android.view.View
+import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import com.example.bill_genrating_app.R
 import org.jetbrains.annotations.TestOnly
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 fun ExtractDateFromOrdID(OrdId:String):String{
    val date = OrdId.subSequence(3,11).toString()
@@ -14,6 +18,18 @@ fun ExtractDateFromOrdID(OrdId:String):String{
     val month = date.subSequence(4,6).toString()
     val day = date.subSequence(6,8).toString()
     return "$day/$month/$year";
+}
+@RequiresApi(Build.VERSION_CODES.O)
+fun formatDateTime(dateTimeString: String): String {
+    return try {
+        val inputFormatter = DateTimeFormatter.ISO_LOCAL_DATE_TIME
+        val outputFormatter = DateTimeFormatter.ofPattern("dd MMM yyyy, hh:mm a")
+
+        val dateTime = LocalDateTime.parse(dateTimeString, inputFormatter)
+        dateTime.format(outputFormatter)
+    } catch (e: Exception) {
+        ""
+    }
 }
 
 fun change_fragment(fragment: Fragment, container:Int,
@@ -53,4 +69,7 @@ enum class status{
 }
 enum class FragementsName{
     SHOWITEMS,QRCODE,SHARE
+}
+enum class UtilString{
+    Token,isLoggedIn
 }

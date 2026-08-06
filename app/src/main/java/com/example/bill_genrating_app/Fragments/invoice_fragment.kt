@@ -1,6 +1,5 @@
 package com.example.bill_genrating_app.Fragments
 
-import android.annotation.SuppressLint
 import android.content.ContentValues.TAG
 import android.content.Intent
 import android.os.Bundle
@@ -8,81 +7,152 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.StringRes
 import androidx.fragment.app.Fragment
-import com.example.bill_genrating_app.Activities.ViewOrdersActivity
+import androidx.fragment.app.viewModels
+import com.example.bill_genrating_app.Activities.LoginActivity
 import com.example.bill_genrating_app.Adapters.MyOrdersViewItemAdapter
+import com.example.bill_genrating_app.Api.response.Metrices
 import com.example.bill_genrating_app.R
 import com.example.bill_genrating_app.Roomdb.DBHelper
-import com.example.bill_genrating_app.Roomdb.entities.Order
-import com.example.bill_genrating_app.Roomdb.entities.User
 import com.example.bill_genrating_app.databinding.FragmentInvoiceFragmentBinding
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
+import com.example.bill_genrating_app.viewModels.HomeViewModel
+import com.example.bill_genrating_app.viewModels.MetriceState
+import com.example.bill_genrating_app.viewModels.OrdersState
+import kotlin.random.Random
 
-class invoice_fragment(private val user: User?) : Fragment() {
-    // TODO: Rename and change types of parameters
-   lateinit var fragmentsBinding: FragmentInvoiceFragmentBinding
-   lateinit var db:DBHelper
-   lateinit var orderData:List<Order>
-   lateinit var adapter:MyOrdersViewItemAdapter
+class InvoiceFragment : Fragment() {
 
+    private var _binding: FragmentInvoiceFragmentBinding? = null
+    private val binding get() = _binding!!
+
+    private lateinit var db: DBHelper
+
+    private val viewModel: HomeViewModel by viewModels()
+
+    private var orderData = mutableListOf<com.example.bill_genrating_app.Api.response.Order>()
+
+    private lateinit var adapter: MyOrdersViewItemAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         db = DBHelper.getDatabase(requireContext())
     }
 
-    @SuppressLint("SuspiciousIndentation")
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        fragmentsBinding = FragmentInvoiceFragmentBinding.inflate(layoutInflater);
+    ): View {
+        _binding = FragmentInvoiceFragmentBinding.inflate(inflater, container, false)
+        return binding.root
+    }
 
-        //All Click listeners
-            //see all click listener
-                fragmentsBinding.fragmentSeeAllTag.setOnClickListener {
-                   val intent = Intent(requireContext(), ViewOrdersActivity::class.java)
-                    startActivity(intent)
-                    requireActivity().overridePendingTransition(R.anim.zoom_in,R.anim.stay_static)
-                }
-fragmentsBinding.invoiceSearchbar.emailEt.text  = user?.username.toString()
-        //data getting
-        ShowTransactions()
-        return fragmentsBinding.root
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        setupViews()
+        observeData()
+
+        // Load data only once
+        viewModel.refreshUi()
+    }
+
+    override fun onStart() {
+        super.onStart()
     }
 
     override fun onResume() {
         super.onResume()
-        ShowTransactions()
-    }
-      private suspend fun getData(): List<Order>{
-        return db.orderDao().getAllOrders()
+        viewModel.refreshUi()
     }
 
-    private fun ShowTransactions(){
-        var data:List<Order> = listOf()
-        val job1 = CoroutineScope(Dispatchers.IO).launch{
-            data = getData().reversed();
-        }.invokeOnCompletion {
-//            Log.d(TAG, "ShowTransactions: dataset initialised")
-            // Ensure the fragment is still attached to an activity and context is available
-            if (isAdded && context != null) {
-               requireActivity().runOnUiThread{
-                    // Check if data has enough elements before creating a subList
-                    val itemsToShow = if (data.size >= 3) data.subList(0, 3) else data
-                    adapter = MyOrdersViewItemAdapter(requireContext(), itemsToShow)
-                    fragmentsBinding.ordersListsview.adapter = adapter
+    private fun setupViews() {
+
+        binding.invoiceSearchbar.searchIcon.visibility = View.GONE
+
+        adapter = MyOrdersViewItemAdapter(requireContext(), orderData)
+        binding.ordersListsview.adapter = adapter
+
+        binding.swipeRefreshLayout.setOnRefreshListener {
+            viewModel.refreshUi()
+        }
+
+        binding.fragmentSeeAllTag.setOnClickListener {
+            // startActivity(Intent(requireContext(), ViewOrdersActivity::class.java))
+        }
+    }
+
+    private fun observeData() {
+
+        viewModel.DataLoading.observe(viewLifecycleOwner) {
+            binding.swipeRefreshLayout.isRefreshing = it
+        }
+
+        viewModel.recentTransactionLiveData.observe(viewLifecycleOwner) { state ->
+
+            when (state) {
+
+                is OrdersState.Loading -> {
+                    Log.d(TAG, "Loading recent transactions...")
+                }
+
+                is OrdersState.Success -> {
+                    Log.d(TAG, "Transactions Loaded: ${state.data}")
+
+                    orderData.clear()
+                    orderData.addAll(state.data ?: emptyList())
+
+                    // Recreate adapter (works with your current adapter)
+                    adapter = MyOrdersViewItemAdapter(requireContext(), orderData)
+                    binding.ordersListsview.adapter = adapter
+                }
+
+                is OrdersState.Failed -> {
+
+                    Log.e(TAG, state.message)
+
+                    if (state.code == 403) {
+                        startActivity(Intent(requireContext(), LoginActivity::class.java))
+                        requireActivity().finish()
+                    }
                 }
             }
         }
 
+        viewModel.metricesLiveData.observe(viewLifecycleOwner) { state ->
 
+            when (state) {
 
+                is MetriceState.Loading -> {
+                    Log.d(TAG, "Loading metrics...")
+                }
+
+                is MetriceState.Success -> {
+                    state.data?.let {
+                        setMetrics(it)
+                    }
+                }
+
+                is MetriceState.Failed -> {
+                    Log.e(TAG, state.message)
+                }
+            }
+        }
     }
 
+    private fun setMetrics(data: Metrices) {
+        val rupee = "₹"
+        binding.incomeAmount.text = rupee.plus(data.todayTotalIncome.toString())
+        binding.pendingCount.text = data.pendingOrdersCount.toString()
+        binding.invoiceCount.text = data.totalInvoicesCount.toString()
+        binding.lowStockCount.text = data.lowStocksCount.toString()
+        binding.inventoryCount.text = data.totalInventoriesCount.toString()
+        binding.increamentPercentage.text = data.incomeIncrementPercentage.toString().plus("%")
+    }
 
-
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
 }

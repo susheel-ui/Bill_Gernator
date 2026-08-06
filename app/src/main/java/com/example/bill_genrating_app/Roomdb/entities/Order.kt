@@ -9,8 +9,8 @@ import java.time.format.DateTimeFormatter
 data class Order(
     @PrimaryKey
     val ordId: String,
-    val name: String,
+    val customerName: String,
     val mob: String,
-    val grandTotal: Double,
+    var grandTotal: Double,
     val status: String
 )
