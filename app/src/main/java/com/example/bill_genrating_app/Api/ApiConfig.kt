@@ -17,7 +17,7 @@ object ApiConfig {
     val retrofit by lazy {
         Retrofit.Builder()
             .baseUrl("https://ibill-production.up.railway.app/")
-            .baseUrl("http://192.168.29.160:8090/")
+//            .baseUrl("http://192.168.29.160:8090/")
 //            .baseUrl("http://10.55.234.84:8090/")
 //            .baseUrl("http://127.0.0.1:8090/")
             .client(client)

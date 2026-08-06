@@ -20,6 +20,7 @@ import com.example.bill_genrating_app.UtilClasses.SharePreferences
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO_PARALLELISM_PROPERTY_NAME
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class HomeViewModel(application: Application) : AndroidViewModel(application) {
@@ -76,7 +77,10 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
             getAllInventory()
             recentTransaction()
             getMatrices()
-        _DataLoading.value = false;
+        viewModelScope.launch {
+            delay(2000)
+            _DataLoading.value = false;
+        }
     }
 
     fun recentTransaction() {
