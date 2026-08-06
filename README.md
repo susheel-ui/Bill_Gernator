@@ -1,4 +1,4 @@
-# Bill Generator App
+# Bill Generator App(IBill)
 
 A comprehensive Android application for managing shop sales, inventory, and order billing. This app allows shop owners to track daily income, manage stock, register clients, and generate orders efficiently using barcode scanning.
 
