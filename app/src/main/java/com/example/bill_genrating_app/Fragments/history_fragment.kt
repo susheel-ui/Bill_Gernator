@@ -1,7 +1,5 @@
 package com.example.bill_genrating_app.Fragments
 
-import android.app.AlertDialog
-import android.app.Dialog
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -10,17 +8,12 @@ import android.view.ViewGroup
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
 import com.example.bill_genrating_app.Activities.FinalOrderActivity
 import com.example.bill_genrating_app.Adapters.HistoryOrderAdapter
 import com.example.bill_genrating_app.Api.response.Order
-import com.example.bill_genrating_app.Roomdb.DBHelper
 import com.example.bill_genrating_app.databinding.FragmentHistoryFragmentBinding
-import com.example.bill_genrating_app.viewModels.OrderState
 import com.example.bill_genrating_app.viewModels.OrdersState
 import com.example.bill_genrating_app.viewModels.OrdersViewModel
-import com.example.bill_genrating_app.viewModels.ViewOrderViewModel
-import kotlinx.coroutines.launch
 import java.util.Locale
 
 class history_fragment : Fragment() {
@@ -38,19 +31,20 @@ class history_fragment : Fragment() {
     ): View {
         _binding = FragmentHistoryFragmentBinding.inflate(inflater, container, false)
 
+        setupRecyclerView()
+        setupSearch()
+        setupSwipeRefresh()
+
         viewModel.allOrderLiveData.observe(viewLifecycleOwner) { orders ->
             when (orders) {
                 is OrdersState.Failed -> {
-
+                    binding.swipeRefreshLayout.isRefreshing = false
                 }
                 is OrdersState.Loading -> {
-//                    AlertDialog.Builder(requireContext())
-//                        .setTitle("Loading")
-//                        .setMessage("Please wait while we load the orders.")
-//                        .setCancelable(false)
-//                        .show()
+                    // Refresh animation is handled by SwipeRefreshLayout or manually if needed
                 }
                 is OrdersState.Success -> {
+                    binding.swipeRefreshLayout.isRefreshing = false
                     allOrders = orders.data?.reversed() ?: emptyList()
                     adapter.updateData(allOrders)
                 }
@@ -61,10 +55,12 @@ class history_fragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+    }
 
-        setupRecyclerView()
-        setupSearch()
-//        loadOrders()
+    private fun setupSwipeRefresh() {
+        binding.swipeRefreshLayout.setOnRefreshListener {
+            viewModel.refreshOrders()
+        }
     }
 
     private fun setupRecyclerView() {
@@ -101,7 +97,10 @@ class history_fragment : Fragment() {
         adapter.updateData(filteredList)
     }
 
-
+    override fun onResume() {
+        super.onResume()
+        viewModel.refreshOrders()
+    }
 
     override fun onDestroyView() {
         super.onDestroyView()
